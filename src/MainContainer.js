@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Screens
 import Home from './screens/Home';
 import TestPage1 from './screens/TestPage1';
-import TestPage2 from './screens/TestPage2';
+import Adoption from './screens/Adoption';
 import TestPage3 from './screens/TestPage3';
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +25,7 @@ function MainContainer() {
               iconName = focused ? 'people' : 'people-outline';
             } else if (route.name === 'Create Post') {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
-            } else if (route.name === 'TestPage2') {
+            } else if (route.name === 'Adoption') {
               iconName = focused ? 'paw' : 'paw-outline';
             } else if (route.name === 'TestPage3') {
               iconName = focused ? 'person-circle' : 'person-circle-outline';
@@ -43,7 +43,7 @@ function MainContainer() {
       >
         <Tab.Screen name="Community" component={Home} />
         <Tab.Screen name="Create Post" component={TestPage1} />
-        <Tab.Screen name="TestPage2" component={TestPage2} />
+        <Tab.Screen name="Adoption" component={Adoption} />
         <Tab.Screen name="TestPage3" component={TestPage3} />
       </Tab.Navigator>
     </NavigationContainer>
