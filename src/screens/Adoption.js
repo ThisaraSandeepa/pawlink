@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput,Image, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
 
 export default function Home() {
 
@@ -72,18 +72,107 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  container: 'flex flex-1 bg-white items-center justify-center',
-  input: 'w-80 border-1 border-gray-800 p-10 mb-20',
-  searchBar: 'w-80 border-1 border-gray-800 p-10 mb-20 top-0 rounded flex-row',
-  rectangleContainer: 'flex-row flex-wrap justify-between w-full p-10',
-  rectangle: 'w-45 h-180 border-1 border-gray-800 mb-20 items-center justify-center resize-contain rounded',
-  additionalTextInput: 'w-90 border-1 border-gray-800 p-10',
-  image: 'w-55 h-150 mb-20 rounded',
-  rectangleimage: 'w-full h-140 mb-20 rounded',
-  checkrectangle: 'w-80 h-100 border-1 border-gray-800 mb-20 bg-gray-100 rounded top-0 flex justify-center items-center',
-  checkrectangleimage: 'w-full h-100 rounded',
-  Text: 'text-sm font-bold',
-  Button: 'w-20 bg-blue-500 h-35 self-center p-10 rounded top-20',
-  buttonText: 'text-white text-center text-sm font-bold',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    width: '80%',
+    borderWidth: 1,
+    borderColor: '#888',
+    padding: 10,
+    marginBottom: 20,
+  },
+  searchBar: {
+    width: '80%',
+    borderWidth: 1,
+    borderColor: '#888',
+    padding: 10,
+    marginBottom: 20,
+    top:0,
+    borderRadius:10,
+    flexDirection:"row",
+  },
+  rectangleContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 10,
+  },
+  rectangle: {
+    width: '45%',
+    height: 180,
+    borderWidth: 1,
+    borderColor: '#888',
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    resizeMode:'contain',
+    borderRadius:10,
+  },
+  additionalTextInput: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#888',
+    padding: 10,
+  },
+  image: {
+    width: '55%',
+    height: 150,
+    marginBottom: 20,
+    borderRadius: 10,
+    
+  },
+  rectangleimage: {
+    width: '100%',
+    height: 140,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  checkrectangle: {
+    width: '80%',
+    height: 100,
+    borderWidth: 1,
+    borderColor: '#888',
+    marginBottom: 20,
+    backgroundColor:'#f6f7fb',
+    borderRadius:10,
+    top:0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkrectangleimage:{
+    width: '100%',
+    height: 100,
+    borderRadius:10,
+  },
+
+  Text:{
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  
+  Button: {
+    width: '20%',
+    backgroundColor: '#67bcd4',
+    height:35,
+    alignSelf:"center",
+    padding: 10,
+    borderRadius: 5,
+    top:20,
+    
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
+
+  },
+
 });
 
