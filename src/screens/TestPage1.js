@@ -5,6 +5,7 @@ export default function TestPage1() {
   return (
     <View>
       <Text>TestPage1</Text>
+      <Text>Testing1</Text>
     </View>
   )
 }
