@@ -11,8 +11,7 @@ export default function Home() {
   }
 
   return (
-<View style={styles.container}>
-      
+    <View style={styles.container}>
       <TextInput
         style={styles.searchBar}
         placeholder="Search..."
@@ -32,21 +31,18 @@ export default function Home() {
           <Text style={styles.Text}> The dog found on near Nugegoda</Text>
         </View>
         <View style={styles.rectangle}>
-        
           <Text style={styles.Text}> The dog found on near Ambalangoda</Text>
         </View>
         <View style={styles.rectangle}>
-         
           <Text style={styles.Text}> The dog found on near Nugegoda</Text>
         </View>
         <View style={styles.rectangle}>
-          
           <Text style={styles.Text}> The dog found on near Kurunegala</Text>
         </View>
         <StatusBar style="auto" />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
