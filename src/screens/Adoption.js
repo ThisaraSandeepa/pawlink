@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput,Image, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
 
 export default function Home() {
 
@@ -163,15 +163,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     top:20,
-    
   },
+
   buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 12,
     fontWeight: 'bold',
     fontFamily: 'Arial',
-
   },
 
 });
