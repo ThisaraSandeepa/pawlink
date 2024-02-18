@@ -6,7 +6,8 @@ const AdoptionPage = () => {
   return (
     <View style={styles.container}>
       {/* Logo centered */}
-     
+      <Image source={require("../../assets/images/pawlink1.png")} style={styles.logo}/>
+
       {/* Notification content */}
       <View style={styles.notificationContent}>
         <Text style={styles.mainTitle}>Notification</Text>
@@ -39,6 +40,8 @@ const styles = StyleSheet.create({
     height: 120,
     resizeMode: 'contain',
     marginBottom: 16,
+    alignItems:'center',
+    left:125,
   },
   notificationContent: {
     alignItems: 'flex-start',
