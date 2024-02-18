@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     fontWeight: 'bold',
-    fontFamily: 'Arial',
   },
 
 });
