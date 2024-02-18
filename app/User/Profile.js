@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Link } from 'expo-router';
 
 export default function Profile() {
   // Example user data
@@ -13,6 +12,12 @@ export default function Profile() {
       name: "Max",
       age: 3
     }
+  };
+
+  // Function to handle back button press
+  const handleBack = () => {
+    // Handle navigation to the previous app page here
+    
   };
 
   // Function to handle logout button press
@@ -32,11 +37,15 @@ export default function Profile() {
     );
   };
 
+
   // Function to perform logout action
   const logout = () => {
     // Perform logout action here
     console.log("Logged out");
+    navigation.goBack(); 
   };
+
+  // Rest of the code...
 
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
