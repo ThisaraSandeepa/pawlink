@@ -42,7 +42,6 @@ export default function Profile() {
   const logout = () => {
     // Perform logout action here
     console.log("Logged out");
-    navigation.goBack(); 
   };
 
   // Rest of the code...
