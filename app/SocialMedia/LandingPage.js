@@ -10,6 +10,7 @@ const LandingPage = () => {
         <Post/>
         <Link href="../Adoption/LandingPage" className ="bg-blue-700 rounded text-white p-2"> Adoption </Link>
         <Link href="../User/Profile" className ="bg-blue-700 rounded text-white p-2"> Profile </Link>
+        <Link href="../Adoption/AdoptionNotification" className ="bg-blue-700 rounded text-white p-2"> Notification </Link>
       </ScrollView>
     </View>
   );

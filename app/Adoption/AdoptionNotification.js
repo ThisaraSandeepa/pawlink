@@ -7,7 +7,6 @@ const AdoptionPage = () => {
     <View style={styles.container}>
       {/* Logo centered */}
      
-
       {/* Notification content */}
       <View style={styles.notificationContent}>
         <Text style={styles.mainTitle}>Notification</Text>
