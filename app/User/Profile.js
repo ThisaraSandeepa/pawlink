@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 export default function Profile() {
   // Example user data
@@ -20,8 +19,6 @@ export default function Profile() {
     // Handle navigation to the previous app page here
     
   };
-
-  const navigation = useNavigation();
 
   // Function to handle logout button press
   const handleLogout = () => {
@@ -53,7 +50,6 @@ export default function Profile() {
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
       <View>
-        <Text style={{ fontSize: 24, fontWeight: 'bold' }}>User Profile</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Image
             source={require('../../assets/images/first.png')}
