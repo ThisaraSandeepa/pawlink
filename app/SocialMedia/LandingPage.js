@@ -1,7 +1,7 @@
 import { View, ScrollView } from 'react-native'
 import React from 'react'
 import Post from './components/Post'
-import { Link, Tabs } from 'expo-router';
+import { Link } from 'expo-router';
 
 const LandingPage = () => {
   return (
