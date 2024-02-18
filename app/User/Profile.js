@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Profile() {
   // Example user data
@@ -20,6 +21,8 @@ export default function Profile() {
     
   };
 
+  const navigation = useNavigation();
+
   // Function to handle logout button press
   const handleLogout = () => {
     Alert.alert(
@@ -37,11 +40,15 @@ export default function Profile() {
     );
   };
 
+
   // Function to perform logout action
   const logout = () => {
     // Perform logout action here
     console.log("Logged out");
+    navigation.goBack(); 
   };
+
+  // Rest of the code...
 
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
