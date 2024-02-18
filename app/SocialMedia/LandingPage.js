@@ -8,7 +8,8 @@ const LandingPage = () => {
     <View>
       <ScrollView>
         <Post/>
-        <Link href="../Adoption/LandingPage" className ="bg-blue-700 rounded text-white p-2"> Get Started </Link>
+        <Link href="../Adoption/LandingPage" className ="bg-blue-700 rounded text-white p-2"> Adoption </Link>
+        <Link href="../User/Profile" className ="bg-blue-700 rounded text-white p-2"> Profile </Link>
       </ScrollView>
     </View>
   );

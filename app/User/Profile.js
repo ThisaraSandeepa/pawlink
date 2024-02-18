@@ -46,9 +46,6 @@ export default function Profile() {
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
       <View>
-        <TouchableOpacity onPress={handleBack}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 , right: 90}}>{` < `}</Text>
-        </TouchableOpacity>
         <Text style={{ fontSize: 24, fontWeight: 'bold' }}>User Profile</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Image
