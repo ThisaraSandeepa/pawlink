@@ -37,7 +37,6 @@ export default function Profile() {
     );
   };
 
-
   // Function to perform logout action
   const logout = () => {
     // Perform logout action here
