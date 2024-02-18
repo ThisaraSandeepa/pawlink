@@ -1,12 +1,17 @@
-import { View, Text } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import React from 'react'
+import Post from './components/Post'
 
 const LandingPage = () => {
   return (
-    <View className = "justify-center items-center h-screen">
-      <Text> LandingPage </Text>
+    <View>
+      <ScrollView>
+        <Post/>
+        <Post/>
+        <Post/>
+      </ScrollView>
     </View>
-  )
+  );
 }
 
 export default LandingPage
