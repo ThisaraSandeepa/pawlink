@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
+import { Link } from 'expo-router';
 
 export default function Home() {
 
@@ -12,62 +13,62 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-    <Image
-        source={require('../../assets/images/pawlink1.png')} // Adjust the path to match your project structure
+      <Image
+        source={require("../../assets/images/pawlink1.png")} // Adjust the path to match your project structure
+        style={styles.image}
+      />
+      <Image
+        source={require("../../assets/images/pawlink1.png")} // Adjust the path to match your project structure
         style={styles.image}
       />
       <TextInput
         style={styles.searchBar}
         placeholder="Search..."
-        onChangeText={text => setSearchQuery(text)}
+        onChangeText={(text) => setSearchQuery(text)}
         value={searchQuery}
       />
-      
+
       <View style={styles.checkrectangle}>
-        <Text
-          style={styles.Text}>Check our animal lovers</Text>
-          <TouchableOpacity
-        style={styles.Button}
-        onPress={handleSearch}
-          >
-        <Text style={styles.buttonText}>Check Out</Text>
-      </TouchableOpacity>
+        <Text style={styles.Text}>Check our animal lovers</Text>
+        <TouchableOpacity style={styles.Button} onPress={handleSearch}>
+          <Text style={styles.buttonText}>Check Out</Text>
+        </TouchableOpacity>
       </View>
-      
-      <View style = {styles.rectangleContainer}>
-      <View style={styles.rectangle}>
-      <Image
-        source={require('../../assets/images/dog1.jpg')} // Adjust the path to match your project structure
-        style={styles.rectangleimage}
-      />
-        <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+
+      <View style={styles.rectangleContainer}>
+        <Link href={"../User/SignIn"}>
+          <View style={styles.rectangle}>
+            <Image
+              source={require("../../assets/images/dog1.jpg")} // Adjust the path to match your project structure
+              style={styles.rectangleimage}
+            ></Image>
+            <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+          </View>
+        </Link>
+        <View style={styles.rectangle}>
+          <Image
+            source={require("../../assets/images/dog2.jpg")} // Adjust the path to match your project structure
+            style={styles.rectangleimage}
+          />
+          <Text style={styles.Text}> The dog found on near Ambalangoda</Text>
+        </View>
+        <View style={styles.rectangle}>
+          <Image
+            source={require("../../assets/images/dog3.jpg")} // Adjust the path to match your project structure
+            style={styles.rectangleimage}
+          />
+          <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+        </View>
+        <View style={styles.rectangle}>
+          <Image
+            source={require("../../assets/images/dog4.jpg")} // Adjust the path to match your project structure
+            style={styles.rectangleimage}
+          />
+          <Text style={styles.Text}> The dog found on near Kurunegala</Text>
+        </View>
+        <StatusBar style="auto" />
       </View>
-      <View style={styles.rectangle}>
-      <Image
-        source={require('../../assets/images/dog2.jpg')} // Adjust the path to match your project structure
-        style={styles.rectangleimage}
-      />
-      <Text style={styles.Text}> The dog found on near Ambalangoda</Text>
-      </View>
-      <View style={styles.rectangle}>
-      <Image
-        source={require('../../assets/images/dog3.jpg')} // Adjust the path to match your project structure
-        style={styles.rectangleimage}
-      />
-      <Text style={styles.Text}> The dog found on near Nugegoda</Text>
-      </View>
-      <View style={styles.rectangle}>
-      <Image
-        source={require('../../assets/images/dog4.jpg')} // Adjust the path to match your project structure
-        style={styles.rectangleimage}
-      />
-      <Text style={styles.Text}> The dog found on near Kurunegala</Text>
-    
-      </View>
-      <StatusBar style="auto" />
     </View>
-    </View>
-    
   );
 }
 
