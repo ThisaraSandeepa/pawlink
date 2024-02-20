@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 
 export default function Home() {
@@ -12,11 +12,8 @@ export default function Home() {
   }
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../../assets/images/pawlink1.png")} // Adjust the path to match your project structure
-        style={styles.image}
-      />
+    <ScrollView>
+      <View style={styles.container}>
       <Image
         source={require("../../assets/images/pawlink1.png")} // Adjust the path to match your project structure
         style={styles.image}
@@ -69,6 +66,8 @@ export default function Home() {
         <StatusBar style="auto" />
       </View>
     </View>
+    </ScrollView>
+    
   );
 }
 

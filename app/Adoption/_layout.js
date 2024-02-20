@@ -4,7 +4,8 @@ import { Tabs } from 'expo-router'
 
 const _layout = () => {
   return (
-    <Tabs/>
+    <Tabs>
+    </Tabs>
   )
 }
 

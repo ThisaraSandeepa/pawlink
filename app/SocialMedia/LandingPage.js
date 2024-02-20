@@ -1,8 +1,8 @@
 import { View, ScrollView } from 'react-native'
 import React from 'react'
-import Post from './components/Post'
+import Post from '../components/Post';
 
-const index = () => {
+const LandingPage = () => {
   return (
     <View>
       <ScrollView>
@@ -14,4 +14,4 @@ const index = () => {
   );
 }
 
-export default index
+export default LandingPage

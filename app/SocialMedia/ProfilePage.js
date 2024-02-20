@@ -1,10 +1,10 @@
 import React from 'react'
 import Profile from '../User/Profile'
 
-const ProfilePreview = () => {
+const ProfilePage = () => {
   return (
     <Profile/>
   )
 }
 
-export default ProfilePreview
+export default ProfilePage
