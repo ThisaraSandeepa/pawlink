@@ -1,9 +1,8 @@
 import { View, ScrollView } from 'react-native'
 import React from 'react'
-import Post from '../components/Post'
-import { Link } from 'expo-router';
+import Post from './components/Post'
 
-const LandingPage = () => {
+const index = () => {
   return (
     <View>
       <ScrollView>
@@ -15,4 +14,4 @@ const LandingPage = () => {
   );
 }
 
-export default LandingPage
+export default index
