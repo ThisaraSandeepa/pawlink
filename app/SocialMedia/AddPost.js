@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 const AddPost = () => {
-  
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,

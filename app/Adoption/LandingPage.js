@@ -33,15 +33,16 @@ export default function Home() {
       </View>
 
       <View style={styles.rectangleContainer}>
-        <Link href={"../User/SignIn"}>
+        <Link href="../Adoption/AdoptMe">
           <View style={styles.rectangle}>
-            <Image
-              source={require("../../assets/images/dog1.jpg")} // Adjust the path to match your project structure
-              style={styles.rectangleimage}
-            ></Image>
-            <Text style={styles.Text}> The dog found on near Nugegoda</Text>
-          </View>
+              <Image
+                source={require("../../assets/images/dog1.jpg")} // Adjust the path to match your project structure
+                style={styles.rectangleimage}
+              ></Image>
+              <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+            </View>
         </Link>
+        
         <View style={styles.rectangle}>
           <Image
             source={require("../../assets/images/dog2.jpg")} // Adjust the path to match your project structure
@@ -65,6 +66,7 @@ export default function Home() {
         </View>
         <StatusBar style="auto" />
       </View>
+      
     </View>
     </ScrollView>
     
@@ -120,8 +122,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: {
-    width: '55%',
-    height: 150,
+    width: '25%',
+    height: 100,
     marginBottom: 20,
     borderRadius: 10,
     

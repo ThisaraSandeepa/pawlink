@@ -5,7 +5,7 @@ export default function Profile() {
   // Example user data
   const user = {
     name: "John Doe",
-    isPetOwner: true, // Change to false if the user is not a pet owner
+    isPetOwner: true, 
     username: "john_doe123",
     password: "********",
     pet: {
@@ -43,15 +43,13 @@ export default function Profile() {
     console.log("Logged out");
   };
 
-  // Rest of the code...
-
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
       <View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Image
             source={require('../../assets/images/first.png')}
-            style={{ width: 50, height: 50, marginRight: 10 }} // Adjust the width and height as needed
+            style={{ width: 50, height: 50, marginRight: 10 }} 
           />
           <View>
             <Text>{user.name}</Text>

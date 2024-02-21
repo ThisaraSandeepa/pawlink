@@ -10,7 +10,6 @@ const StackLayout = () => {
       <Stack.Screen name = 'User/SignIn' options={{headerShown:false}}/>
       <Stack.Screen name = 'User/SignUp' options={{headerTitle:"Sign Up"}}/>
     </Stack>
-    
   )
 }
 

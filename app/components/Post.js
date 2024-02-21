@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
-const Post = ({ title, photoUrl, likes, comments }) => {
+const Post = ({title}) => {
   return (
     <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
       <Text className="text-lg font-bold mb-2">{title}</Text>
