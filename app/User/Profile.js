@@ -4,10 +4,10 @@ import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 export default function Profile() {
   // Example user data
   const user = {
-    name: "John Doe",
+    name: "Rochana Godigamuwa",
     isPetOwner: true, // Change to false if the user is not a pet owner
-    username: "john_doe123",
-    password: "********",
+    username: "Rocha_Godi123",
+    password: "Godi12345",
     pet: {
       name: "Max",
       age: 3
@@ -43,23 +43,22 @@ export default function Profile() {
     console.log("Logged out");
   };
 
-  // Rest of the code...
-
+  //Body of the Profile page                                                                                
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
       <View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Image
-            source={require('../../assets/images/first.png')}
-            style={{ width: 50, height: 50, marginRight: 10 }} // Adjust the width and height as needed
+            source={require('../../assets/images/first.png')}   //Plave where users image will be showed 
+            style={{ width: 50, height: 50, marginRight: 10 }}  //Adjust the width and height as needed
           />
           <View>
             <Text>{user.name}</Text>
             {user.isPetOwner && <Text style={{ color: 'green' }}>Pet Owner</Text>}
           </View>
         </View>
-        <View style={{ alignItems: 'flex-start', backgroundColor: '#888', borderRadius: 10, padding: 10, marginTop: 20 }}>
-          <Text style={{ fontSize: 18 }}>Username: {user.username}</Text>
+        <View style={{ alignItems: 'flex-start', backgroundColor: '#888', borderRadius: 10, padding: 10, marginTop: 20 }}> 
+          <Text style={{ fontSize: 18 }}>Username: {user.username}</Text>         
         </View>
         <View style={{ alignItems: 'flex-start', backgroundColor: 'grey', borderRadius: 10, padding: 10, marginTop: 20 }}>
           <Text style={{ fontSize: 18 }}>Password: {user.password}</Text>
@@ -78,3 +77,10 @@ export default function Profile() {
 }
 
 
+
+
+
+
+
+
+//Rochana Godigamuwa
