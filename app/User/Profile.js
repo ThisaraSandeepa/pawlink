@@ -4,12 +4,12 @@ import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 export default function Profile() {
   // Example user data
   const user = {
-    name: "John Doe",
+    name: "Rochana Godigamuwa",
     isPetOwner: true, 
-    username: "john_doe123",
-    password: "********",
+    username: "roch_godi20",
+    password: "hi@hi",
     pet: {
-      name: "Max",
+      name: "Vodka",
       age: 3
     }
   };
@@ -43,6 +43,7 @@ export default function Profile() {
     console.log("Logged out");
   };
 
+  //Body of the code where users name, layout and his password with image is given which is reterived from the database
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
       <View>
@@ -68,6 +69,9 @@ export default function Profile() {
           <Text style={{ fontSize: 18 }}>Pet Age: {user.pet.age}</Text>
         </View>
       </View>
+      
+      
+          
       <TouchableOpacity onPress={handleLogout} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
         <Text style={{ color: 'white', fontSize: 18 }}>Log Out</Text>
       </TouchableOpacity>
@@ -76,3 +80,8 @@ export default function Profile() {
 }
 
 
+
+
+
+
+//Rochana Godigamuwa
