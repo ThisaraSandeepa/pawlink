@@ -4,11 +4,14 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^18.9.0",
+    "@react-native-firebase/auth": "^18.9.0",
+    "@react-native-firebase/crashlytics": "^18.9.0",
     "@react-navigation/bottom-tabs": "^6.5.12",
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
@@ -18,9 +21,11 @@
     "expo": "^50.0.7",
     "expo-constants": "~15.4.5",
     "expo-image": "~1.10.6",
+    "expo-image-picker": "~14.7.1",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.7",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.8.0",
     "nativewind": "^2.0.11",
     "postcss": "^8.4.35",
     "react": "18.2.0",
@@ -32,8 +37,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.3.0",
-    "expo-image-picker": "~14.7.1"
+    "typescript": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

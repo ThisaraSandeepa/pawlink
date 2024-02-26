@@ -42,7 +42,7 @@ export default function Profile() {
     // Perform logout action here
     console.log("Logged out");
   };
-
+ 
   //Body of the code where users name, layout and his password with image is given which is reterived from the database
   return (
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>

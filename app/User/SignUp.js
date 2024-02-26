@@ -13,7 +13,6 @@ const SignupScreen = () => {
   const [petOwnerCheckbox, setPetOwnerCheckbox] = useState(false);
 
 
-
   const handleSignup = () => {
     // Add your signup logic here
   };

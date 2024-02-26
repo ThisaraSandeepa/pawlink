@@ -7,15 +7,12 @@ export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState('');
   
-  function handleSearch(event) {
-      throw new Error('Function not implemented.');
-  }
 
   return (
     <ScrollView>
       <View style={styles.container}>
       <Image
-        source={require("../../assets/images/pawlink1.png")} // Adjust the path to match your project structure
+        source={require("../../assets/images/pawlink1.png")} 
         style={styles.image}
       />
       <TextInput
@@ -26,43 +23,50 @@ export default function Home() {
       />
 
       <View style={styles.checkrectangle}>
-        <Text style={styles.Text}>Check our animal lovers</Text>
-        <TouchableOpacity style={styles.Button} onPress={handleSearch}>
-          <Text style={styles.buttonText}>Check Out</Text>
-        </TouchableOpacity>
+        <Image source={require("../../assets/images/Component.png")} style={styles.checkrectangleimage}></Image>
       </View>
+      <TouchableOpacity style={styles.Button}> 
+      <Link href = {"../SocialMedia/LandingPage"}>
+        <Text style={styles.buttonText}>Check out</Text>
+        </Link>
+      </TouchableOpacity>
+
+      <Text style={styles.Text1}>Adopt Pets </Text>
+      <Link href = "../Adoption/LandingPage">
+      <Text style={{ fontSize: 16, color: 'blue', top:20,marginBottom:20,marginRight:100 }}>See all</Text>
+      </Link>
 
       <View style={styles.rectangleContainer}>
         <Link href="../Adoption/AdoptMe">
           <View style={styles.rectangle}>
               <Image
-                source={require("../../assets/images/dog1.jpg")} // Adjust the path to match your project structure
+                source={require("../../assets/images/dog1.jpg")} 
                 style={styles.rectangleimage}
               ></Image>
-              <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+              <Text style={styles.Text}> The dog found on Kottawa towns  </Text>
             </View>
-        </Link>
+        </Link> 
         
         <View style={styles.rectangle}>
           <Image
-            source={require("../../assets/images/dog2.jpg")} // Adjust the path to match your project structure
+            source={require("../../assets/images/dog2.jpg")} 
             style={styles.rectangleimage}
           />
-          <Text style={styles.Text}> The dog found on near Ambalangoda</Text>
+          <Text style={styles.Text}> Ambalangoda</Text>
         </View>
         <View style={styles.rectangle}>
           <Image
-            source={require("../../assets/images/dog3.jpg")} // Adjust the path to match your project structure
+            source={require("../../assets/images/dog3.jpg")} 
             style={styles.rectangleimage}
           />
-          <Text style={styles.Text}> The dog found on near Nugegoda</Text>
+          <Text style={styles.Text}> Nugegoda</Text>
         </View>
         <View style={styles.rectangle}>
           <Image
-            source={require("../../assets/images/dog4.jpg")} // Adjust the path to match your project structure
+            source={require("../../assets/images/dog4.jpg")} 
             style={styles.rectangleimage}
           />
-          <Text style={styles.Text}> The dog found on near Kurunegala</Text>
+          <Text style={styles.Text}> Kurunegala</Text>
         </View>
         <StatusBar style="auto" />
       </View>
@@ -129,8 +133,8 @@ const styles = StyleSheet.create({
     
   },
   rectangleimage: {
-    width: '100%',
-    height: 140,
+    width: '102%',
+    height: 146,
     marginBottom: 20,
     borderRadius: 10,
   },
@@ -151,28 +155,43 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius:10,
   },
-
   Text:{
     fontSize: 10,
     fontWeight: 'bold',
+    marginBottom:10
   },
   
   Button: {
-    width: '20%',
-    backgroundColor: '#67bcd4',
-    height:35,
-    alignSelf:"center",
-    padding: 10,
+    width: 90,
+    backgroundColor:'white',
+    height:25,
     borderRadius: 5,
-    top:20,
+    top:-60,
+    right:100,
+    paddingHorizantal:20 
   },
-
   buttonText: {
-    color: 'white',
     textAlign: 'center',
     fontSize: 12,
     fontWeight: 'bold',
+    marginTop:3,
+    marginLeft:10,
+    backgroundcolor:'black'
   },
+  Text1:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight:220
+  },
+  Text2:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    color:'#67bcd4',
+    marginRight:220,
+    marginTop:10,
 
+  },
+    
 });
+
 

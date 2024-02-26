@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "568210647528",
+    "firebase_url": "https://pawlink-e5f93-default-rtdb.firebaseio.com",
+    "project_id": "pawlink-e5f93",
+    "storage_bucket": "pawlink-e5f93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568210647528:android:45d85fb84d6145ec6edc5d",
+        "android_client_info": {
+          "package_name": "com.wagoose.PawLink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe695HAB-dLJkODT9hHC5rrYiX6bT6dRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
