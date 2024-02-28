@@ -31,11 +31,15 @@ export default function Home() {
         </Link>
       </TouchableOpacity>
 
-      <Text style={styles.Text1}>Adopt Pets </Text>
-      <Link href = "../Adoption/LandingPage">
-      <Text style={{ fontSize: 16, color: 'blue', top:20,marginBottom:20,marginRight:100 }}>See all</Text>
-      </Link>
-
+      <View className='justify-between flex-row mb-3'>
+        <Text className = "font-semibold"> Adopt Pets </Text>
+        <View className="ml-40">
+          <Link href="../Adoption/AdoptMe" className='text-blue-700'>
+            <Text> See all </Text>
+          </Link>
+        </View>
+      </View>
+      
       <View style={styles.rectangleContainer}>
         <Link href="../Adoption/AdoptMe">
           <View style={styles.rectangle}>
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop:3,
     marginLeft:10,
-    backgroundcolor:'black'
+
   },
   Text1:{
     fontSize: 16,

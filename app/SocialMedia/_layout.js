@@ -1,6 +1,5 @@
 import React from 'react'
-import { Tabs } from 'expo-router'
-
+import { Tabs, router } from 'expo-router'
 
 const _layout = () => {
   return (

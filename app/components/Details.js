@@ -17,17 +17,14 @@ export default function AdoptionDetail() {
       
       <View style={styles.buttonContainer}>
         <Text style={styles.Texts}>Do you want to have veterinarian assistance before adopting procedure?</Text>
-        <TouchableOpacity style={styles.button1} onPress={() => handleAdopt('option1')}>
-        <Link href={"../Adoption/Vetenarian"}>
+        
+        <Link href={"../components/Vetenarian"} className='bg-blue-700 py-3 rounded-lg px-10 mt-5 mb-3' onPress={() => handleAdopt('option1')} >
           <Text style={styles.buttonText}>Yes I need</Text>
-          </Link>
-        </TouchableOpacity>
+        </Link>
   
-        <TouchableOpacity style={styles.button2} onPress={() => handleAdopt('option2')}>
-          <Link href={"../Adoption/Identifier"}>
+        <Link href={"../components/Identifier"} className='bg-red-600 py-3 rounded-lg px-11' onPress={() => handleAdopt('option2')}>
           <Text style={styles.buttonText}>No I'don't</Text>
-          </Link>
-        </TouchableOpacity>
+        </Link>
       </View>
     </View>
     </ScrollView>
