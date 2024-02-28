@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 
@@ -40,6 +41,7 @@ export default function Profile() {
   // Function to perform logout action
   const logout = () => {
     // Perform logout action here
+    router.replace("../User/SignIn");
     console.log("Logged out");
   };
  

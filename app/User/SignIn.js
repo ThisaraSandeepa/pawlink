@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';;
@@ -17,8 +17,8 @@ const SignIn = () => {
       // Signed in
       const user = userCredential.user;
       console.log("Logged In!");
+      router.replace('../SocialMedia/LandingPage');
 
-      
     } catch (error) {
       alert(error.message);
     }

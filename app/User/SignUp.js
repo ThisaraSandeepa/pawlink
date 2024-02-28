@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { createUserWithEmailAndPassword} from 'firebase/auth';
 import { CheckBox, Icon } from 'react-native-elements';
+import { router } from 'expo-router';
 
 const SignupScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -19,6 +20,7 @@ const SignupScreen = () => {
       const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
+      router.replace('./SignIn');
 
       // Navigate to the home screen or perform other actions upon successful sign-up
     
@@ -68,7 +70,7 @@ const SignupScreen = () => {
         secureTextEntry
         onChangeText={text => setConfirmPassword(text)}
       />
-{/* 
+
       <View style={styles.checkboxContainer}>
         <CheckBox
           title="Veterinarian"
@@ -80,7 +82,7 @@ const SignupScreen = () => {
           checked={petOwnerCheckbox}
           onPress={() => setPetOwnerCheckbox(!petOwnerCheckbox)}
         />
-      </View> */}
+      </View>
 
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Sign Up</Text>
