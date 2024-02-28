@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import { View, Image } from 'react-native';
 
+
 export default function index() {
   return (
     <View className = "items-center">

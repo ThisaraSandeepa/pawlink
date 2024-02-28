@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.22.3",
     "@react-native-firebase/app": "^18.9.0",
     "@react-native-firebase/auth": "^18.9.0",
     "@react-native-firebase/crashlytics": "^18.9.0",
@@ -18,7 +19,7 @@
     "@react-navigation/stack": "^6.3.21",
     "@types/react": "~18.2.45",
     "autoprefixer": "^10.4.17",
-    "expo": "^50.0.7",
+    "expo": "^50.0.8",
     "expo-constants": "~15.4.5",
     "expo-image": "~1.10.6",
     "expo-image-picker": "~14.7.1",

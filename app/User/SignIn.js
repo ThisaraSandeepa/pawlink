@@ -1,50 +1,54 @@
-import React from 'react';
-import { useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import React, { useState } from 'react';
 import { Link } from 'expo-router';
-import auth from '@react-native-firebase/auth';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../FirebaseConfig';;
 
 const SignIn = () => {
-   const [username, setUsername] = useState('');
-   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  // const handleSignIn = () => {
-  //   // Send username and password to Firebase
-  //   auth()
-  //     .signInWithEmailAndPassword(username, password)
-  //     .then(() => {
-  //       console.log('Signed in successfully!');
-  //       // Add your navigation logic here
-  //     })
-  //     .catch(error => {
-  //       console.error('Error signing in:', error);
-  //     });
-  // };
+  const handleSignIn = async () => {
+    
+    try {
+      const userCredential = await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      
+      // Signed in
+      const user = userCredential.user;
+      console.log("Logged In!");
+      
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <View className="justify-center items-center pt-36 gap-24">
       <Text className="font-thin text-6xl"> Welcome! </Text>
       <View className="gap-6 mr-5 items-center">
         <TextInput
-          placeholder="UserName"
+          placeholder="Email"
           className="border border-gray-800 rounded w-72 p-2"
-          // value={username}
-          // onChangeText={text => setUsername(text)}
+          autoCapitalize='none'
+          value={email}
+          onChangeText={text => setEmail(text)}
         />
+
         <TextInput
           placeholder="Password"
           secureTextEntry
           className="border border-gray-800 rounded w-72 p-2"
-          // value={password}
-          // onChangeText={text => setPassword(text)}
+          autoCapitalize='none'
+          value={password}
+          onChangeText={text => setPassword(text)}
         />
-        <Link
-          href="../SocialMedia/LandingPage"
+
+        <TouchableOpacity
           className="bg-blue-700 rounded text-white p-2 w-20 text-center"
-          // onPress={handleSignIn}
-        >
-          Log In
-        </Link>
+          onPress={handleSignIn}> 
+          <Text className = "text-white ml-2"> Log In </Text> 
+        </TouchableOpacity>
+
       </View>
       <Link href="./SignUp" className="rounded text-blue-600 p-2 pt-24">
         Don't Have An Account?{' '}
