@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'expo-router';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';;
 
@@ -8,6 +8,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Sign in with email and password
   const handleSignIn = async () => {
     
     try {
@@ -16,6 +17,7 @@ const SignIn = () => {
       // Signed in
       const user = userCredential.user;
       console.log("Logged In!");
+
       
     } catch (error) {
       alert(error.message);

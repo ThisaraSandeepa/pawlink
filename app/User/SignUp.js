@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { createUserWithEmailAndPassword} from 'firebase/auth';
-import { useNavigation } from 'expo-router';
-// import { CheckBox, Icon } from 'react-native-elements';
+import { CheckBox, Icon } from 'react-native-elements';
 
 const SignupScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -20,6 +19,7 @@ const SignupScreen = () => {
       const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
+
       // Navigate to the home screen or perform other actions upon successful sign-up
     
     } catch (error) {
