@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { FIREBASE_APP } from '../../FirebaseConfig';
 import { CheckBox } from 'react-native-elements';
 
@@ -37,13 +37,11 @@ const SignupScreen = () => {
         //confirmPassword: confirmPassword,
         vet: vetCheckbox,
         petOwner: petOwnerCheckbox,
-
-        // Add other user data as needed
+        
       });
 
       router.replace('./SignIn');
 
-    
     } catch (error) {
       alert(error.message);
     }
@@ -52,7 +50,7 @@ const SignupScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/pawlink1.png')} // Replace with the actual path to your logo
+        source={require('../../assets/images/pawlink1.png')} 
         style={styles.logo}
       />
 
