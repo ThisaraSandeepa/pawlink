@@ -1,9 +1,16 @@
+// Import necessary dependencies and Firebase SDK
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { FIREBASE_AUTH } from '../../FirebaseConfig';
-import { createUserWithEmailAndPassword} from 'firebase/auth';
-import { CheckBox, Icon } from 'react-native-elements';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
+import { FIREBASE_APP } from '../../FirebaseConfig';
+import { CheckBox } from 'react-native-elements';
+
+// Initialize Firebase authentication and Firestore
+const auth = getAuth(FIREBASE_APP);
+const db = getFirestore(FIREBASE_APP);
 
 const SignupScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -17,12 +24,25 @@ const SignupScreen = () => {
 
   const handleSignup = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
+
+      // Save user data to Firestore
+      await setDoc(doc(db, 'Users', user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password:password,
+        //confirmPassword: confirmPassword,
+        vet: vetCheckbox,
+        petOwner: petOwnerCheckbox,
+
+        // Add other user data as needed
+      });
+
       router.replace('./SignIn');
 
-      // Navigate to the home screen or perform other actions upon successful sign-up
     
     } catch (error) {
       alert(error.message);
@@ -91,6 +111,7 @@ const SignupScreen = () => {
   );
 };
 
+// Define styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -98,9 +119,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: '80%', // Adjust the width as needed
-    height: '20%', // Adjust the height as needed
-    resizeMode: 'contain', // Adjust the resizeMode as needed
+    width: '80%', 
+    height: '20%', 
+    resizeMode: 'contain', 
     marginBottom: 20,
   },
   input: {
@@ -126,15 +147,15 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     justifyContent: 'space-between',
-    width: '60%', // Adjust the width as needed
-    marginBottom: 20, // Increase the marginBottom for more space
+    width: '60%', 
+    marginBottom: 20, 
   },
   signupButton: {
     backgroundColor: '#263c9e',
     padding: 10,
     borderRadius: 10,
     width: '50%',
-    marginTop: 20, // Increase the marginTop for more space
+    marginTop: 20, 
   },
   signupButtonText: {
     color: 'white',
