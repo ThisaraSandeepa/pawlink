@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#1D1D28',
         top:-400,
-        left:120
+        left:110,
+        margin:10,
+        alignItems: 'center'
     },
 
     ctaButton: {
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         marginTop: 15,
         shadowColor: '#000',
-        top:-350,
+        top:-340,
        
     },
     rectangle2: {
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         marginTop: 20,
         shadowColor: '#000',
-        top:-350,
+        top:-340,
        
     },
     location: {
@@ -161,7 +163,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#1D1D28',
         top:-300,
-        left:0
+        left:0,
+        
     },
     rectangle3: {
         width: 265,
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         marginTop: 20,
         shadowColor: '#000',
-        top:-300,
+        top:-310,
        
     },
 });
