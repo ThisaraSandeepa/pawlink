@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tabs, router } from 'expo-router'
+import LandingPage from '../Adoption/LandingPage'
 
 const _layout = () => {
   return (

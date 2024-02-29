@@ -40,6 +40,7 @@ export default function Profile() {
 
   // Function to perform logout action
   const logout = () => {
+
     // Perform logout action here
     router.replace("../User/SignIn");
     console.log("Logged out");
@@ -71,9 +72,7 @@ export default function Profile() {
           <Text style={{ fontSize: 18 }}>Pet Age: {user.pet.age}</Text>
         </View>
       </View>
-      
-      
-          
+    
       <TouchableOpacity onPress={handleLogout} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
         <Text style={{ color: 'white', fontSize: 18 }}>Log Out</Text>
       </TouchableOpacity>
