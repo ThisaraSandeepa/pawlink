@@ -23,10 +23,17 @@ const SignupScreen = () => {
   const [petOwnerCheckbox, setPetOwnerCheckbox] = useState(false);
 
   const handleSignup = async () => {
+      // Check if any of the required fields are empty
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        alert('All fields are required');
+        return;
+      }
+    
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
+      
 
       // Save user data to Firestore
       await setDoc(doc(db, 'Users', user.uid), {
