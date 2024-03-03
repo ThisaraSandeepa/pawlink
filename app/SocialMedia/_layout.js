@@ -6,7 +6,7 @@ const _layout = () => {
     <Tabs>
       <Tabs.Screen name='LandingPage' options={{ title: "Landing Page", headerBackVisible: false}}/>
       <Tabs.Screen name='AddPost' options={{title:"Add Post"}}/>
-      <Tabs.Screen name='AdoptionPage' options={{title:"Adoption"}}/>
+      <Tabs.Screen name='AdoptionPage' options={{href:"../Adoption/LandingPage", title:"Adoption"}} />
       <Tabs.Screen name='ProfilePage' options={{title:"Profile"}}/>
     </Tabs>
   )
