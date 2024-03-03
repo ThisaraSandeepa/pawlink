@@ -7,8 +7,6 @@ const LandingPage = () => {
     <View>
       <ScrollView>
         <Post/>
-        <Post/>
-        <Post/>
       </ScrollView>
     </View>
   );
