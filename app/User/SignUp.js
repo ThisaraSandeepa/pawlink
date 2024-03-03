@@ -1,16 +1,17 @@
-// Import necessary dependencies and Firebase SDK
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getDatabase, ref, set } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig';
 import { CheckBox } from 'react-native-elements';
 
-// Initialize Firebase authentication and Firestore
+// Initialize Firebase authentication, Firestore, and Realtime Database
 const auth = getAuth(FIREBASE_APP);
-const db = getFirestore(FIREBASE_APP);
+const dbFirestore = getFirestore(FIREBASE_APP);
+const dbRealtime = getDatabase(FIREBASE_APP);
 
 const SignupScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -23,28 +24,43 @@ const SignupScreen = () => {
   const [petOwnerCheckbox, setPetOwnerCheckbox] = useState(false);
 
   const handleSignup = async () => {
-      // Check if any of the required fields are empty
-      if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        alert('All fields are required');
-        return;
-      }
-    
+    // Check if any of the required fields are empty
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      alert('All fields are required');
+      return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
-      
 
       // Save user data to Firestore
-      await setDoc(doc(db, 'Users', user.uid), {
+      await setDoc(doc(dbFirestore, 'Users', user.uid), {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password:password,
+        password: password,
         //confirmPassword: confirmPassword,
         vet: vetCheckbox,
         petOwner: petOwnerCheckbox,
-        
+      });
+
+      // Save user data to Realtime Database
+      await set(ref(dbRealtime, 'Users/' + user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        //confirmPassword: confirmPassword,
+        vet: vetCheckbox,
+        petOwner: petOwnerCheckbox,
       });
 
       router.replace('./SignIn');
