@@ -1,12 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect ,useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
+import { collection, getDocs } from 'firebase/firestore';
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
+import { FIREBASE_APP } from '../../FirebaseConfig';
+
 
 export default function Home() {
+ const [searchQuery, setSearchQuery] = useState('');
+ const [petsData, setPetsData] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  
+
+ useEffect(() => {
+  const fetchImages = async () => {
+    try {
+      const storage = getStorage();
+      const imagesRef = ref(storage, 'Adoption/');
+      const imageList = await listAll(imagesRef);
+
+      // Get download URLs for each image
+      const downloadURLs = await Promise.all(
+        imageList.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return { name: item.name, url };
+        })
+      );
+
+       // Update petsData state with the fetched data
+       setPetsData(downloadURLs);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchImages();
+  }, []); // Run this effect only once on component mount
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -40,7 +70,8 @@ export default function Home() {
       </View>
       
       <View style={styles.rectangleContainer}>
-        <Link href="../Adoption/AdoptMe">
+      {petsData.map((pet, index) => (
+        <Link key={index} href="../Adoption/AdoptMe">
           <View style={styles.rectangle}>
               <Image
                 source={require("../../assets/images/dog1.jpg")} 
@@ -48,7 +79,9 @@ export default function Home() {
               ></Image>
               <Text style={styles.Text}> The dog found on Kottawa towns  </Text>
             </View>
-        </Link> 
+            <StatusBar style = "auto"/>
+        </Link>
+            ))}
         
         <View style={styles.rectangle}>
           <Image
