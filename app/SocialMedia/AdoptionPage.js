@@ -1,9 +1,9 @@
 import React from 'react'
-import LandingPage from '../Adoption/LandingPage'
+import AdoptionLandingPage from '../Adoption/LandingPage'
 
 const AdoptionPage = () => {
   return (
-    <LandingPage/>
+    <AdoptionLandingPage/>
   )
 }
 

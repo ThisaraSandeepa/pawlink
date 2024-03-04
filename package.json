@@ -21,6 +21,7 @@
     "autoprefixer": "^10.4.17",
     "expo": "^50.0.8",
     "expo-constants": "~15.4.5",
+    "expo-file-system": "~16.0.7",
     "expo-image": "~1.10.6",
     "expo-image-picker": "~14.7.1",
     "expo-linking": "~6.2.2",
@@ -38,8 +39,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.3.0",
-    "expo-file-system": "~16.0.7"
+    "typescript": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, GestureResponderEvent,Button,Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 
 export default function Home() {
 
   const [searchQuery, setSearchQuery] = useState('');
   
-
   return (
     <ScrollView>
       <View style={styles.container}>
