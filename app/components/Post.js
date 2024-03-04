@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Link } from "expo-router";
 
 const Post = (props) => {
   const [liked, setLiked] = useState(false);
@@ -26,14 +27,15 @@ const Post = (props) => {
         </TouchableOpacity>
 
         {/* Comment Button */}
-        <TouchableOpacity className="flex-row gap- pt-2">
+        <Link href={'../components/CommentBox'} className="flex-row gap- pt-2">
           <Icon
             name="comment-text-outline"
             size={20}
-          />
+          >
+          </Icon>
 
           <Text className="text-gray-700"> {props.comments} </Text>
-        </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );
