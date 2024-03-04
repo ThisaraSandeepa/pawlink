@@ -38,7 +38,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "expo-file-system": "~16.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
