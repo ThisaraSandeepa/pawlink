@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
+
 export default function AdoptionDetail() {
   const handleAdopt = (option) => {
     console.log('Adopting option:', option);
-    // Add logic for adoption
   };
 
   return (

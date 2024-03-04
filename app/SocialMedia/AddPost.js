@@ -4,9 +4,6 @@ import * as ImagePicker from 'expo-image-picker';
 
 const AddPost = () => {
 
-  // useState to store the image
-  const [image, setImage] = useState(null);
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -33,23 +30,4 @@ const AddPost = () => {
 
 export default AddPost;
 
-/*import { StyleSheet,Text, View} from "react-native";
-import React from "react";
-import UploadMediaFile from "../components/UploadMedia";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-export default function AddPost(){
-  return(
-    <View style={styles.container}>
-      <UploadMediaFile/>
-    </View>
-  )
-}
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor: '#fff',
-   
-  }
-})*/
 
