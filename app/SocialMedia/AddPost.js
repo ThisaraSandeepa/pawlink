@@ -1,4 +1,4 @@
-/*import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -31,24 +31,6 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;*/
+export default AddPost;
 
-import { StyleSheet,Text, View} from "react-native";
-import React from "react";
-import UploadMediaFile from "../components/UploadMedia";
-
-export default function AddPost(){
-  return(
-    <View style={style.container}>
-      <UploadMediaFile/>
-    </View>
-  )
-}
-const style = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor: '#fff',
-   
-  }
-})
 
