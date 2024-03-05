@@ -31,6 +31,20 @@ const UploadMediaFile = () => {
             setImage(result.assets[0].uri);
         }
     };
+    const onCancel = () => {
+        // Reset form values
+        setContactInfo("");
+        setLocation("");
+        setAge("");
+        setColor("");
+        setDescription("");
+        setImage(null);
+    
+       
+        router.replace('./LandingPage');
+    };
+    
+    
 
     const UploadMedia = async () => {
         setUploading(true);
@@ -69,32 +83,48 @@ const UploadMediaFile = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Contact Info"
-                    onChangeText={(text) => setContactInfo(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Location"
-                    onChangeText={(text) => setLocation(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Age"
-                    onChangeText={(text) => setAge(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Color"
-                    onChangeText={(text) => setColor(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Description"
-                    onChangeText={(text) => setDescription(text)}
-                />
+            <ScrollView contentContainerStyle={styles.scrollContainer}
+             showsVerticalScrollIndicator={false}>
+                
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Contact Info</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setContactInfo(text)}
+                    />
+                </View>
+
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Location</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setLocation(text)}
+                    />
+                </View>
+
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Age</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setAge(text)}
+                    />
+                </View>
+
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Color</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setColor(text)}
+                    />
+                </View>
+
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Description</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setDescription(text)}
+                    />
+                </View>
                 
                 <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
                     <Text style={styles.buttonText}>Pick an image</Text>
@@ -104,14 +134,21 @@ const UploadMediaFile = () => {
                         source={{ uri: image }}
                         style={{ width: 300, height: 300 }}
                     />}
-                    <TouchableOpacity style={styles.uploadButton} onPress={UploadMedia}>
-                        <Text style={styles.buttonText}>Upload Image</Text>
+                    <View style={styles.buttonRow}>
+                    <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+                        <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.uploadButton} onPress={UploadMedia}>
+                        <Text style={styles.buttonText}> Post </Text>
+                    </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -137,9 +174,38 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: 200,
         height: 50,
-        backgroundColor: 'blue',
+        backgroundColor: '#6391db',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    labelContainer: {
+        marginBottom: 5,
+    },
+    
+    labelText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 300, // Adjust the width as needed
+        marginTop: 20,
+        
+        
+    },
+    
+    cancelButton: {
+        borderRadius: 10,
+        width: 140,
+        height: 50,
+        backgroundColor: '#c5cfde', // You can choose a different color
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
+        
     },
     buttonText: {
         color: '#fff',
@@ -147,13 +213,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     uploadButton: {
-        borderRadius: 5,
-        width: 200,
+        borderRadius: 10,
+        width: 140,
         height: 50,
-        backgroundColor: 'red',
+        backgroundColor: '#2557a8',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20,
+        
     },
     imageContainer: {
         marginTop: 30,
