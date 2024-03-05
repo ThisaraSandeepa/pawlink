@@ -1,43 +1,7 @@
 import { Link } from 'expo-router';
 import { StyleSheet,Image, Button, TouchableOpacity,View,Text,ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-
 
 export default function Adoptme() {
-  const [petDetails, setPetDetails] = useState([]);
-  
-
-
-
-  useEffect(() => {
-    const fetchPetDetails = async () => {
-      const db = getFirestore();
-      const petsCollection = collection(db, 'strayPosts'); //   Firestore collection name
-
-      try {
-        const querySnapshot = await getDocs(petsCollection);
-        const details = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setPetDetails(details);
-
-        
-      } catch (error) {
-        console.error('Error fetching pet details:', error);
-      }
-    };
-
-    fetchPetDetails();
-  }, []);
-
-  const hardcodedDetails = [
-    { id: '1', color: 'Black', breed: 'Labrador', age: '3' },
-    { id: '2', color: 'White', breed: 'Poodle', age: '2' },
-    // Add more details as needed
-  ];
-
-  const detailsToDisplay = petDetails.length > 0 ? petDetails : hardcodedDetails;
-
-
 
   return (
     <ScrollView>
@@ -53,17 +17,6 @@ export default function Adoptme() {
       />
       
       <View style={styles.RectangleContainer}>
-      {petDetails.map((detail, index) => (
-            <View key={index} style={styles.rectangle}>
-              <Text style={styles.Text1}>{detail.color}</Text>
-              <Text style={styles.Text}>{detail.breed}</Text>
-              <Text style={styles.Text}>{detail.age}</Text>
-            </View>
-          ))}
-
-
-
-
         <View style={styles.rectangle}>
           <Text style={styles.Text1}>Black </Text>
           <Text style={styles.Text}>Colour </Text>
