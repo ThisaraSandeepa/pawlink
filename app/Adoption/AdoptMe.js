@@ -29,14 +29,7 @@ export default function Adoptme() {
     fetchPetDetails();
   }, []);
 
-  const hardcodedDetails = [
-    { id: '1', color: 'Black', breed: 'Labrador', age: '3' },
-    { id: '2', color: 'White', breed: 'Poodle', age: '2' },
-    // Add more details as needed
-  ];
-
-  const detailsToDisplay = petDetails.length > 0 ? petDetails : hardcodedDetails;
-
+  
 
 
   return (
