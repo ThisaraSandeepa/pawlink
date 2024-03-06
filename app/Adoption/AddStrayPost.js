@@ -70,6 +70,7 @@ const UploadMediaFile = () => {
             
             setUploading(false);
             Alert.alert('Photo Uploaded!!!');
+            
             setImage(null);
             router.replace('./LandingPage');
 
@@ -85,28 +86,12 @@ const UploadMediaFile = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}
              showsVerticalScrollIndicator={false}>
-                
-                <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Contact Info</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(text) => setContactInfo(text)}
-                    />
-                </View>
 
                 <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Location</Text>
+                    <Text style={styles.labelText}> Found Location</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={(text) => setLocation(text)}
-                    />
-                </View>
-
-                <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Age</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(text) => setAge(text)}
                     />
                 </View>
 
@@ -119,10 +104,28 @@ const UploadMediaFile = () => {
                 </View>
 
                 <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Description</Text>
+                    <Text style={styles.labelText}>Age</Text>
                     <TextInput
                         style={styles.input}
+                        onChangeText={(text) => setAge(text)}
+                    />
+                </View>
+
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Description</Text>
+                    <TextInput
+                        style={styles.descriptioninput}
+                        multiline={true}
+                        numberOfLines={4}
                         onChangeText={(text) => setDescription(text)}
+                    />
+                </View>
+                
+                <View style={styles.labelContainer}>
+                    <Text style={styles.labelText}>Contact Info</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setContactInfo(text)}
                     />
                 </View>
                 
@@ -169,17 +172,29 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
         paddingLeft: 10,
+        borderRadius:5,
     },
     selectButton: {
-        borderRadius: 5,
-        width: 200,
-        height: 50,
+        borderRadius: 10,
+        width: 300,
+        height: 40,
         backgroundColor: '#6391db',
         alignItems: 'center',
         justifyContent: 'center',
     },
     labelContainer: {
         marginBottom: 5,
+    },
+
+    descriptioninput:{
+        height:100,
+        width: 300,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingLeft: 10,
+        borderRadius:5,
+
     },
     
     labelText: {
