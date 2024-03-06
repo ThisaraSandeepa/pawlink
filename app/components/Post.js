@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "expo-router";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(props.likes);
-  const [userDisplayName, setUserDisplayName] = useState("");
-
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserDisplayName(user.displayName || "Anonymous");
-      } else {
-        setUserDisplayName("Anonymous");
-      }
-    });
-  }, []);
 
   const handleLike = () => {
     const newLikes = liked ? likes - 1 : likes + 1;
@@ -28,7 +15,7 @@ const Post = (props) => {
 
   return (
     <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <Text className="text-lg font-bold mb-2">{userDisplayName}</Text>
+      <Text className="text-lg font-bold mb-2">{props.user}</Text>
       <Image className="w-11/12 h-72" source={props.image} />
       <View className="flex-row justify-start mb-8 gap-2.5">
 
