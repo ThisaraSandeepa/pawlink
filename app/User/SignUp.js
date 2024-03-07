@@ -48,8 +48,7 @@ const SignupScreen = () => {
         email: email,
         password: password,
         //confirmPassword: confirmPassword,
-        vet: vetCheckbox,
-        petOwner: petOwnerCheckbox,
+        UserType: 'Pet Owner'
       });
 
       // Save user data to Realtime Database
@@ -69,7 +68,7 @@ const SignupScreen = () => {
       alert(error.message);
     }
   };
-
+//
   return (
     <View style={styles.container}>
       <Image
@@ -80,7 +79,7 @@ const SignupScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="First Name"
-        onChangeText={text => setFirstName(text)}
+        onChangeText={text => setFirstName(text)} 
       />
 
       <TextInput

@@ -4,9 +4,11 @@ import { collection, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../../FirebaseConfig'; 
 import Post from '../components/Post';  
 
+
 const MyComponent = () => {
   const [posts, setPosts] = useState([]);
 
+  // Fetch posts from Firestore
   useEffect(() => {
     const fetchPosts = async () => {
       const postsCollection = collection(FIRESTORE_DB, 'socialMediaPosts');
@@ -26,11 +28,11 @@ const MyComponent = () => {
       <ScrollView>
         {posts.map((post) => (
           <Post
-            key={post.id}
-            user={post.user}
+            key={post.id}            // Add key prop
+            user={post.user}         // Add user prop
             image={{ uri: post.image }}
-            likes={post.likes}
-            comments={post.comments}
+            likes={post.likes}        // Add likes prop
+            comments={post.comments} // Add comments prop
           />
         ))}
       </ScrollView>

@@ -11,7 +11,7 @@ export default function Home() {
  const [searchQuery, setSearchQuery] = useState('');
  const [petsData, setPetsData] = useState([]);
 
-
+// Fetch images from Firebase Storage
  useEffect(() => {
   const fetchImages = async () => {
     try {

@@ -45,10 +45,11 @@ const UploadMediaFile = () => {
     };
     
     
-
+// Upload image to Firebase Storage
     const UploadMedia = async () => {
         setUploading(true);
 
+        // Upload image to Firebase Storage
         try {
             const { uri } = await FileSystem.getInfoAsync(image);
             const blob = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
@@ -66,18 +67,18 @@ const UploadMediaFile = () => {
                 description: description,
                 image: filename
             });
-            console.log("Document written with ID: ", newDocRef.id);
+            console.log("Document written with ID: ", newDocRef.id);  // Log the ID of the new document
             
             setUploading(false);
-            Alert.alert('Photo Uploaded!!!');
+            Alert.alert('Photo Uploaded!!!'); // Alert to confirm photo upload
             
             setImage(null);
             router.replace('./LandingPage');
 
-        } catch (error) {
-            console.error(error);
+        } catch (error) {       
+            console.error(error);      
             setUploading(false);
-            Alert.alert('An error occurred while uploading the photo');
+            Alert.alert('An error occurred while uploading the photo');   // Alert to confirm photo upload
            
         }
     };

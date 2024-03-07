@@ -26,6 +26,8 @@ const SignIn = () => {
     }
   };
 
+
+  // Render the SignIn component
   return (
     <View className="justify-center items-center pt-36 gap-24">
       <Text className="font-thin text-6xl"> Welcome! </Text>
@@ -37,17 +39,16 @@ const SignIn = () => {
           value={email}
           onChangeText={text => setEmail(text)}
         />
-
-        <TextInput
+        <TextInput                             // Add TextInput for password
           placeholder="Password"
           secureTextEntry
           className="border border-gray-800 rounded w-72 p-2"
           autoCapitalize='none'
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={text => setPassword(text)}    
         />
 
-        <TouchableOpacity
+        <TouchableOpacity                                  // Add TouchableOpacity for sign in
           className="bg-blue-700 rounded text-white p-2 w-20 text-center"
           onPress={handleSignIn}> 
           <Text className = "text-white ml-2"> Log In </Text> 

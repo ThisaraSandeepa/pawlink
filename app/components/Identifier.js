@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { Link } from 'expo-router';
 
+
+// UserProfile Component
 export default function UserProfile() {
     return (
         <View style={styles.container}>

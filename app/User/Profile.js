@@ -1,88 +1,134 @@
-import { router } from 'expo-router';
-import React from 'react';
-import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { FIREBASE_APP } from '../../FirebaseConfig';
 
-export default function Profile() {
-  // Example user data
-  const user = {
-    name: "Rochana Godigamuwa",
-    isPetOwner: true, 
-    username: "roch_godi20",
-    password: "hi@hi",
-    pet: {
-      name: "Vodka",
-      age: 3
+const ProfileScreen = () => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const auth = getAuth(FIREBASE_APP);
+      const db = getFirestore(FIREBASE_APP);
+
+      const userId = auth.currentUser.uid;
+      const userRef = doc(db, 'Users', userId);
+      const userSnapshot = await getDoc(userRef);
+
+      if (userSnapshot.exists()) {
+        setUserData(userSnapshot.data());
+      } else {
+        console.log('User data not found');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
     }
   };
 
-  // Function to handle back button press
-  const handleBack = () => {
-    // Handle navigation to the previous app page here
-    
-  };
-
-  // Function to handle logout button press
   const handleLogout = () => {
     Alert.alert(
-      "Are you Sure",
-      "Are you sure you want to log out?",
+      'Confirm Logout',
+      'Are you sure you want to log out?',
       [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => logout() }
-      ],
-      { cancelable: false }
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Yes', onPress: () => logout() },
+      ]
     );
   };
 
-  // Function to perform logout action
   const logout = () => {
-
-    // Perform logout action here
-    router.replace("../User/SignIn");
-    console.log("Logged out");
+    // Your logout logic here
+    // Navigate to the sign up page after logout
   };
- 
-  //Body of the code where users name, layout and his password with image is given which is reterived from the database
+
   return (
-    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingTop: 40, paddingLeft: 10 }}>
-      <View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-          <Image
-            source={require('../../assets/images/first.png')}
-            style={{ width: 50, height: 50, marginRight: 10 }} 
-          />
-          <View>
-            <Text>{user.name}</Text>
-            {user.isPetOwner && <Text style={{ color: 'green' }}>Pet Owner</Text>}
+    <View style={styles.container}>
+      <View style={styles.profileBox}>
+        <Text style={styles.label}>Your Account Name:</Text>
+        <Text style={styles.userData}>{userData?.firstName} {userData?.lastName}</Text>
+
+        <Text style={styles.label}>Your Email:</Text>
+        <Text style={styles.userData}>{userData?.email}</Text>
+
+        <View style={styles.userTypeContainer}>
+          <View style={styles.userTypeBox}>
+            <Text style={styles.userType}>{userData?.UserType}</Text>
           </View>
         </View>
-        <View style={{ alignItems: 'flex-start', backgroundColor: '#888', borderRadius: 10, padding: 10, marginTop: 20 }}>
-          <Text style={{ fontSize: 18 }}>Username: {user.username}</Text>
-        </View>
-        <View style={{ alignItems: 'flex-start', backgroundColor: 'grey', borderRadius: 10, padding: 10, marginTop: 20 }}>
-          <Text style={{ fontSize: 18 }}>Password: {user.password}</Text>
-        </View>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20 }}>Pet Information</Text>
-        <View style={{ alignItems: 'flex-start', backgroundColor: 'lightblue', borderRadius: 10, padding: 10, marginTop: 10 }}>
-          <Text style={{ fontSize: 18 }}>Pet Name: {user.pet.name}</Text>
-          <Text style={{ fontSize: 18 }}>Pet Age: {user.pet.age}</Text>
-        </View>
       </View>
-    
-      <TouchableOpacity onPress={handleLogout} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
-        <Text style={{ color: 'white', fontSize: 18 }}>Log Out</Text>
+
+      <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+        <Text style={styles.logoutButtonText}>Log Out</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: '#E0FFFF', // Light blue background color
+  },
+  profileBox: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    color: '#333', // Dark gray text color
+  },
+  userData: {
+    fontSize: 16,
+    marginTop: 5,
+    color: '#666', // Medium gray text color
+  },
+  userTypeContainer: {
+    marginTop: 20,
+  },
+  userTypeBox: {
+    backgroundColor: '#FFD700', // Gold color
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
+  },
+  userType: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333', // Dark gray text color
+  },
+  logoutButton: {
+    backgroundColor: '#FF6347',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    position: 'absolute',
+    bottom: 20,
+  },
+  logoutButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
 
-
-
-
-
-//Rochana Godigamuwa
+export default ProfileScreen;

@@ -3,10 +3,13 @@ import { View, TextInput, Text, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
+// AddPost component
 const AddPost = () => {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState('');
 
+
+  // Pick image from gallery
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -19,9 +22,9 @@ const AddPost = () => {
       setImage(result.uri);
     }
   };
-  
+// Upload image to Firebase Storage
   const uploadImage = async () => {
-
+// Get the Firebase Storage instance
     try {
       const storage = getStorage();
       const imageRef = ref(storage, `images/${Date.now()}`);
@@ -38,7 +41,7 @@ const AddPost = () => {
       console.error('Error uploading image:', error);
     }
   };
-
+// Render the AddPost component
   return (
     <View className="my-auto">
       <View className="items-center gap-3">
