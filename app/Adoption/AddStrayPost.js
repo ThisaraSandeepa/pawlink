@@ -32,31 +32,28 @@ const UploadMediaFile = () => {
         }
     };
     const onCancel = () => {
-        // Reset form values
         setContactInfo("");
         setLocation("");
         setAge("");
         setColor("");
         setDescription("");
         setImage(null);
-    
-       
+   
         router.replace('./LandingPage');
     };
     
-    
-// Upload image to Firebase Storage
     const UploadMedia = async () => {
         setUploading(true);
 
         // Upload image to Firebase Storage
         try {
             const { uri } = await FileSystem.getInfoAsync(image);
-            const blob = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+            const response = await fetch(uri);
+            const blob = await response.blob();
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
-            const storageRef = ref(dbStorage, filename);
-            await uploadBytes(storageRef, blob, { contentType: 'image/jpeg/png ' });
+            const storageRef = ref(dbStorage, 'Adoption/' + filename);
+            await uploadBytes(storageRef, blob);
 
             // Firestore data uploading
             const newDocRef = await addDoc(collection(dbFirestore, "strayPosts"),{
@@ -67,10 +64,10 @@ const UploadMediaFile = () => {
                 description: description,
                 image: filename
             });
-            console.log("Document written with ID: ", newDocRef.id);  // Log the ID of the new document
-            
+             
+            console.log ("Photo Uploaded Successfully! ");
             setUploading(false);
-            Alert.alert('Photo Uploaded!!!'); // Alert to confirm photo upload
+            Alert.alert('Photo Uploaded!!!'); 
             
             setImage(null);
             router.replace('./LandingPage');
@@ -78,7 +75,7 @@ const UploadMediaFile = () => {
         } catch (error) {       
             console.error(error);      
             setUploading(false);
-            Alert.alert('An error occurred while uploading the photo');   // Alert to confirm photo upload
+            Alert.alert('An error occurred while uploading the photo');   
            
         }
     };
@@ -207,7 +204,7 @@ const styles = StyleSheet.create({
     buttonRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 300, // Adjust the width as needed
+        width: 300, 
         marginTop: 20,
         
         
@@ -217,7 +214,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: 140,
         height: 50,
-        backgroundColor: '#c5cfde', // You can choose a different color
+        backgroundColor: '#c5cfde', 
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 10,
