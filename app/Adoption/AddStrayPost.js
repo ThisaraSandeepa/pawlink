@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, addDoc,collection } from 'firebase/firestore';
 import { FIREBASE_APP } from '../../FirebaseConfig';
-import { router } from 'expo-router';
+import { router } from 'expo-router'; // Add this line
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -18,7 +18,6 @@ const UploadMediaFile = () => {
     const [age, setAge] = useState("");
     const [color, setColor] = useState("");
     const [description, setDescription] = useState("");
-    //const [automaticAgePrediction, setAutomaticAgePrediction] = useState(false);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
