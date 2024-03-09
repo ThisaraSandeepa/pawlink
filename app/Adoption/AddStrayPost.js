@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image, TextInput, ScrollView } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
 import { getFirestore, addDoc,collection } from 'firebase/firestore';
 import { FIREBASE_APP } from '../../FirebaseConfig';
-import { router } from 'expo-router'; // Add this line
+import { router } from 'expo-router';
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -18,6 +18,7 @@ const UploadMediaFile = () => {
     const [age, setAge] = useState("");
     const [color, setColor] = useState("");
     const [description, setDescription] = useState("");
+    //const [automaticAgePrediction, setAutomaticAgePrediction] = useState(false);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,17 +55,21 @@ const UploadMediaFile = () => {
             const storageRef = ref(dbStorage, 'Adoption/' + filename);
             await uploadBytes(storageRef, blob);
 
-            // Firestore data uploading
-            const newDocRef = await addDoc(collection(dbFirestore, "strayPosts"),{
+
+            getDownloadURL(storageRef)
+            .then((url) => {
+              const output = url;
+              return addDoc(collection(dbFirestore, "strayPosts"), {
                 contactInfo: contactInfo,
                 location: location,
                 age: age,
                 color: color,
                 description: description,
-                image: filename
-            });
-             
-            console.log ("Photo Uploaded Successfully! ");
+                image: output
+              });
+            })
+
+            console.log ("Photo uploaded successfully!");
             setUploading(false);
             Alert.alert('Photo Uploaded!!!'); 
             
