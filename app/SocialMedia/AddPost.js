@@ -43,9 +43,11 @@ const UploadMediaFile = () => {
             const storageRef = ref(dbStorage, 'SocialMedia/' + filename);
             await uploadBytes(storageRef, blob);
 
-            const newDocRef = await addDoc(collection(dbFirestore, "Posts"),{
+            const newDocRef = await addDoc(collection(dbFirestore, "socialMediaPosts"),{
                 image: filename,
-                description: description
+                description: description,
+                likes: "0",
+                comments: "0",
             });
              
             console.log ("Photo Uploaded Successfully! ");
