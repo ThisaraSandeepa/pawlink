@@ -144,7 +144,6 @@ import Post from '../components/AdoptPost';
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
 
-
   useEffect(() => {
     const fetchPosts = async () => {
       const postsCollection = collection(FIRESTORE_DB, 'strayPosts');
