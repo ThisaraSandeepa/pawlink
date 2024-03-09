@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image, TextInput, ScrollView } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
-import { getFirestore, addDoc,collection } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, addDoc, collection } from 'firebase/firestore';
+import { getDatabase, ref as dbRef, push } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig';
 import { router } from 'expo-router';
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
+const dbRealtime = getDatabase(FIREBASE_APP);
 
 const UploadMediaFile = () => {
     const [image, setImage] = useState(null);
@@ -18,7 +20,6 @@ const UploadMediaFile = () => {
     const [age, setAge] = useState("");
     const [color, setColor] = useState("");
     const [description, setDescription] = useState("");
-    //const [automaticAgePrediction, setAutomaticAgePrediction] = useState(false);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -31,6 +32,7 @@ const UploadMediaFile = () => {
             setImage(result.assets[0].uri);
         }
     };
+
     const onCancel = () => {
         setContactInfo("");
         setLocation("");
@@ -38,49 +40,51 @@ const UploadMediaFile = () => {
         setColor("");
         setDescription("");
         setImage(null);
-   
         router.replace('./LandingPage');
     };
-    
+
     const UploadMedia = async () => {
         setUploading(true);
 
-        // Upload image to Firebase Storage
         try {
             const { uri } = await FileSystem.getInfoAsync(image);
             const response = await fetch(uri);
             const blob = await response.blob();
-
             const filename = image.substring(image.lastIndexOf('/') + 1);
             const storageRef = ref(dbStorage, 'Adoption/' + filename);
             await uploadBytes(storageRef, blob);
+            const url = await getDownloadURL(storageRef);
 
-
-            getDownloadURL(storageRef)
-            .then((url) => {
-              const output = url;
-              return addDoc(collection(dbFirestore, "strayPosts"), {
+            // Save data to Firestore
+            const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
                 contactInfo: contactInfo,
                 location: location,
                 age: age,
                 color: color,
                 description: description,
-                image: output
-              });
-            })
+                image: url
+            });
 
-            console.log ("Photo uploaded successfully!");
+            // Save data to Realtime Database
+            const databaseRef = dbRef(dbRealtime, 'strayPosts');
+            await push(databaseRef, {
+                contactInfo: contactInfo,
+                location: location,
+                age: age,
+                color: color,
+                description: description,
+                image: url
+            });
+
+            console.log("Photo uploaded successfully!");
             setUploading(false);
-            Alert.alert('Photo Uploaded!!!'); 
-            
+            Alert.alert('Photo Uploaded!!!');
             setImage(null);
             router.replace('./LandingPage');
-
-        } catch (error) {       
-            console.error(error);      
+        } catch (error) {
+            console.error(error);
             setUploading(false);
-            Alert.alert('An error occurred while uploading the photo');   
-           
+            Alert.alert('An error occurred while uploading the photo');
         }
     };
 
