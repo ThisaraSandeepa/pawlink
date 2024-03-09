@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image, ScrollView, TextInput } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, addDoc,collection } from 'firebase/firestore';
-import { FIREBASE_APP } from '../../FirebaseConfig';
-import * as FileSystem from 'expo-file-system'; // Import FileSystem
+import { FIREBASE_APP, FIREBASE_AUTH } from '../../FirebaseConfig';
+import * as FileSystem from 'expo-file-system'; // Import FileSystem]
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -38,16 +38,34 @@ const UploadMediaFile = () => {
             const { uri } = await FileSystem.getInfoAsync(image);
             const response = await fetch(uri);
             const blob = await response.blob();
+            const user = FIREBASE_AUTH.currentUser;
+            const userRef = doc(db, 'Users', userId);
+
+            if (user) {
+                console.log("User ID:", user.uid);
+                console.log("Display Name:", user.firstname + " " + user.lastname);
+                console.log("Email:", user.email);
+              } else {
+                console.log("No user signed in.");
+              }
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
             const storageRef = ref(dbStorage, 'SocialMedia/' + filename);
-            await uploadBytes(storageRef, blob);
+            await uploadBytes(storageRef, blob)
 
-            const newDocRef = await addDoc(collection(dbFirestore, "Posts"),{
-                image: filename,
-                description: description
-            });
-             
+
+            getDownloadURL(storageRef)
+            .then((url) => {
+              const output = url;
+              return addDoc(collection(dbFirestore, "socialMediaPosts"), {
+                image: output,
+                likes: "0",
+                comments: "0",
+                description: description,
+                user: user.firstname + " " + user.lastname
+              });
+            })
+
             console.log ("Photo Uploaded Successfully! ");
             setUploading(false);
             Alert.alert('Photo Uploaded!!!'); 

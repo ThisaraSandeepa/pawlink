@@ -10,6 +10,7 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyCbuqcuhcT2ZZm9JHSYfdqE9gplsL8phbk",
   authDomain: "pawlink-9dcc9.firebaseapp.com",
+  databaseURL: "https://pawlink-9dcc9-default-rtdb.firebaseio.com",
   projectId: "pawlink-9dcc9",
   storageBucket: "pawlink-9dcc9.appspot.com",
   messagingSenderId: "919518194725",
@@ -23,4 +24,4 @@ export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP); 
 export const FIREBASE_STORAGE = getStorage(FIREBASE_APP);
-export const FIREBASE_REALTIMME_DB = getDatabase(FIREBASE_APP);
+export const FIREBASE_REALTIME_DB = getDatabase(FIREBASE_APP);

@@ -4,10 +4,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link } from "expo-router";
 
 const Post = (props) => {
-  const [liked, setLiked] = useState(false);         // Add liked state
-  const [likes, setLikes] = useState(props.likes);  // Add likes state
+  const [liked, setLiked] = useState(false);        
+  const [likes, setLikes] = useState(parseInt(props.likes, 10));  
 
-  const handleLike = () => {                        // Add handleLike function
+  const handleLike = () => {                       
     const newLikes = liked ? likes - 1 : likes + 1;
     setLiked(!liked);
     setLikes(newLikes);

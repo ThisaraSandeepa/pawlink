@@ -47,7 +47,6 @@ const SignupScreen = () => {
         lastName: lastName,
         email: email,
         password: password,
-        //confirmPassword: confirmPassword,
         UserType: 'Pet Owner'
       });
 
@@ -57,7 +56,6 @@ const SignupScreen = () => {
         lastName: lastName,
         email: email,
         password: password,
-        //confirmPassword: confirmPassword,
         vet: vetCheckbox,
         petOwner: petOwnerCheckbox,
       });

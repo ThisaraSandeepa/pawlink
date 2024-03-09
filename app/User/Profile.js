@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_APP } from '../../FirebaseConfig';
+import { router } from 'expo-router';
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState(null);
@@ -42,8 +43,7 @@ const ProfileScreen = () => {
   };
 
   const logout = () => {
-    // Your logout logic here
-    // Navigate to the sign up page after logout
+    router.replace("../User/SignIn")
   };
 
   return (

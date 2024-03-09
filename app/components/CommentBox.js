@@ -1,12 +1,37 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { View, TextInput, Button } from 'react-native';
+import { collection, addDoc } from 'firebase/firestore';
+import { FIRESTORE_DB } from '../../FirebaseConfig'; 
 
-const CommentBox = (props) => {
+const CommentBox = () => {
+  const [commentText, setCommentText] = useState('');
+
+  const handleCommentSubmit = async () => {
+    if (commentText.trim() !== '') {
+      // Add the new comment to the Firestore collection
+      try {
+        const docRef = await addDoc(collection(FIRESTORE_DB, 'comments'), {
+          user: 'User1', // Assuming a fixed user for this example
+          text: commentText,
+        });
+        console.log('Comment added with ID: ', docRef.id);
+        setCommentText('');
+      } catch (error) {
+        console.error('Error adding comment: ', error);
+      }
+    }
+  };
+
   return (
-    <View className = "items-center justify-center">
-      <Text> Hello </Text>
+    <View>
+      <TextInput
+        placeholder="Write a comment..."
+        value={commentText}
+        onChangeText={setCommentText}
+      />
+      <Button title="Submit" onPress={handleCommentSubmit} />
     </View>
-  )
-}
+  );
+};
 
-export default CommentBox
+export default CommentBox;
