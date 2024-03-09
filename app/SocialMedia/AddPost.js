@@ -38,21 +38,10 @@ const UploadMediaFile = () => {
             const { uri } = await FileSystem.getInfoAsync(image);
             const response = await fetch(uri);
             const blob = await response.blob();
-            const user = FIREBASE_AUTH.currentUser;
-            const userRef = doc(db, 'Users', userId);
-
-            if (user) {
-                console.log("User ID:", user.uid);
-                console.log("Display Name:", user.firstname + " " + user.lastname);
-                console.log("Email:", user.email);
-              } else {
-                console.log("No user signed in.");
-              }
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
             const storageRef = ref(dbStorage, 'SocialMedia/' + filename);
             await uploadBytes(storageRef, blob)
-
 
             getDownloadURL(storageRef)
             .then((url) => {

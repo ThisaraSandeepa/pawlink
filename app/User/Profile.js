@@ -26,6 +26,7 @@ const ProfileScreen = () => {
       } else {
         console.log('User data not found');
       }
+      
     } catch (error) {
       console.error('Error fetching user data:', error.message);
     }
