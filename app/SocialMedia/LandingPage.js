@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../FirebaseConfig'; 
-import Post from '../components/Post';  
+import React, { useState, useEffect } from "react";
+import { View, ScrollView } from "react-native";
+import { onValue, ref } from "firebase/database";
+import Post from "../components/Post";
+import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const postsCollection = collection(FIRESTORE_DB, 'socialMediaPosts');
-      const querySnapshot = await getDocs(postsCollection);
-
-      const postsData = [];
-      querySnapshot.forEach((doc) => {
-        postsData.push({ id: doc.id, ...doc.data() });
-      });
-      setPosts(postsData);
-    };
-    fetchPosts();
+    const postsRef = ref(FIREBASE_REALTIME_DB, "socialMediaPosts");
+    onValue(postsRef, (snapshot) => {
+      const postsData = snapshot.val() ? Object.entries(snapshot.val()) : [];
+      const formattedPosts = postsData.map(([id, data]) => ({
+        id,
+        ...data
+      }));
+      setPosts(formattedPosts);
+    });
   }, []);
 
   return (
@@ -26,11 +24,14 @@ const LandingPage = () => {
       <ScrollView>
         {posts.map((post) => (
           <Post
-            key={post.id}            
-            user={post.user}         
-            image={{ uri: post.image }}
-            likes={post.likes}    
-            comments={post.comments} 
+            key={post.id}
+            id={post.id}
+            // user={post.user}
+            user={post.user}
+            description={post.description}
+            image={post.image}
+            likes={post.likes}
+            comments={post.comments}
           />
         ))}
       </ScrollView>

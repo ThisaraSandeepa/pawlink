@@ -7,9 +7,6 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore';
 export default function Adoptme() {
   const [petDetails, setPetDetails] = useState([]);
   
-
-
-
   useEffect(() => {
     const fetchPetDetails = async () => {
       const db = getFirestore();
