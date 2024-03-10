@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import { getDatabase, ref as dbRef, push } from 'firebase/database';
-import { FIREBASE_APP } from "../../FirebaseConfig";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
 
 const dbStorage = getStorage(FIREBASE_APP);
@@ -47,12 +47,16 @@ const UploadMediaFile = () => {
 
       const url = await getDownloadURL(storageRef);
 
+       // Get the current user
+      const user = FIREBASE_AUTH.currentUser; 
+
       // Save data to Firestore
       const postRef = await addDoc(collection(dbFirestore, "socialMediaPosts"), {
           image: url,
           likes: "0",
           comments: "0",
-          description: description
+          description: description,
+          user: user.displayName
       });
 
       // Save data to Realtime Database
@@ -61,7 +65,8 @@ const UploadMediaFile = () => {
         image: url,
         likes: "0",
         comments: "0",
-        description: description
+        description: description,
+        user: user.displayName
       });
 
       console.log("Photo Uploaded Successfully! ");

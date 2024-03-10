@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { getDatabase, ref, set } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig';
@@ -40,6 +40,9 @@ const SignupScreen = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
+      await updateProfile(user, {
+        displayName: `${firstName} ${lastName}`
+      });
 
       // Save user data to Firestore
       await setDoc(doc(dbFirestore, 'Users', user.uid), {
@@ -56,8 +59,7 @@ const SignupScreen = () => {
         lastName: lastName,
         email: email,
         password: password,
-        vet: vetCheckbox,
-        petOwner: petOwnerCheckbox,
+        UserType: 'Pet Owner'
       });
 
       router.replace('./SignIn');
@@ -68,7 +70,7 @@ const SignupScreen = () => {
   };
 //
   return (
-    <View style={styles.container}>
+    <View className = "flex-1 items-center mt-24">
       <Image
         source={require('../../assets/images/pawlink1.png')} 
         style={styles.logo}
@@ -109,19 +111,6 @@ const SignupScreen = () => {
         onChangeText={text => setConfirmPassword(text)}
       />
 
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          title="Veterinarian"
-          checked={vetCheckbox}
-          onPress={() => setVetCheckbox(!vetCheckbox)}
-        />
-        <CheckBox
-          title="Pet Owner/Adopter"
-          checked={petOwnerCheckbox}
-          onPress={() => setPetOwnerCheckbox(!petOwnerCheckbox)}
-        />
-      </View>
-
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Sign Up</Text>
       </TouchableOpacity>
@@ -131,11 +120,6 @@ const SignupScreen = () => {
 
 // Define styles
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   logo: {
     width: '80%', 
     height: '20%', 

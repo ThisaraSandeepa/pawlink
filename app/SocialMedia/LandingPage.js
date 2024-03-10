@@ -26,7 +26,6 @@ const LandingPage = () => {
           <Post
             key={post.id}
             id={post.id}
-            // user={post.user}
             user={post.user}
             description={post.description}
             image={post.image}
