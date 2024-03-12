@@ -11,11 +11,13 @@ const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
 
+// UploadMediaFile Compenent
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
 
+  // Pick an image from the gallery
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -28,6 +30,7 @@ const UploadMediaFile = () => {
     }
   };
 
+  // Cancel the upload
   const onCancel = () => {
     setImage(null);
     setDescription("");
@@ -36,13 +39,15 @@ const UploadMediaFile = () => {
   const UploadMedia = async () => {
     setUploading(true);
 
-    try {
-      const { uri } = await FileSystem.getInfoAsync(image);
-      const response = await fetch(uri);
-      const blob = await response.blob();
+// Check if the image is empty
 
-      const filename = image.substring(image.lastIndexOf("/") + 1);
-      const storageRef = ref(dbStorage, "SocialMedia/" + filename);
+    try {
+      const { uri } = await FileSystem.getInfoAsync(image);          // Get the image info
+      const response = await fetch(uri);                             // Fetch the image
+      const blob = await response.blob();                            // Convert the image to a blob
+
+      const filename = image.substring(image.lastIndexOf("/") + 1);  // Get the filename
+      const storageRef = ref(dbStorage, "SocialMedia/" + filename);  // Create a storage reference
       await uploadBytes(storageRef, blob);
 
       const url = await getDownloadURL(storageRef);
@@ -52,11 +57,12 @@ const UploadMediaFile = () => {
 
       // Save data to Firestore
       const postRef = await addDoc(collection(dbFirestore, "socialMediaPosts"), {
-          image: url,
+        // Add a new document in collection "socialMediaPosts"  
+        image: url,
           likes: "0",
           comments: "0",
           description: description,
-          user: user.displayName
+          user: user.displayName                     
       });
 
       // Save data to Realtime Database
@@ -68,11 +74,12 @@ const UploadMediaFile = () => {
         description: description,
         user: user.displayName
       });
-
+// Show an alert and reset the state
       console.log("Photo Uploaded Successfully! ");
       setUploading(false);
       Alert.alert("Photo Uploaded!!!");
 
+      // Reset the state
       setImage(null);
       setDescription("");
     } catch (error) {
@@ -198,3 +205,15 @@ const styles = StyleSheet.create({
 });
 
 export default UploadMediaFile;
+
+
+
+
+
+
+
+
+
+
+//Rochana Godigamuwa
+//Start Date : 2024-03-18

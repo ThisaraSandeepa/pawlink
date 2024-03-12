@@ -5,6 +5,8 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_APP } from '../../FirebaseConfig';
 import { router } from 'expo-router';
 
+
+
 const ProfileScreen = () => {
   const [userData, setUserData] = useState(null);
 
@@ -12,6 +14,7 @@ const ProfileScreen = () => {
     fetchUserData();
   }, []);
 
+  // Fetch user data from Firestore
   const fetchUserData = async () => {
     try {
       const auth = getAuth(FIREBASE_APP);
@@ -20,7 +23,8 @@ const ProfileScreen = () => {
       const userId = auth.currentUser.uid;
       const userRef = doc(db, 'Users', userId);
       const userSnapshot = await getDoc(userRef);
-
+    
+      // If the user data exists, set the user data state
       if (userSnapshot.exists()) {
         setUserData(userSnapshot.data());
       } else {
@@ -32,6 +36,8 @@ const ProfileScreen = () => {
     }
   };
 
+
+  // Log out the user
   const handleLogout = () => {
     Alert.alert(
       'Confirm Logout',
@@ -43,6 +49,7 @@ const ProfileScreen = () => {
     );
   };
 
+  // Take them back to sign up page by routing method
   const logout = () => {
     router.replace("../User/SignIn")
   };
@@ -133,3 +140,12 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+
+
+
+
+
+
+
+//Rochana Godigamuwa 
+//Start Date : 2024-03-11
