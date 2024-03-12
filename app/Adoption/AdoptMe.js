@@ -1,96 +1,87 @@
-import { Link } from 'expo-router';
-import { StyleSheet,Image, Button, TouchableOpacity,View,Text,ScrollView } from 'react-native';
+import { Link } from 'expo-router';import {  StyleSheet,Image, Button, TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-
-export default function Adoptme() {
-  const [petDetails, setPetDetails] = useState([]);
+// AdoptMe component
+const AdoptMe = () => {
+  const [petDetails, setPetDetails] = useState({});
+  const { params } = useRoute(); // Assuming using React Navigation for navigation
+  const navigation = useNavigation();
   
   useEffect(() => {
     const fetchPetDetails = async () => {
+      if (!params || !params.id) {
+        console.error('Invalid params');
+        return;
+      }
+
       const db = getFirestore();
-      const petsCollection = collection(db, 'strayPosts'); //   Firestore collection name
+      const petDoc = doc(db, 'strayPosts', params.id);
 
       try {
-        const querySnapshot = await getDocs(petsCollection);
-        const details = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setPetDetails(details);
-
-        
+        const petSnapshot = await getDoc(petDoc);
+        if (petSnapshot.exists()) {
+          setPetDetails({ id: petSnapshot.id, ...petSnapshot.data() });
+        } else {
+          console.error('Pet not found');
+        }
       } catch (error) {
         console.error('Error fetching pet details:', error);
       }
     };
 
     fetchPetDetails();
-  }, []);
-
-  
+  }, [params?.id]); // Make sure to handle potential changes in params.id
 
 
   return (
+    
     <ScrollView>
-    <View style={styles.container}>
-      {/* Displaying the image from assets */}
-      <Image
-        source={require('../../assets/images/pawlink1.png')} 
-        style={styles.image}
-      />      
-      <Image
-        source={require('../../assets/images/dog3.jpg')}
-        style={styles.dogimage}
-      />
-      
-      <View style={styles.RectangleContainer}>
-      {petDetails.map((detail, index) => (
-            <View key={index} style={styles.rectangle}>
-              <Text style={styles.Text1}>{detail.color}</Text>
-              <Text style={styles.Text}>{detail.breed}</Text>
-              <Text style={styles.Text}>{detail.age}</Text>
-            </View>
-          ))}
-
-
-
-
-        <View style={styles.rectangle}>
+      <View style={styles.container}>
+        {/* Displaying the image and other details based on petDetails */}
+        <Image source={{ uri: petDetails.imageURL }} style={styles.image} />
+        <View style={styles.RectangleContainer}>
+         
+          <View style={styles.rectangle}>
+          <Text style={styles.Text1}>{petDetails.color}</Text>
           <Text style={styles.Text1}>Black </Text>
           <Text style={styles.Text}>Colour </Text>
           </View>
 
           <View style={styles.rectangle}>
+          <Text style={styles.Text1}>{petDetails.breed}</Text>
           <Text style={styles.Text1}>Undefied </Text>
           <Text style={styles.Text}>Breed </Text>
          
           </View>
 
           <View style={styles.rectangle}>
+          <Text style={styles.Text1}>{petDetails.age}</Text>
           <Text style={styles.Text1}>Adult</Text>
           <Text style={styles.Text}>Age </Text>
           </View>
 
           <View>
           <Text style={styles.Text2}>Location</Text>
+          <Text style={styles.Text3}>{petDetails.location}</Text>
           <Text style={styles.Text3}>Lorem ipsum dolor sit amet, coetur adipiscing elit ut aliquam, purus sit amluctus Lorem ipsum dolor sit lorem as it ipsum just is fill to ipsum fit la la bit sa sa agenama mama ipsum di lala kes doni kes bs thirty.</Text>
           </View>
-          
           <Link
-            href="../components/Details"
-            className='bg-blue-800 rounded text-white p-2 w-25 text-center'
-            style={styles.link}
-          >
-            Adopt Me!
-          </Link>
-
-
-
+        href="../components/Details"
+        className='bg-blue-800 rounded text-white p-2 w-25 text-center'
+        style={styles.link}
+      >
+        Adopt Me!
+      </Link>
         </View>
-
-    </View>
+      </View>
+      
     </ScrollView>
   );
-}
+};
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -185,7 +176,9 @@ const styles = StyleSheet.create({
     marginTop:100,
     borderRadius:5,
     width:100,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    
   }
 });
 
+export default AdoptMe;
