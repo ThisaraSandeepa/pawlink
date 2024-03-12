@@ -1,27 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Image,
-} from "react-native";
-import { getAuth } from "firebase/auth";
+import {View,Text,TouchableOpacity,StyleSheet,Alert,Image,} from "react-native";
 import { ref, uploadBytes, getDownloadURL,getStorage } from "firebase/storage";
-import { getFirestore, addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { getDatabase,ref as dbRef, get } from 'firebase/database';
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { router } from "expo-router";
-import { Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { update } from "firebase/database";
+import { updateProfile } from "firebase/auth";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
 
 const ProfileScreen = () => {
+
   const [userData, setUserData] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -44,41 +36,47 @@ const ProfileScreen = () => {
   };
 
   const UploadMedia = async () => {
-    // Check if the image is empty
     try {
+      if (!image) {
+        throw new Error("No image selected. Click on the photo to select one.");
+      }
+  
+      // Check if the image is empty
       const { uri } = await FileSystem.getInfoAsync(image); // Get the image info
       const response = await fetch(uri); // Fetch the image
       const blob = await response.blob(); // Convert the image to a blob
-
+  
       const filename = image.substring(image.lastIndexOf("/") + 1); // Get the filename
       const storageRef = ref(dbStorage, "ProfilePictures/" + filename); // Create a storage reference
       await uploadBytes(storageRef, blob);
 
       const url = await getDownloadURL(storageRef);
-
-      // Get the current user
+  
+      // Update the user's photoURL in Firebase Authentication
       const user = FIREBASE_AUTH.currentUser;
+      await updateProfile(user, {
+        photoURL: `${url}`
+      });
 
       // Save data to Realtime Database
       const databaseRef = dbRef(dbRealtime, `Users/${user.uid}`);
       await update(databaseRef, {
-        profilePicture: url,  
+        profilePicture: url,
       });
 
       // Show an alert and reset the state
       console.log("Photo Uploaded Successfully! ");
       setUploading(false);
       Alert.alert("Photo Uploaded!!!");
-
+  
       // Reset the state
       setImage(null);
     } catch (error) {
-      console.error(error);
       setUploading(false);
-      Alert.alert("An error occurred while uploading the photo");
+      alert(error.message);
     }
   };
-
+  
   const fetchUserData = async () => {
     try {
       const userId = FIREBASE_AUTH.currentUser.uid;
@@ -112,25 +110,23 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       {/* If the user has a profile picture, show it */}
-      {userData?.profilePicture && (
-        <Image
-          source={{ uri: userData.profilePicture }}
-          style={styles.selectedImage}
-        />
-      )}
-      {/* If the user does not have a profile picture, show the placeholder */}
-      {!userData?.profilePicture && <View style={styles.placeholderImage} />}
-
       <TouchableOpacity onPress={pickImage}>
-        <View className="flex-row gap-1 bg-blue-400 rounded p-2">
-          <Icon name="add-a-photo" size={24} color="black" />
-          <Text> Select a picture </Text>
-        </View>
+        {userData?.profilePicture && (
+          <Image
+            source={{ uri: userData.profilePicture }}
+            style={styles.selectedImage}
+          />
+        )}
+        {/* If the user does not have a profile picture, show the placeholder */}
+        {!userData?.profilePicture && <View style={styles.placeholderImage} />}
       </TouchableOpacity>
+      
+      <View className = 'flex-row gap-6 mb-8'>
+        <TouchableOpacity onPress={UploadMedia} className = "items-center bg-blue-600 rounded-xl px-6 py-2">
+          <Text className = "text-white"> Update Profile Picture </Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity onPress={UploadMedia}>
-        <Text> Upload </Text>
-      </TouchableOpacity>
       <View style={styles.profileBox}>
         <Text style={styles.label}>Your Account Name:</Text>
         <Text style={styles.userData}>
@@ -156,7 +152,7 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   selectedImage: {
-    top: -70,
+    top: -40,
     width: 150,
     height: 150,
     resizeMode: "cover",

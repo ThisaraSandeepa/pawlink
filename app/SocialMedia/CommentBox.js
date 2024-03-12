@@ -89,7 +89,7 @@ function CommentBox() {
                     name="delete"
                     size={20}
                     color={"red"}
-                    className = "mt-3"
+                    className = "mt-4"
                   />
                 </TouchableOpacity>
               )}

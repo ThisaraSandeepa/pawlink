@@ -6,7 +6,7 @@ import { getAuth, updateProfile } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { getDatabase, ref, set } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, Icon } from 'react-native-elements';
 
 // Initialize Firebase authentication, Firestore, and Realtime Database
 const auth = getAuth(FIREBASE_APP);
@@ -55,7 +55,8 @@ const SignupScreen = () => {
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
       await updateProfile(user, {
-        displayName: `${firstName} ${lastName}`
+        displayName: `${firstName} ${lastName}`,
+        photoURL: `https://placehold.co/300x300?text=User`
       });
 
       // Save user data to Firestore

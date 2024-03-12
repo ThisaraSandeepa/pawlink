@@ -9,7 +9,7 @@ const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(parseInt(props.likes));
   const [currentUser, setCurrentUser] = useState(null);
-  const[commentsCount, setCommentsCount] = useState(props.comments);
+  const [commentsCount, setCommentsCount] = useState(props.comments);
   const postId = props.id;
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Post = (props) => {
       likes: newLikes.toString(),
     });
   };
-  
+
   // Get the comments count from the Realtime Database
   useEffect(() => {
     const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);
@@ -40,11 +40,24 @@ const Post = (props) => {
       }
     });
   }, [postId]);
+
+  useEffect(() => {
+    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser(user);
+      }
+    });
   
-  // Delete a post 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  
+
+  // Delete a post
   const DeletePost = () => {
     const postRef = ref(FIREBASE_REALTIME_DB, `socialMediaPosts/${props.id}`);
-  
+
     Alert.alert(
       "Confirm Deletion",
       "Are you sure you want to delete this post?",
@@ -59,12 +72,13 @@ const Post = (props) => {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-        }
+        },
       ]
     );
   };
 
-  const isCurrentUser = currentUser && props.user === currentUser.displayName;
+  const isCurrentUser =
+    currentUser && props.user === currentUser.displayName;
   const deleteButton = isCurrentUser ? (
     <TouchableOpacity>
       <Icon name="delete" size={20} onPress={DeletePost} />
@@ -73,14 +87,23 @@ const Post = (props) => {
 
   return (
     <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <View className="flex-row justify-between">      
-        <Text className="text-lg font-bold">{props.user}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          source={{ uri: props.userProfilePicture }}
+          style={{ width: 50, height: 50, borderRadius: 25 }}
+        />
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>{props.user}</Text>
         {deleteButton}
       </View>
       <Text className="my-4">{props.description}</Text>
       <Image className="w-11/12 h-72" source={{ uri: props.image }} />
       <View className="flex-row justify-start mb-8 gap-2.5">
-        
         {/* Like Button */}
         <TouchableOpacity className="flex-row gap-0 pt-2" onPress={handleLike}>
           <Icon
@@ -92,10 +115,13 @@ const Post = (props) => {
         </TouchableOpacity>
 
         {/* Comment Button */}
-        <Link href={{
-          pathname: "../SocialMedia/CommentBox",
-          params: { postId },
-        }} className="flex-row gap- pt-2" >
+        <Link
+          href={{
+            pathname: "../SocialMedia/CommentBox",
+            params: { postId },
+          }}
+          className="flex-row gap- pt-2"
+        >
           <Icon name="comment-text-outline" size={20} />
           <Text className="text-gray-700"> {commentsCount} </Text>
         </Link>

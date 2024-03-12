@@ -3,7 +3,7 @@ import { View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../../FirebaseConfig';
 import Post from '../components/AdoptPost';  
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);

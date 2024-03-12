@@ -90,9 +90,11 @@ const UploadMediaFile = () => {
         likes: "0",
         comments: "0",
         description: description,
-        user: user.displayName
+        user: user.displayName,
+        userProfilePicture: user.photoURL
       });
-// Show an alert and reset the state
+      
+      // Show an alert and reset the state
       console.log("Photo Uploaded Successfully! ");
       setUploading(false);
       Alert.alert("Photo Uploaded!!!");
@@ -103,7 +105,7 @@ const UploadMediaFile = () => {
     } catch (error) {
       console.error(error);
       setUploading(false);
-      Alert.alert("An error occurred while uploading the photo");
+      Alert.alert(error);
     }
   };
 
