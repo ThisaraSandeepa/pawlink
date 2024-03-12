@@ -6,6 +6,8 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import { getDatabase, ref as dbRef, push } from 'firebase/database';
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
+import { Icon } from "react-native-elements";
+import { router } from "expo-router";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -32,8 +34,21 @@ const UploadMediaFile = () => {
 
   // Cancel the upload
   const onCancel = () => {
-    setImage(null);
-    setDescription("");
+    Alert.alert("Are you sure you want to cancel the upload?", "", [
+      {
+        text: "Yes",
+        onPress: () => {    
+          setImage(null);
+          setDescription("");
+          router.push("/SocialMedia/LandingPage");
+        },
+      },
+      {
+        text: "No",
+        style: "cancel",
+      },
+    ]);
+
   };
 
   const UploadMedia = async () => {
@@ -102,21 +117,24 @@ const UploadMediaFile = () => {
             <View style={styles.placeholderImage} />
           )}
           <TextInput
-            style={styles.descriptionInput}
+            className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
             placeholder="Description"
             multiline={true}
             value={description}
             onChangeText={(text) => setDescription(text)}
           />
-          <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
-            <Text style={styles.buttonText}>Add a Post</Text>
+          <TouchableOpacity onPress={pickImage}>
+            <View className = "flex-row gap-1 bg-blue-400 rounded p-2">
+              <Icon name="add-a-photo" size={24} color="black"/>
+              <Text> Select a picture </Text>
+            </View>
           </TouchableOpacity>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-              <Text style={styles.buttonText}>Cancel</Text>
+          <View className = "flex-row justify-between gap-6 pt-8">
+            <TouchableOpacity className = "items-center bg-blue-700 rounded-xl px-10 py-2" onPress={UploadMedia}>
+              <Text className = "text-center font-bold text-white text-base">Post</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.uploadButton} onPress={UploadMedia}>
-              <Text style={styles.buttonText}>Post</Text>
+            <TouchableOpacity  className = "items-center bg-red-600 rounded-xl px-6 py-2" onPress={onCancel}>
+               <Text className = "text-center font-bold text-base text-white"> Cancel </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -146,21 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 20,
   },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: 300,
-    marginTop: 20,
-  },
-  cancelButton: {
-    borderRadius: 10,
-    width: 140,
-    height: 50,
-    backgroundColor: "#c5cfde",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
+
   buttonText: {
     color: "#fff",
     fontWeight: "bold",

@@ -1,12 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../../FirebaseConfig';
 import Post from '../components/AdoptPost';  
-import {Link, router} from 'expo-router';
-
-
+import { Link } from 'expo-router';
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
@@ -25,7 +22,6 @@ const LandingPage = () => {
     fetchPosts();
   }, []);
 
-
   return (
     <View>
        <ScrollView>
@@ -39,23 +35,21 @@ const LandingPage = () => {
         <Image source={require("../../assets/images/Component.png")}  
         className = "w-80 h-24 rounded-md"/>
       </View>
-      <TouchableOpacity className = "w-20 bg-white h-7 rounded-md -mt-16 ml-10">
-       <Text className="text-center  font-bold mt-2 text-xs">Check out</Text>
-      </TouchableOpacity>
-
-    
-    
+      <Link href={"../SocialMedia/LandingPage"} className = "w-20 bg-white h-7 rounded-md -mt-16 ml-10 flex">
+       <Text className = "font-bold text-start">Check out</Text>
+      </Link>
+  
      <View  className = "w-200 h-150 mt-3 ml-4 mr-4 ">
-      <Link href= "./AdoptMe">
+      {/* <Link href= "./AdoptMe"> */}
       {posts.map((post) => (
           <Post
             key={post.id}
-            
+            id = {post.id}
             image={{ uri: post.image }}
             location={post.location}
           />
         ))}
-      </Link>
+      {/* </Link> */}
         
         </View>
       </ScrollView>

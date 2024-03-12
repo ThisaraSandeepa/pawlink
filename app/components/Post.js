@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { update, ref, remove } from "firebase/database";
+import { update, ref, remove, onValue } from "firebase/database";
 import { FIREBASE_REALTIME_DB, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { Link } from "expo-router";
 
@@ -9,6 +9,7 @@ const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(parseInt(props.likes));
   const [currentUser, setCurrentUser] = useState(null);
+  const[commentsCount, setCommentsCount] = useState(props.comments);
   const postId = props.id;
 
   useEffect(() => {
@@ -28,7 +29,19 @@ const Post = (props) => {
       likes: newLikes.toString(),
     });
   };
-
+  
+  // Get the comments count from the Realtime Database
+  useEffect(() => {
+    const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);
+    onValue(commentsRef, (snapshot) => {
+      const commentsData = snapshot.val();
+      if (commentsData) {
+        setCommentsCount(Object.keys(commentsData).length);
+      }
+    });
+  }, [postId]);
+  
+  // Delete a post 
   const DeletePost = () => {
     const postRef = ref(FIREBASE_REALTIME_DB, `socialMediaPosts/${props.id}`);
   
@@ -64,7 +77,6 @@ const Post = (props) => {
         <Text className="text-lg font-bold">{props.user}</Text>
         {deleteButton}
       </View>
-
       <Text className="my-4">{props.description}</Text>
       <Image className="w-11/12 h-72" source={{ uri: props.image }} />
       <View className="flex-row justify-start mb-8 gap-2.5">
@@ -84,7 +96,7 @@ const Post = (props) => {
           params: { postId },
         }} className="flex-row gap- pt-2" >
           <Icon name="comment-text-outline" size={20} />
-          <Text className="text-gray-700"> {props.comments} </Text>
+          <Text className="text-gray-700"> {commentsCount} </Text>
         </Link>
       </View>
     </View>
