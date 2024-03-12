@@ -22,10 +22,6 @@ const LandingPage = () => {
     fetchPosts();
   }, []);
 
-  const details = () => {
-    router.push('./AdoptMe');
-  }
-
   return (
     <View>
        <ScrollView>
@@ -44,7 +40,7 @@ const LandingPage = () => {
       </Link>
   
      <View  className = "w-200 h-150 mt-3 ml-4 mr-4 ">
-      <TouchableOpacity onPress={details}>
+      <TouchableOpacity>
         {posts.map((post) => (
             <Post
               key={post.id}

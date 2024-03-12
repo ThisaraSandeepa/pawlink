@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
 import { getAuth, updateProfile } from 'firebase/auth';
@@ -19,13 +19,27 @@ const SignupScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [gender, setGender] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [vetCheckbox, setVetCheckbox] = useState(false);
-  const [petOwnerCheckbox, setPetOwnerCheckbox] = useState(false);
+  const [isMaleSelected, setIsMaleSelected] = useState(false);
+  const [isFemaleSelected, setIsFemaleSelected] = useState(false);
+
+  const handleMaleSelection = () => {
+    setGender("Male");
+    setIsMaleSelected(true);
+    setIsFemaleSelected(false);
+  };
+
+  const handleFemaleSelection = () => {
+    setGender("Female");
+    setIsFemaleSelected(true);
+    setIsMaleSelected(false);
+  };
+
 
   const handleSignup = async () => {
     // Check if any of the required fields are empty
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword || (!isMaleSelected && !isFemaleSelected)) {
       alert('All fields are required');
       return;
     }
@@ -50,7 +64,8 @@ const SignupScreen = () => {
         lastName: lastName,
         email: email,
         password: password,
-        UserType: 'Pet Owner'
+        UserType: 'Pet Owner',
+        gender: gender
       });
 
       // Save user data to Realtime Database
@@ -59,16 +74,18 @@ const SignupScreen = () => {
         lastName: lastName,
         email: email,
         password: password,
-        UserType: 'Pet Owner'
+        UserType: 'Pet Owner',        
+        gender: gender
       });
 
+      Alert.alert('','successfully signed up!');
       router.replace('./SignIn');
 
     } catch (error) {
       alert(error.message);
     }
   };
-//
+  
   return (
     <View className = "flex-1 items-center mt-24">
       <Image
@@ -111,6 +128,19 @@ const SignupScreen = () => {
         onChangeText={text => setConfirmPassword(text)}
       />
 
+      {/* Male or Female */}
+      <View className = "flex-row">
+        <CheckBox
+          title='Male'
+          checked={isMaleSelected}
+          onPress={handleMaleSelection}
+        />
+        <CheckBox
+          title='Female'
+          checked={isFemaleSelected}
+          onPress={handleFemaleSelection}
+        />
+        </View> 
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Sign Up</Text>
       </TouchableOpacity>

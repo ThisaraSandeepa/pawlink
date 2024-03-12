@@ -62,7 +62,7 @@ const UploadMediaFile = () => {
       const blob = await response.blob();                            // Convert the image to a blob
 
       const filename = image.substring(image.lastIndexOf("/") + 1);  // Get the filename
-      const storageRef = ref(dbStorage, "SocialMedia/" + filename);  // Create a storage reference
+      const storageRef = ref(dbStorage, "ProfilePictures/" + filename);  // Create a storage reference
       await uploadBytes(storageRef, blob);
 
       const url = await getDownloadURL(storageRef);
@@ -71,14 +71,17 @@ const UploadMediaFile = () => {
       const user = FIREBASE_AUTH.currentUser; 
 
       // Save data to Firestore
-      const postRef = await addDoc(collection(dbFirestore, "socialMediaPosts"), {
-        // Add a new document in collection "socialMediaPosts"  
-        image: url,
+      const postRef = await addDoc(
+        collection(dbFirestore, "socialMediaPosts"),
+        {
+          // Add a new document in collection "socialMediaPosts"
+          image: url,
           likes: "0",
           comments: "0",
           description: description,
-          user: user.displayName                     
-      });
+          user: user.displayName,
+        }
+      );
 
       // Save data to Realtime Database
       const databaseRef = dbRef(dbRealtime, "socialMediaPosts");

@@ -80,6 +80,7 @@ const Post = (props) => {
       <Text className="my-4">{props.description}</Text>
       <Image className="w-11/12 h-72" source={{ uri: props.image }} />
       <View className="flex-row justify-start mb-8 gap-2.5">
+        
         {/* Like Button */}
         <TouchableOpacity className="flex-row gap-0 pt-2" onPress={handleLike}>
           <Icon
