@@ -3,7 +3,7 @@ import { View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../../FirebaseConfig';
 import Post from '../components/AdoptPost';  
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
@@ -21,6 +21,10 @@ const LandingPage = () => {
     };
     fetchPosts();
   }, []);
+
+  const details = () => {
+    router.push('./AdoptMe');
+  }
 
   return (
     <View>
@@ -40,17 +44,16 @@ const LandingPage = () => {
       </Link>
   
      <View  className = "w-200 h-150 mt-3 ml-4 mr-4 ">
-      {/* <Link href= "./AdoptMe"> */}
-      {posts.map((post) => (
-          <Post
-            key={post.id}
-            id = {post.id}
-            image={{ uri: post.image }}
-            location={post.location}
-          />
-        ))}
-      {/* </Link> */}
-        
+      <TouchableOpacity onPress={details}>
+        {posts.map((post) => (
+            <Post
+              key={post.id}
+              id = {post.id}
+              image={{ uri: post.image }}
+              location={post.location}
+            />
+          ))}
+      </TouchableOpacity>  
         </View>
       </ScrollView>
     </View>
