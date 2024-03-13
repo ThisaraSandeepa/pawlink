@@ -16,7 +16,7 @@ const SignIn = () => {
       // Signed in
       const user = userCredential.user;
       console.log("Logged In!");
-  
+      
       // Redirect to the landing page
       router.replace('../SocialMedia/LandingPage');
   
