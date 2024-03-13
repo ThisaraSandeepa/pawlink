@@ -6,8 +6,8 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import { getDatabase, ref as dbRef, push } from 'firebase/database';
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
-import { Icon } from "react-native-elements";
-import { router } from "expo-router";
+import { Icon } from "react-native-elements"; // Import Icon
+import { router } from "expo-router";  // Import Router
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -23,18 +23,18 @@ const UploadMediaFile = () => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      allowsEditing: true,   // Allow editing
+      aspect: [4, 3], // Aspect ratio
+      quality: 1,   // Quality
     });
     if (!result.cancelled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0].uri);  // Set the image
     }
   };
 
   // Cancel the upload
   const onCancel = () => {
-    Alert.alert("Are you sure you want to cancel the upload?", "", [
+    Alert.alert("Are you sure you want to cancel the upload?", "", [ // Show an alert
       {
         text: "Yes",
         onPress: () => {    
@@ -51,7 +51,7 @@ const UploadMediaFile = () => {
 
   };
 
-  const UploadMedia = async () => {
+  const UploadMedia = async () => {   // Upload the media
     setUploading(true);
 
 // Check if the image is empty
@@ -63,16 +63,16 @@ const UploadMediaFile = () => {
 
       const filename = image.substring(image.lastIndexOf("/") + 1);  // Get the filename
       const storageRef = ref(dbStorage, "ProfilePictures/" + filename);  // Create a storage reference
-      await uploadBytes(storageRef, blob);
+      await uploadBytes(storageRef, blob);                             // Upload the image to the storage
 
-      const url = await getDownloadURL(storageRef);
+      const url = await getDownloadURL(storageRef);                     // Get the download URL
 
        // Get the current user
       const user = FIREBASE_AUTH.currentUser; 
 
       // Save data to Firestore
       const postRef = await addDoc(
-        collection(dbFirestore, "socialMediaPosts"),
+        collection(dbFirestore, "socialMediaPosts"),          // Get the collection database extension
         {
           // Add a new document in collection "socialMediaPosts"
           image: url,
@@ -86,6 +86,7 @@ const UploadMediaFile = () => {
       // Save data to Realtime Database
       const databaseRef = dbRef(dbRealtime, "socialMediaPosts");
       await push(databaseRef, {
+        // Add a new document in collection "socialMediaPosts"
         image: url,
         likes: "0",
         comments: "0",
@@ -117,11 +118,12 @@ const UploadMediaFile = () => {
       >
         <View style={styles.imageContainer}>
           {image ? (
-            <Image source={{ uri: image }} style={styles.selectedImage} />
+            <Image source={{ uri: image }} style={styles.selectedImage} />  // Show the image
           ) : (
             <View style={styles.placeholderImage} />
           )}
           <TextInput
+          // Description input
             className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
             placeholder="Description"
             multiline={true}
@@ -148,6 +150,8 @@ const UploadMediaFile = () => {
   );
 };
 
+
+// Styles need for above components made.
 const styles = StyleSheet.create({
   container: {
     flex: 1,
