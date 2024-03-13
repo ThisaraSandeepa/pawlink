@@ -70,10 +70,28 @@ const SignupScreen = () => {
       router.replace('./SignIn');
 
     } catch (error) {
-      alert(error.message);
+
+      // Check for specific errors
+      switch (error.code) {
+        case 'auth/invalid-email':
+          alert('Invalid email address!');
+          break;
+        case 'auth/invalid-credential':
+        case 'auth/wrong-password':
+          alert('Invalid email or password!');
+          break;
+        case 'auth/missing-password':
+          alert('Password is required.');
+          break;
+        case 'auth/weak-password':
+          alert('Atleast 6 characters required for password!');
+          break;
+        default:
+          alert(error.message);
+      }
     }
   };
-  
+
   return (
     <View className = "flex-1 items-center mt-24">
       <Image
