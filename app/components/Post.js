@@ -47,12 +47,11 @@ const Post = (props) => {
         setCurrentUser(user);
       }
     });
-  
+
     return () => {
       unsubscribe();
     };
   }, []);
-  
 
   // Delete a post
   const DeletePost = () => {
@@ -77,8 +76,7 @@ const Post = (props) => {
     );
   };
 
-  const isCurrentUser =
-    currentUser && props.user === currentUser.displayName;
+  const isCurrentUser = currentUser && props.user === currentUser.displayName;
   const deleteButton = isCurrentUser ? (
     <TouchableOpacity>
       <Icon name="delete" size={20} onPress={DeletePost} />
@@ -87,25 +85,23 @@ const Post = (props) => {
 
   return (
     <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          source={{ uri: props.userProfilePicture }}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>{props.user}</Text>
-        {deleteButton}
+      <View className="flex-row justify-between">
+        <View className = "flex-row">
+          <Image
+            source={{ uri: props.userProfilePicture }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+          <Text className = "font-bold text-lg ml-3 mt-3">{props.user}</Text>
+        </View>
+        <View>{deleteButton}</View>
       </View>
-      <Text className="my-4">{props.description}</Text>
-      <Image className="w-11/12 h-72" source={{ uri: props.image }} />
+
+      <Text className="my-4 ml-3">{props.description}</Text>
+      <Image className="w-11/12 h-72 ml-3" source={{ uri: props.image }} />
       <View className="flex-row justify-start mb-8 gap-2.5">
+
         {/* Like Button */}
-        <TouchableOpacity className="flex-row gap-0 pt-2" onPress={handleLike}>
+        <TouchableOpacity className="flex-row gap-0 pt-3" onPress={handleLike}>
           <Icon
             color="red"
             name={liked ? "heart" : "heart-outline"}
@@ -120,7 +116,7 @@ const Post = (props) => {
             pathname: "../SocialMedia/CommentBox",
             params: { postId },
           }}
-          className="flex-row gap- pt-2"
+          className="flex-row gap- pt-3"
         >
           <Icon name="comment-text-outline" size={20} />
           <Text className="text-gray-700"> {commentsCount} </Text>

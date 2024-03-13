@@ -19,27 +19,11 @@ const SignupScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [gender, setGender] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isMaleSelected, setIsMaleSelected] = useState(false);
-  const [isFemaleSelected, setIsFemaleSelected] = useState(false);
-
-  const handleMaleSelection = () => {
-    setGender("Male");
-    setIsMaleSelected(true);
-    setIsFemaleSelected(false);
-  };
-
-  const handleFemaleSelection = () => {
-    setGender("Female");
-    setIsFemaleSelected(true);
-    setIsMaleSelected(false);
-  };
-
 
   const handleSignup = async () => {
     // Check if any of the required fields are empty
-    if (!firstName || !lastName || !email || !password || !confirmPassword || (!isMaleSelected && !isFemaleSelected)) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
       alert('All fields are required');
       return;
     }
@@ -69,7 +53,6 @@ const SignupScreen = () => {
         email: email,
         password: password,
         UserType: 'Pet Owner',
-        gender: gender,
         profilePicture: profilePicture
       });
 
@@ -80,7 +63,6 @@ const SignupScreen = () => {
         email: email,
         password: password,
         UserType: 'Pet Owner',        
-        gender: gender,
         profilePicture: profilePicture
       });
 
@@ -133,20 +115,6 @@ const SignupScreen = () => {
         secureTextEntry
         onChangeText={text => setConfirmPassword(text)}
       />
-
-      {/* Male or Female */}
-      <View className = "flex-row">
-        <CheckBox
-          title='Male'
-          checked={isMaleSelected}
-          onPress={handleMaleSelection}
-        />
-        <CheckBox
-          title='Female'
-          checked={isFemaleSelected}
-          onPress={handleFemaleSelection}
-        />
-        </View> 
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.signupButtonText}>Sign Up</Text>
       </TouchableOpacity>
