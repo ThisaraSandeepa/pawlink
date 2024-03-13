@@ -18,6 +18,8 @@ function CommentBox() {
   const [comments, setComments] = useState([]);
   const user = FIREBASE_AUTH.currentUser;
 
+  console.log(postId);
+
   const handleCommentSubmit = () => {
     if (comment.trim() !== "") {
       const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);

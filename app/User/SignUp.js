@@ -51,12 +51,15 @@ const SignupScreen = () => {
     }
 
     try {
+
+      const profilePicture = "https://firebasestorage.googleapis.com/v0/b/pawlink-9dcc9.appspot.com/o/men.png?alt=media&token=c96a8222-0c67-49d5-a0b0-6cfd1e6b8521";
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log("Successfully Signed Up!");
       await updateProfile(user, {
         displayName: `${firstName} ${lastName}`,
-        photoURL: `https://placehold.co/300x300?text=User`
+        photoURL: profilePicture
       });
 
       // Save user data to Firestore
@@ -66,7 +69,8 @@ const SignupScreen = () => {
         email: email,
         password: password,
         UserType: 'Pet Owner',
-        gender: gender
+        gender: gender,
+        profilePicture: profilePicture
       });
 
       // Save user data to Realtime Database
@@ -76,7 +80,8 @@ const SignupScreen = () => {
         email: email,
         password: password,
         UserType: 'Pet Owner',        
-        gender: gender
+        gender: gender,
+        profilePicture: profilePicture
       });
 
       Alert.alert('','successfully signed up!');
