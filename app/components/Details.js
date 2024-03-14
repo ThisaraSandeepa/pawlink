@@ -10,7 +10,7 @@ export default function AdoptionDetail() {
   return (
     <ScrollView>
       <View style={styles.container}> 
-             <Image source={require('../../assets/images/pawlink1.png')} style={styles.logo} />  
+          <Image source={require('../../assets/images/pawlink1.png')} style={styles.logo} />  
       
           {/* Add your additional image here */}
           <Image source={require('../../assets/images/dog3.jpg')} style={styles.additionalImage} />

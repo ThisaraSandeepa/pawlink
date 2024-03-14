@@ -9,6 +9,7 @@ const LandingPage = () => {
   const [posts, setPosts] = useState([]);
   const navigation = useNavigation();
 
+  // Display the stray posts from the Firebase Realtime Database
   useEffect(() => {
     const postsRef = ref(FIREBASE_REALTIME_DB, "strayPosts");
     onValue(postsRef, (snapshot) => {
@@ -21,6 +22,7 @@ const LandingPage = () => {
     });
   }, []);
 
+  // Pass the post object to the AdoptMe component
   const goToAdoptMe = (post) => {
     navigation.navigate('AdoptMe', { post });
   };

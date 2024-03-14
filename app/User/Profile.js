@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   userType: {
+    textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",
     color: "#333", // Dark gray text color
