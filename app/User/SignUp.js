@@ -28,9 +28,17 @@ const SignupScreen = () => {
       return;
     }
 
+    
+
     // Check if passwords match
     if (password !== confirmPassword) {
       alert('Passwords do not match');
+      return;
+    }
+
+    // Check if the username contains only alphabetic characters
+    if (!/^[a-zA-Z]+$/.test(firstName) || !/^[a-zA-Z]+$/.test(lastName)) {
+      alert('Username can only contain alphabetic characters');
       return;
     }
 
@@ -85,6 +93,9 @@ const SignupScreen = () => {
           break;
         case 'auth/weak-password':
           alert('Atleast 6 characters required for password!');
+          break;
+        case 'auth/email-already-in-use':
+          alert('Email already in use!');
           break;
         default:
           alert(error.message);
