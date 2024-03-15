@@ -8,8 +8,6 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { update } from "firebase/database";
 import { updateProfile } from "firebase/auth";
-import { unregisterIndieDevice } from 'native-notify';
-import axios from 'axios';
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
@@ -99,8 +97,8 @@ const ProfileScreen = () => {
   // Log out the user
   const handleLogout = () => {
     Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
-      { text: "Cancel", style: "cancel" },
       { text: "Yes", onPress: () => logout() },
+      { text: "Cancel", style: "cancel" }
     ]);
   };
 
