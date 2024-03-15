@@ -1,20 +1,21 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
+import { useRoute } from '@react-navigation/native';
 
 export default function AdoptionDetail() {
-  const handleAdopt = (option) => {
-    console.log('Adopting option:', option);
-  };
+
+  const route = useRoute();
+  const { post } = route.params;
+  console.log(post.image);
 
   return (
     <ScrollView>
       <View style={styles.container}> 
           <Image source={require('../../assets/images/pawlink1.png')} style={styles.logo} />  
       
-          {/* Add your additional image here */}
-          <Image source={require('../../assets/images/dog3.jpg')} style={styles.additionalImage} />
-        
+          <Image source={{ uri: post.image }} style={styles.additionalImage} />
+
         <View style={styles.buttonContainer}>
           <Text style={styles.Texts}>Do you want to have veterinarian assistance before adopting procedure?</Text>
           

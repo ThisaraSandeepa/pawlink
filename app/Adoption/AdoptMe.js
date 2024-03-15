@@ -1,17 +1,22 @@
 import { StyleSheet, Image, TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
-import { Link } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 const AdoptMe = () => {
   const route = useRoute();
   const { post } = route.params;
 
+  const navigation = useNavigation();
+  const goToDetails = () => {
+    navigation.navigate('components/Details', { post });
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
         {/* Displaying the image and other details based on petDetails */}
-        <Image source={{ uri: post.imageURL }} style={styles.image} />
+        <Image source={{ uri: post.image }} style={styles.image} />
         <View style={styles.RectangleContainer}>
 
           <View style={styles.rectangle}>
@@ -35,13 +40,9 @@ const AdoptMe = () => {
           <Text style={styles.Text3}>{post.location}</Text>
           <Text style={styles.Text3}>Lorem ipsum dolor sit amet, coetur adipiscing elit ut aliquam, purus sit amluctus Lorem ipsum dolor sit lorem as it ipsum just is fill to ipsum fit la la bit sa sa agenama mama ipsum di lala kes doni kes bs thirty.</Text>
           </View>
-          <Link
-        href="../components/Details"
-        className='bg-blue-800 rounded text-white p-2 w-25 text-center'
-        style={styles.link}
-      >
-        Adopt Me!
-      </Link>
+          <TouchableOpacity className='bg-blue-800 rounded text-white p-2 w-25 text-center' onPress={goToDetails}>
+            <Text>Adopt Me</Text>
+          </TouchableOpacity>
         </View>
       </View>
 

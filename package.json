@@ -25,6 +25,7 @@
     "expo-image": "~1.10.6",
     "expo-image-picker": "~14.7.1",
     "expo-linking": "~6.2.2",
+    "expo-location": "~16.5.5",
     "expo-router": "^3.4.8",
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.8.0",
@@ -40,8 +41,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.3.2",
-    "typescript": "^5.3.0",
-    "expo-location": "~16.5.5"
+    "typescript": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
