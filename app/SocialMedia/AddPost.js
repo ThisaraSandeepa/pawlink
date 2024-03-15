@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { View,Text,StyleSheet,TouchableOpacity,SafeAreaView,Alert,Image,ScrollView,TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getFirestore, addDoc, collection } from 'firebase/firestore';
-import { getDatabase, ref as dbRef, push } from 'firebase/database';
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getDatabase, ref as dbRef, push } from "firebase/database";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { Icon } from "react-native-elements"; // Import Icon
-import { router } from "expo-router";  // Import Router
+import { router } from "expo-router"; // Import Router
+import { sendPushNotification } from "../components/pushNotifications";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -23,21 +34,22 @@ const UploadMediaFile = () => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,   // Allow editing
+      allowsEditing: true, // Allow editing
       aspect: [4, 3], // Aspect ratio
-      quality: 1,   // Quality
+      quality: 1, // Quality
     });
     if (!result.cancelled) {
-      setImage(result.assets[0].uri);  // Set the image
+      setImage(result.assets[0].uri); // Set the image
     }
   };
 
   // Cancel the upload
   const onCancel = () => {
-    Alert.alert("Are you sure you want to cancel the upload?", "", [ // Show an alert
+    Alert.alert("Are you sure you want to cancel the upload?", "", [
+      // Show an alert
       {
         text: "Yes",
-        onPress: () => {    
+        onPress: () => {
           setImage(null);
           setDescription("");
           router.push("/SocialMedia/LandingPage");
@@ -48,31 +60,31 @@ const UploadMediaFile = () => {
         style: "cancel",
       },
     ]);
-
   };
 
-  const UploadMedia = async () => {   // Upload the media
+  const UploadMedia = async () => {
+    // Upload the media
     setUploading(true);
 
-// Check if the image is empty
+    // Check if the image is empty
 
     try {
-      const { uri } = await FileSystem.getInfoAsync(image);          // Get the image info
-      const response = await fetch(uri);                             // Fetch the image
-      const blob = await response.blob();                            // Convert the image to a blob
+      const { uri } = await FileSystem.getInfoAsync(image); // Get the image info
+      const response = await fetch(uri); // Fetch the image
+      const blob = await response.blob(); // Convert the image to a blob
 
-      const filename = image.substring(image.lastIndexOf("/") + 1);  // Get the filename
-      const storageRef = ref(dbStorage, "ProfilePictures/" + filename);  // Create a storage reference
-      await uploadBytes(storageRef, blob);                             // Upload the image to the storage
+      const filename = image.substring(image.lastIndexOf("/") + 1); // Get the filename
+      const storageRef = ref(dbStorage, "ProfilePictures/" + filename); // Create a storage reference
+      await uploadBytes(storageRef, blob); // Upload the image to the storage
 
-      const url = await getDownloadURL(storageRef);                     // Get the download URL
+      const url = await getDownloadURL(storageRef); // Get the download URL
 
-       // Get the current user
-      const user = FIREBASE_AUTH.currentUser; 
+      // Get the current user
+      const user = FIREBASE_AUTH.currentUser;
 
       // Save data to Firestore
       const postRef = await addDoc(
-        collection(dbFirestore, "socialMediaPosts"),          // Get the collection database extension
+        collection(dbFirestore, "socialMediaPosts"), // Get the collection database extension
         {
           // Add a new document in collection "socialMediaPosts"
           image: url,
@@ -92,17 +104,22 @@ const UploadMediaFile = () => {
         comments: "0",
         description: description,
         user: user.displayName,
-        userProfilePicture: user.photoURL
+        userProfilePicture: user.photoURL,
       });
-      
+
       // Show an alert and reset the state
       console.log("Photo Uploaded Successfully! ");
       setUploading(false);
-      Alert.alert("Photo Uploaded!!!");
 
       // Reset the state
       setImage(null);
       setDescription("");
+
+      // Send a push notification
+      sendPushNotification("New Post", "The post has successfully added!");
+
+      // Redirect to the landing page
+      router.push("./LandingPage");
     } catch (error) {
       console.error(error);
       setUploading(false);
@@ -112,44 +129,54 @@ const UploadMediaFile = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.imageContainer}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.selectedImage} />  // Show the image
-          ) : (
-            <View style={styles.placeholderImage} />
-          )}
-          <TextInput
-          // Description input
-            className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
-            placeholder="Description"
-            multiline={true}
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-          />
-          <TouchableOpacity onPress={pickImage}>
-            <View className = "flex-row gap-1 bg-blue-400 rounded p-2">
-              <Icon name="add-a-photo" size={24} color="black"/>
-              <Text> Select a picture </Text>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.imageContainer}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.selectedImage} /> // Show the image
+            ) : (
+              <View style={styles.placeholderImage} />
+            )}
+            <TextInput
+              // Description input
+              className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
+              placeholder="Description"
+              multiline={true}
+              value={description}
+              onChangeText={(text) => setDescription(text)}
+            />
+            <TouchableOpacity onPress={pickImage}>
+              <View className="flex-row gap-1 bg-blue-400 rounded p-2">
+                <Icon name="add-a-photo" size={24} color="black" />
+                <Text> Select a picture </Text>
+              </View>
+            </TouchableOpacity>
+            <View className="flex-row justify-between gap-6 pt-8">
+              <TouchableOpacity
+                className="items-center bg-blue-700 rounded-xl px-10 py-2"
+                onPress={UploadMedia}
+              >
+                <Text className="text-center font-bold text-white text-base">
+                  Post
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="items-center bg-red-600 rounded-xl px-6 py-2"
+                onPress={onCancel}
+              >
+                <Text className="text-center font-bold text-base text-white">
+                  {" "}
+                  Cancel{" "}
+                </Text>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          <View className = "flex-row justify-between gap-6 pt-8">
-            <TouchableOpacity className = "items-center bg-blue-700 rounded-xl px-10 py-2" onPress={UploadMedia}>
-              <Text className = "text-center font-bold text-white text-base">Post</Text>
-            </TouchableOpacity>
-            <TouchableOpacity  className = "items-center bg-red-600 rounded-xl px-6 py-2" onPress={onCancel}>
-               <Text className = "text-center font-bold text-base text-white"> Cancel </Text>
-            </TouchableOpacity>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
     </SafeAreaView>
   );
 };
-
 
 // Styles need for above components made.
 const styles = StyleSheet.create({
@@ -218,15 +245,6 @@ const styles = StyleSheet.create({
 });
 
 export default UploadMediaFile;
-
-
-
-
-
-
-
-
-
 
 //Rochana Godigamuwa
 //Start Date : 2024-03-18

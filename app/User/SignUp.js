@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, KeyboardAvoidingView } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { router } from 'expo-router';
 import { getAuth, updateProfile } from 'firebase/auth';

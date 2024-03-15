@@ -277,6 +277,7 @@ import { FIREBASE_APP } from "../../FirebaseConfig";
 import { router } from "expo-router";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { sendPushNotification } from "../components/pushNotifications";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -409,10 +410,17 @@ const UploadMediaFile = () => {
       });
 
       console.log("Photo uploaded successfully!");
+
+      // Send a push notification
+      sendPushNotification("New Post", "The post has successfully added!");
+
+      // reset the state
       setUploading(false);
-      Alert.alert("Photo Uploaded!!!");
       setImage(null);
+
+      // Navigate to landing page
       router.replace("./LandingPage");
+
     } catch (error) {
       console.error(error);
       setUploading(false);

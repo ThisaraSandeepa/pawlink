@@ -18,14 +18,14 @@ function CommentBox() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const user = FIREBASE_AUTH.currentUser;
-
+  
   const handleCommentSubmit = () => {
     if (comment.trim() !== "") {
       const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);
       push(commentsRef, {
         text: comment,
         user: user.displayName,
-        profilePicture: user.photoURL
+        profilePicture: user.photoURL,
       });
       console.log("Comment Submitted");
       setComment("");
@@ -37,7 +37,7 @@ function CommentBox() {
       const commentRef = ref(
         FIREBASE_REALTIME_DB,
         `comments/${postId}/${commentId}`
-      ); 
+      );
 
       Alert.alert(
         "Confirm Deletion",
@@ -71,55 +71,46 @@ function CommentBox() {
   }, [postId]);
 
   return (
-<View style={{ flex: 1 }}>
-  <ScrollView style={{ flex: 1 }}>
-    <View className="items-start justify-start mx-3 mt-8">
-      {comments.map((comment) => (
-        <View key={comment.id} className="flex-row items-start mb-2">
-          <Image
-            source={{ uri: comment.profilePicture }}
-            className="w-7 h-7 rounded-full mr-2 mt-1"
-          />
-          <View className="flex-1 border border-gray-300 rounded-lg p-2 ml-2">
-            <Text>
-              <Text className="font-bold">{comment.user}</Text> {comment.text}
-            </Text>
-            {user && comment.user === user.displayName && (
-              <TouchableOpacity
-                onPress={() => deleteComment(comment.id, comment.user)}
-                className="absolute top-2 right-2"
-              >
-                <Icon
-                  name="delete"
-                  size={20}
-                  color={"red"}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
+    <View className= "flex-1">
+      <ScrollView className= "flex-1">
+        <View className="items-start justify-start mx-3 mt-8">
+          {comments.map((comment) => (
+            <View key={comment.id} className="flex-row items-start mb-2">
+              <Image
+                source={{ uri: comment.profilePicture }}
+                className="w-7 h-7 rounded-full mr-2 mt-1"
+              />
+              <View className="flex-1 border border-gray-300 rounded-lg p-2 ml-2">
+                <Text>
+                  <Text className="font-bold">{comment.user}</Text>{" "}
+                  {comment.text}
+                </Text>
+                {user && comment.user === user.displayName && (
+                  <TouchableOpacity
+                    onPress={() => deleteComment(comment.id, comment.user)}
+                    className="absolute top-2 right-2"
+                  >
+                    <Icon name="delete" size={20} color={"red"} />
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          ))}
         </View>
-      ))}
+      </ScrollView>
+      <View className="flex-row items-center justify-between w-full border border-gray-300 rounded-lg p-2">
+        <TextInput
+          placeholder="Write a comment..."
+          value={comment}
+          onChangeText={setComment}
+          multiline
+          className="flex-1 mr-2"
+        />
+        <TouchableOpacity onPress={handleCommentSubmit} className="ml-2">
+          <Icon name="send" size={20} color={"#385dff"} />
+        </TouchableOpacity>
+      </View>
     </View>
-  </ScrollView>
-  <View className="flex-row items-center justify-between w-full border border-gray-300 rounded-lg p-2">
-    <TextInput
-      placeholder="Write a comment..."
-      value={comment}
-      onChangeText={setComment}
-      multiline
-      className="flex-1 mr-2"
-    />
-    <TouchableOpacity
-      onPress={handleCommentSubmit}
-      className="ml-2"
-    >
-      <Icon name="send" size={20} color={"#385dff"} />
-    </TouchableOpacity>
-  </View>
-</View>
-
-
-
   );
 }
 

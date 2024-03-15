@@ -5,7 +5,7 @@ import Post from "../components/Post";
 import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
 
 const LandingPage = () => {
-  
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

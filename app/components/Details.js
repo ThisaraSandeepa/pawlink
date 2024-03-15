@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { useRoute } from '@react-navigation/native';
 
@@ -7,7 +7,6 @@ export default function AdoptionDetail() {
 
   const route = useRoute();
   const { post } = route.params;
-  console.log(post.image);
 
   return (
     <ScrollView>
