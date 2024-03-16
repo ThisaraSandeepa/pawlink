@@ -19,6 +19,7 @@ import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { Icon } from "react-native-elements"; // Import Icon
 import { router } from "expo-router"; // Import Router
 import { sendPushNotification } from "../components/pushNotifications";
+import { updateProfile } from "firebase/auth";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -81,7 +82,7 @@ const UploadMediaFile = () => {
 
       // Get the current user
       const user = FIREBASE_AUTH.currentUser;
-
+      
       // Save data to Firestore
       const postRef = await addDoc(
         collection(dbFirestore, "socialMediaPosts"), // Get the collection database extension
@@ -114,7 +115,7 @@ const UploadMediaFile = () => {
       // Reset the state
       setImage(null);
       setDescription("");
-      
+
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
 
@@ -129,51 +130,51 @@ const UploadMediaFile = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.imageContainer}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.selectedImage} /> // Show the image
-            ) : (
-              <View style={styles.placeholderImage} />
-            )}
-            <TextInput
-              // Description input
-              className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
-              placeholder="Description"
-              multiline={true}
-              value={description}
-              onChangeText={(text) => setDescription(text)}
-            />
-            <TouchableOpacity onPress={pickImage}>                   
-              <View className="flex-row gap-1 bg-blue-400 rounded p-2">
-                <Icon name="add-a-photo" size={24} color="black" />
-                <Text> Select a picture </Text>
-              </View>
-            </TouchableOpacity>
-            <View className="flex-row justify-between gap-6 pt-8">
-              <TouchableOpacity
-                className="items-center bg-blue-700 rounded-xl px-10 py-2"
-                onPress={UploadMedia}
-              >
-                <Text className="text-center font-bold text-white text-base">
-                  Post
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="items-center bg-red-600 rounded-xl px-6 py-2"
-                onPress={onCancel}
-              >
-                <Text className="text-center font-bold text-base text-white">
-                  {" "}
-                  Cancel{" "}
-                </Text>
-              </TouchableOpacity>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.imageContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.selectedImage} /> // Show the image
+          ) : (
+            <View style={styles.placeholderImage} />
+          )}
+          <TextInput
+            // Description input
+            className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
+            placeholder="Description"
+            multiline={true}
+            value={description}
+            onChangeText={(text) => setDescription(text)}
+          />
+          <TouchableOpacity onPress={pickImage}>
+            <View className="flex-row gap-1 bg-blue-400 rounded p-2">
+              <Icon name="add-a-photo" size={24} color="black" />
+              <Text> Select a picture </Text>
             </View>
+          </TouchableOpacity>
+          <View className="flex-row justify-between gap-6 pt-8">
+            <TouchableOpacity
+              className="items-center bg-blue-700 rounded-xl px-10 py-2"
+              onPress={UploadMedia}
+            >
+              <Text className="text-center font-bold text-white text-base">
+                Post
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="items-center bg-red-600 rounded-xl px-6 py-2"
+              onPress={onCancel}
+            >
+              <Text className="text-center font-bold text-base text-white">
+                {" "}
+                Cancel{" "}
+              </Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
   },
-  
+
   uploadButton: {
     borderRadius: 10,
     width: 140,

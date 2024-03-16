@@ -86,12 +86,15 @@ const Post = (props) => {
   return (
     <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
       <View className="flex-row justify-between">
-        <View className = "flex-row">
+        <View className="flex-row">
           <Image
             source={{ uri: props.userProfilePicture }}
             style={{ width: 50, height: 50, borderRadius: 25 }}
           />
-          <Text className = "font-bold text-lg ml-3 mt-3">{props.user}</Text>
+          <View>
+            <Text className="font-bold text-lg ml-3 mt-3">{props.user}</Text>
+            <Text>  </Text>
+          </View>
         </View>
         <View>{deleteButton}</View>
       </View>
@@ -99,7 +102,6 @@ const Post = (props) => {
       <Text className="my-4 ml-3">{props.description}</Text>
       <Image className="w-11/12 h-72 ml-3" source={{ uri: props.image }} />
       <View className="flex-row justify-start mb-8 gap-2.5">
-
         {/* Like Button */}
         <TouchableOpacity className="flex-row gap-0 pt-3" onPress={handleLike}>
           <Icon

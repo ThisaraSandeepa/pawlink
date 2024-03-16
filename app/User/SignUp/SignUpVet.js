@@ -17,7 +17,6 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getDatabase, ref, set } from "firebase/database";
 import { FIREBASE_APP } from "../../../FirebaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
 // Initialize Firebase authentication, Firestore, and Realtime Database
 const auth = getAuth(FIREBASE_APP);
@@ -33,13 +32,13 @@ const SignUpVet = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [location, setLocation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [code, setCode] = useState("");
 
   // Define handleSignup function
   const handleSignup = async () => {
-
     // Check if any of the required fields are empty
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       alert("All fields are required");
@@ -55,6 +54,18 @@ const SignUpVet = () => {
     // Check if the username contains only alphabetic characters
     if (!/^[a-zA-Z]+$/.test(firstName) || !/^[a-zA-Z]+$/.test(lastName)) {
       alert("Username can only contain alphabetic characters");
+      return;
+    }
+
+    // Check if the phone number contains only numeric characters
+    if (!/^[0-9]+$/.test(phoneNumber)) {
+      alert("Phone number can only contain numeric characters");
+      return;
+    }
+
+    // Check if the phone number is 10 digits
+    if (phoneNumber.length !== 10) {
+      alert("Phone number should be contains 10 digits");
       return;
     }
 
@@ -74,7 +85,7 @@ const SignUpVet = () => {
         displayName: `${firstName} ${lastName}`,
         photoURL: profilePicture,
       });
-
+      
       // Save user data to Firestore
       await setDoc(doc(dbFirestore, "Veterinarians", user.uid), {
         firstName: firstName,
@@ -84,6 +95,7 @@ const SignUpVet = () => {
         UserType: "Veterinarian",
         profilePicture: profilePicture,
         location: location,
+        phoneNumber: phoneNumber,
       });
 
       // Save user data to Realtime Database
@@ -95,13 +107,13 @@ const SignUpVet = () => {
         UserType: "Veterinarian",
         profilePicture: profilePicture,
         location: location,
+        phoneNumber: phoneNumber,
       });
 
       Alert.alert("", "successfully signed up!");
 
       // Redirect to the Sign In page
       router.replace("../SignIn");
-
     } catch (error) {
       // Check for specific errors
       switch (error.code) {
@@ -178,6 +190,14 @@ const SignUpVet = () => {
         onChangeText={(text) => setLocation(text)}
       />
 
+      <TextInput
+        style={styles.input}
+        placeholder="Phone Number"
+        onChangeText={(text) => setPhoneNumber(text)}
+        keyboardType="phone-pad"
+        maxLength={10}
+      />
+
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
@@ -222,7 +242,10 @@ const SignUpVet = () => {
 
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text className = "mb-4"> Enter the secret code to sign up as a Veterinarian: </Text>
+          <Text className="mb-4">
+            {" "}
+            Enter the secret code to sign up as a Veterinarian:{" "}
+          </Text>
           <TextInput
             style={styles.input}
             value={code}

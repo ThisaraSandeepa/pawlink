@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, getDatabase, get, child } from "firebase/database";
 import Post from "../components/Post";
-import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
+import { FIREBASE_REALTIME_DB, FIREBASE_AUTH } from "../../FirebaseConfig";
 
 const LandingPage = () => {
 
   const [posts, setPosts] = useState([]);
 
+  // Fetch all the social media posts from the Realtime Database
   useEffect(() => {
     const postsRef = ref(FIREBASE_REALTIME_DB, "socialMediaPosts");
     onValue(postsRef, (snapshot) => {

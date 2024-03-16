@@ -55,7 +55,6 @@ const SignIn = () => {
 
   // Render the SignIn component
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
       <View className="justify-center items-center pt-36 gap-24">
         <Text className="font-thin text-6xl"> Welcome! </Text>
         <View className="gap-6 mr-5 items-center">
@@ -87,7 +86,6 @@ const SignIn = () => {
           <Text className="text-blue-700 font-bold">Sign Up Now! </Text>
         </Link>
       </View>
-    </KeyboardAvoidingView>
   );
 };
 
