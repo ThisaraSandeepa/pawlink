@@ -114,7 +114,7 @@ const UploadMediaFile = () => {
       // Reset the state
       setImage(null);
       setDescription("");
-
+      
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
 
@@ -147,7 +147,7 @@ const UploadMediaFile = () => {
               value={description}
               onChangeText={(text) => setDescription(text)}
             />
-            <TouchableOpacity onPress={pickImage}>
+            <TouchableOpacity onPress={pickImage}>                   
               <View className="flex-row gap-1 bg-blue-400 rounded p-2">
                 <Icon name="add-a-photo" size={24} color="black" />
                 <Text> Select a picture </Text>

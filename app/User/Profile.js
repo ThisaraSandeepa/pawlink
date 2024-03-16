@@ -77,12 +77,14 @@ const ProfileScreen = () => {
     }
   };
   
+  // Fetch the user data from the Realtime Database
   const fetchUserData = async () => {
     try {
       const userId = FIREBASE_AUTH.currentUser.uid;
       const userRef = dbRef(dbRealtime, `Users/${userId}`);
       const userSnapshot = await get(userRef);
   
+      // If the user data exists, set the state
       if (userSnapshot.exists()) {
         const userData = userSnapshot.val();
         setUserData(userData);
@@ -121,6 +123,7 @@ const ProfileScreen = () => {
         {!userData?.profilePicture && <View style={styles.placeholderImage} />}
       </TouchableOpacity>
       
+      {/* If the user has a profile picture, show the "Update Profile Picture" button */}
       <View className = 'flex-row gap-6 mb-8'>
         <TouchableOpacity onPress={UploadMedia} className = "items-center bg-blue-600 rounded-xl px-6 py-2">
           <Text className = "text-white"> Update Profile Picture </Text>
@@ -150,6 +153,7 @@ const ProfileScreen = () => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   selectedImage: {
     top: -40,
@@ -227,3 +231,14 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+
+
+
+
+
+
+
+
+
+//Rochana Godigamuwa
+//Start Date : 2024-02-18
