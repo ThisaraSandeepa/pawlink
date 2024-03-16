@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Link } from 'expo-router';
 import { Icon } from 'react-native-elements';
+
 const AdoptMe = () => {
   const route = useRoute();
   const { post } = route.params;
@@ -14,8 +15,6 @@ const AdoptMe = () => {
       <View className="bg-white rounded text-white p-2 w-25 text-center">
         <Image source={{ uri: post.imageURL }} className="mt-10 w-1/4 h-24 -top-2.5 rounded-lg" />
          <View className="flex flex-row flex-wrap justify-between w-full p-10 border border-gray-400 shadow-lg h-96 bg-white mt-15 rounded-lg"> 
-
-
 
           <View className="flex-row alignItems: 'center'," >
             <View className="w-16 h-16 border border-gray-400 mb-20 mx-5 justify-center rounded-lg shadow">
@@ -30,7 +29,6 @@ const AdoptMe = () => {
               <Text className="text-blue-500 text-xs font-bold text-center -top-5">{post.breed}</Text>
               <Text className="text-sm text-center -mt-5">Breed</Text>
             </View>
-
 
           </View>
           <View className="flex flex-col w-screen ">
@@ -48,7 +46,6 @@ const AdoptMe = () => {
           </Link>
           </View> 
         </View>
-      
     </ScrollView>
   );
 };

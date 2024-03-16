@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
   },
+  
   uploadButton: {
     borderRadius: 10,
     width: 140,

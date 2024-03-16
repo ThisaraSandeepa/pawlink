@@ -18,9 +18,7 @@ const ProfileScreen = () => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  const user = FIREBASE_AUTH.currentUser;
 
   // Pick an image from the gallery
   const pickImage = async () => {
@@ -76,25 +74,17 @@ const ProfileScreen = () => {
       alert(error.message);
     }
   };
-  
-  // Fetch the user data from the Realtime Database
-  const fetchUserData = async () => {
-    try {
-      const userId = FIREBASE_AUTH.currentUser.uid;
-      const userRef = dbRef(dbRealtime, `Users/${userId}`);
-      const userSnapshot = await get(userRef);
-  
-      // If the user data exists, set the state
-      if (userSnapshot.exists()) {
-        const userData = userSnapshot.val();
-        setUserData(userData);
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error.message);
-    }
-  };
+
+  // Fetch the user's data from the Realtime Database
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = FIREBASE_AUTH.currentUser;
+      const databaseRef = dbRef(dbRealtime, `Users/${user.uid}`);
+      const snapshot = await get(databaseRef);
+      setUserData(snapshot.val());
+    };
+    fetchUserData();
+  }, []);
   
   // Log out the user
   const handleLogout = () => {
@@ -113,14 +103,15 @@ const ProfileScreen = () => {
     <View style={styles.container}>
       {/* If the user has a profile picture, show it */}
       <TouchableOpacity onPress={pickImage}>
-        {userData?.profilePicture && (
+        {user?.photoURL && (
           <Image
-            source={{ uri: userData.profilePicture }}
+            source={{ uri: user.photoURL }}
             style={styles.selectedImage}
           />
         )}
+
         {/* If the user does not have a profile picture, show the placeholder */}
-        {!userData?.profilePicture && <View style={styles.placeholderImage} />}
+        {!user?.photoURL && <View style={styles.placeholderImage} />}
       </TouchableOpacity>
       
       {/* If the user has a profile picture, show the "Update Profile Picture" button */}
@@ -133,15 +124,15 @@ const ProfileScreen = () => {
       <View style={styles.profileBox}>
         <Text style={styles.label}>Your Account Name:</Text>
         <Text style={styles.userData}>
-          {userData?.firstName} {userData?.lastName}
+          {user.displayName}
         </Text>
 
         <Text style={styles.label}>Your Email:</Text>
-        <Text style={styles.userData}>{userData?.email}</Text>
+        <Text style={styles.userData}>{user.email}</Text>
 
         <View style={styles.userTypeContainer}>
           <View style={styles.userTypeBox}>
-            <Text style={styles.userType}>{userData?.UserType}</Text>
+            <Text style={styles.userType}> {userData?.UserType ? userData.UserType : "Veterinarian"} </Text>
           </View>
         </View>
       </View>

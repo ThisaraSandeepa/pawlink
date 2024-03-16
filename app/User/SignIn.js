@@ -18,8 +18,6 @@ const SignIn = () => {
   // Sign in with email and password
   const handleSignIn = async () => {
 
-
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         FIREBASE_AUTH,

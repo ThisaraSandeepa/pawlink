@@ -8,8 +8,8 @@ const StackLayout = () => {
       <Stack.Screen name = 'index' options={{headerShown:false}}/>
       <Stack.Screen name = 'Adoption' options={{headerShown:false}}/>
       <Stack.Screen name = 'SocialMedia' options={{headerShown:false}}/>
+      <Stack.Screen name = 'User/SignUp' options={{headerShown:false}}/>
       <Stack.Screen name = 'User/SignIn' options={{headerShown:false}}/>
-      <Stack.Screen name = 'User/SignUp' options={{headerTitle:"Sign Up"}}/>
     </Stack>
   )
 }
