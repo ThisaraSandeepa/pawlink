@@ -77,7 +77,7 @@ const SignIn = () => {
             className="icon absolute right-3 mt-8"
           >
             <MaterialIcons
-              name={showPassword ? "visibility-off" : "visibility"}
+              name={showPassword ? "visibility" : "visibility-off"}
               size={24}
               color="gray"
             />

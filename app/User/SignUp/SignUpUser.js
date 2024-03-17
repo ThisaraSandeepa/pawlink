@@ -158,7 +158,7 @@ const SignupScreen = () => {
           style={styles.icon}
         >
           <MaterialIcons
-            name={showPassword ? "visibility-off" : "visibility"}
+            name={showPassword ? "visibility" : "visibility-off"}
             size={24}
             color="gray"
           />
@@ -177,7 +177,7 @@ const SignupScreen = () => {
           style={styles.icon}
         >
           <MaterialIcons
-            name={showConfirmPassword ? "visibility-off" : "visibility"}
+            name={showConfirmPassword ? "visibility" : "visibility-off"}
             size={24}
             color="gray"
           />
