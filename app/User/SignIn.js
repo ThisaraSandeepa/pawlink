@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Link, router } from "expo-router";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const SignIn = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  
+  const [showPassword, setShowPassword] = useState(false);
 
   // Sign in with email and password
   const handleSignIn = async () => {
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         FIREBASE_AUTH,
@@ -58,57 +50,53 @@ const SignIn = () => {
 
   // Render the SignIn component
   return (
-      <View className="justify-center items-center pt-36 gap-24">
-        <Text className="font-thin text-6xl"> Welcome! </Text>
-        <View className="gap-6 mr-5 items-center">
-        <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-        placeholder="Enter your email"
-        className="border border-gray-800 rounded w-72 p-2"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password</Text>
+    <View className="justify-center items-center pt-28 gap-24">
+      <Text className="font-thin text-6xl"> Welcome! </Text>
+      <View className="gap-6 mr-5 items-center">
+        <View>
+          <Text className="font-bold mb-1"> Email </Text>
           <TextInput
-            placeholder="Enter your password"
-            secureTextEntry
+            placeholder="Enter your email"
             className="border border-gray-800 rounded w-72 p-2"
             autoCapitalize="none"
-            value={password}
-            onChangeText={(text) => setPassword(text)} 
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
-    
         </View>
 
-          <TouchableOpacity // Add TouchableOpacity for sign in
-            className="bg-blue-700 rounded text-white p-2 w-20 text-center"
-            onPress={handleSignIn}
+        <View>
+          <Text className="font-bold mb-1"> Password </Text>
+          <TextInput
+            className="border border-gray-800 rounded w-72 p-2"
+            placeholder="Password"
+            secureTextEntry={!showPassword}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            className="icon absolute right-3 mt-8"
           >
-            <Text className="text-white ml-2"> Log In </Text>
+            <MaterialIcons
+              name={showPassword ? "visibility-off" : "visibility"}
+              size={24}
+              color="gray"
+            />
           </TouchableOpacity>
         </View>
-        <Link href="./SignUp" className="rounded text-blue-600 p-2 pt-24">
-          Don't Have An Account?{" "}
-          <Text className="text-blue-700 font-bold">Sign Up Now! </Text>
-        </Link>
+
+        <TouchableOpacity // Add TouchableOpacity for sign in
+          className="bg-blue-700 rounded text-white p-2 w-20 text-center"
+          onPress={handleSignIn}
+        >
+          <Text className="text-white ml-2"> Log In </Text>
+        </TouchableOpacity>
       </View>
+      <Link href="./SignUp" className="rounded text-blue-600 p-2 pt-24">
+        Don't Have An Account?{" "}
+        <Text className="text-blue-700 font-bold">Sign Up Now! </Text>
+      </Link>
+    </View>
   );
 };
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginBottom: 5,
-  },
-  label: {
-    marginBottom: 3,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  
-});
-
 
 export default SignIn;
