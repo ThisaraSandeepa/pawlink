@@ -26,7 +26,6 @@ const _layout = () => {
       })}
     >
       <Tabs.Screen name='LandingPage' options={{title:"Landing Page"}}/>
-      <Tabs.Screen name='AdoptionNotification' options={{headerShown:false}}/>
       <Tabs.Screen name='AddStrayPost' options={{title:"Stray Animal Info"}}/>
       <Tabs.Screen name='SocialMediaPage' options={{href:"../SocialMedia/LandingPage"}}/>
       <Tabs.Screen name='AdoptMe' options={{href:null}}/> 

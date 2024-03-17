@@ -273,7 +273,7 @@ import {
 } from "firebase/storage";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { getDatabase, ref as dbRef, push } from "firebase/database";
-import { FIREBASE_APP } from "../../FirebaseConfig";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { router } from "expo-router";
 import { Icon } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
@@ -283,6 +283,9 @@ import { sendPushNotification } from "../components/pushNotifications";
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
+
+const user = FIREBASE_AUTH.currentUser;
+console.log(user);
 
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
@@ -408,6 +411,8 @@ const UploadMediaFile = () => {
         color: color,
         description: description,
         image: url,
+        postedUser: user.displayName,
+        postedUserPhoto: user.photoURL
       });
   
       console.log("Photo uploaded successfully!");
@@ -421,6 +426,7 @@ const UploadMediaFile = () => {
   
       // Navigate to landing page
       router.replace("./LandingPage");
+      
     } catch (error) {
       console.error(error);
       setUploading(false);

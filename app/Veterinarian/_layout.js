@@ -12,7 +12,7 @@ const _layout = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
-          if (route.name === "Calendar") {
+          if (route.name === "VetCalendar") {
             iconName = "calendar-month";
           } else if (route.name === "MarkSlots") {
             iconName = "calendar-plus";
@@ -21,7 +21,7 @@ const _layout = () => {
         },
       })}
     >
-      <Tabs.Screen name="Calendar" />
+      <Tabs.Screen name="VetCalendar" />
       <Tabs.Screen name="MarkSlots" />
     </Tabs>
   );
