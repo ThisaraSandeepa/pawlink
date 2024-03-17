@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 import { Link, router } from "expo-router";
 import {
   View,
@@ -14,6 +15,8 @@ const SignIn = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+  
 
   // Sign in with email and password
   const handleSignIn = async () => {
@@ -58,21 +61,28 @@ const SignIn = () => {
       <View className="justify-center items-center pt-36 gap-24">
         <Text className="font-thin text-6xl"> Welcome! </Text>
         <View className="gap-6 mr-5 items-center">
-          <TextInput
-            placeholder="Email"
-            className="border border-gray-800 rounded w-72 p-2"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+        <View style={styles.inputContainer}>
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+        placeholder="Enter your email"
+        className="border border-gray-800 rounded w-72 p-2"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
           />
-          <TextInput // Add TextInput for password
-            placeholder="Password"
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            placeholder="Enter your password"
             secureTextEntry
             className="border border-gray-800 rounded w-72 p-2"
             autoCapitalize="none"
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => setPassword(text)} 
           />
+    
+        </View>
 
           <TouchableOpacity // Add TouchableOpacity for sign in
             className="bg-blue-700 rounded text-white p-2 w-20 text-center"
@@ -88,5 +98,17 @@ const SignIn = () => {
       </View>
   );
 };
+const styles = StyleSheet.create({
+  inputContainer: {
+    marginBottom: 5,
+  },
+  label: {
+    marginBottom: 3,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  
+});
+
 
 export default SignIn;
