@@ -617,27 +617,26 @@ const UploadMediaFile = () => {
               <Text>📍</Text>
             </TouchableOpacity>
           </View>
-         
           {showMap && location && (
-  <MapView
-    style={styles.mapContainer}
-    region={{
-      latitude: location.latitude,
-      longitude: location.longitude,
-      latitudeDelta: 0.02,
-      longitudeDelta: 0.02,
-    }}
-  >
-    <Marker
-      coordinate={{
-        latitude: location.latitude,
-        longitude: location.longitude,
-      }}
-      title="Found Location"
-      onPress={() => console.log(`Clicked location: ${location.latitude}, ${location.longitude}`)}
-    />
-  </MapView>
-)}
+            <MapView
+            style={styles.mapContainer}
+            region={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.02,
+            }}
+          >
+            <Marker
+              coordinate={{
+                latitude: location.latitude,
+                longitude: location.longitude,
+              }}
+              title="Found Location"
+              onPress={() => console.log(`Clicked location: ${location.latitude}, ${location.longitude}`)}
+            />
+          </MapView>
+        )}
 
         </View>
 
