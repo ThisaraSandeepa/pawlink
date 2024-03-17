@@ -19,7 +19,6 @@ import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { Icon } from "react-native-elements"; // Import Icon
 import { router } from "expo-router"; // Import Router
 import { sendPushNotification } from "../components/pushNotifications";
-import { updateProfile } from "firebase/auth";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);

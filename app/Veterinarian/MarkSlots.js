@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { getDatabase, ref as dbRef, push, query, orderByChild, equalTo, get } from 'firebase/database';
+import { FIREBASE_APP } from '../../FirebaseConfig'; // Adjust import as needed
+import { FIREBASE_AUTH } from '../../FirebaseConfig'; // Adjust import as needed
+
+const dbRealtime = getDatabase(FIREBASE_APP);
 
 const MarkSlots = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlots, setTimeSlots] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [vetUID, setVetUID] = useState('');
+  const [vetSlots, setVetSlots] = useState([]);
+  const [vetName, setVetName] = useState('');
+
+  useEffect(() => {
+    // Fetch veterinarian's UID from Firebase Authentication
+    const user = FIREBASE_AUTH.currentUser;
+    if (user) {
+      setVetUID(user.uid);
+      setVetName(user.displayName);
+    }
+  }, []);
 
   const handleDateChange = (event, date) => {
     if (date) {
@@ -33,12 +50,26 @@ const MarkSlots = () => {
     setTimeSlots(hourSlots);
   };
 
-  const handleSetTimeSlot = (time) => {
+  const handleSetTimeSlot = async (time) => {
     const selectedDateTime = new Date(selectedDate);
     selectedDateTime.setHours(time.getHours());
     selectedDateTime.setMinutes(time.getMinutes());
     console.log('Selected Date:', selectedDateTime.toDateString());
     console.log('Selected Time:', selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+    try {
+
+      const user = FIREBASE_AUTH.currentUser;
+      const databaseRef = dbRef(dbRealtime, `AvailableSlots/${user.uid}`);
+      await push(databaseRef, {
+        date: selectedDateTime.toDateString(),
+        time: selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        VeterinarianName: vetName
+      });
+      console.log('Data saved successfully');
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   };
 
   return (

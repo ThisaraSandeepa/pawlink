@@ -149,7 +149,7 @@ const UploadMediaFile = () => {
         image: url,
       });
   
-      // Save data to Realtime Database including latitude and longitude
+      // Save data to Realtime Database
       const databaseRef = dbRef(dbRealtime, "strayPosts");
       await push(databaseRef, {
         contactInfo: contactInfo,
