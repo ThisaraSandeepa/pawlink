@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Platform } from 'react-native';
+import { View, Text, Button, Platform, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getDatabase, ref as dbRef, push, query, orderByChild, equalTo, get } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig'; // Adjust import as needed
@@ -56,20 +56,33 @@ const MarkSlots = () => {
     selectedDateTime.setMinutes(time.getMinutes());
     console.log('Selected Date:', selectedDateTime.toDateString());
     console.log('Selected Time:', selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-    try {
-
-      const user = FIREBASE_AUTH.currentUser;
-      const databaseRef = dbRef(dbRealtime, `AvailableSlots/${user.uid}`);
-      await push(databaseRef, {
-        date: selectedDateTime.toDateString(),
-        time: selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        VeterinarianName: vetName
-      });
-      console.log('Data saved successfully');
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
+  
+    Alert.alert(
+      'Confirm Availability',
+      `Are you sure you want to mark ${selectedDateTime.toDateString()} at ${selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} as available?`,
+      [
+        {
+          text: 'OK',
+          onPress: async () => {
+            try {
+              const user = FIREBASE_AUTH.currentUser;
+              const databaseRef = dbRef(dbRealtime, `AvailableSlots/${user.uid}`);
+              await push(databaseRef, {
+                date: selectedDateTime.toDateString(),
+                time: selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                VeterinarianName: vetName
+              });
+              console.log('Data saved successfully');
+            } catch (error) {
+              console.error('Error saving data:', error);
+            }
+          },
+        },
+        {
+          text: 'Cancel'
+        },
+      ]
+    );
   };
 
   return (
