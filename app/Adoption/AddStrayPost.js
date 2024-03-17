@@ -275,6 +275,7 @@ import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { getDatabase, ref as dbRef, push } from "firebase/database";
 import { FIREBASE_APP } from "../../FirebaseConfig";
 import { router } from "expo-router";
+import { Icon } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { sendPushNotification } from "../components/pushNotifications";
@@ -369,7 +370,7 @@ const UploadMediaFile = () => {
 
   const UploadMedia = async () => {
     setUploading(true);
-
+  
     try {
       const { uri } = await FileSystem.getInfoAsync(image);
       const response = await fetch(uri);
@@ -378,7 +379,7 @@ const UploadMediaFile = () => {
       const storageRef = ref(dbStorage, "Adoption/" + filename);
       await uploadBytes(storageRef, blob);
       const url = await getDownloadURL(storageRef);
-
+  
       const selectedLocation = manualLocation
         ? manualLocation
         : location
@@ -387,7 +388,7 @@ const UploadMediaFile = () => {
             longitude: location.longitude,
           }
         : null;
-
+  
       // Save data to Firestore
       const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
         contactInfo: contactInfo,
@@ -397,37 +398,37 @@ const UploadMediaFile = () => {
         description: description,
         image: url,
       });
-
-      // Save data to Realtime Database
+  
+      // Save data to Realtime Database including latitude and longitude
       const databaseRef = dbRef(dbRealtime, "strayPosts");
       await push(databaseRef, {
         contactInfo: contactInfo,
-        location: selectedLocation,
+        location: selectedLocation, // Include latitude and longitude directly
         age: age,
         color: color,
         description: description,
         image: url,
       });
-
+  
       console.log("Photo uploaded successfully!");
-
+  
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
-
+  
       // reset the state
       setUploading(false);
       setImage(null);
-
+  
       // Navigate to landing page
       router.replace("./LandingPage");
-
     } catch (error) {
       console.error(error);
       setUploading(false);
       Alert.alert("An error occurred while uploading the photo");
     }
   };
-
+  
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -505,9 +506,13 @@ const UploadMediaFile = () => {
           />
         </View>
 
-        <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
-          <Text style={styles.buttonText}>Pick an image</Text>
-        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={pickImage}>
+            <View className="flex-row gap-1 bg-blue-400 rounded p-2">
+              <Icon name="add-a-photo" size={24} color="black" />
+              <Text> Select a picture </Text>
+            </View>
+          </TouchableOpacity>
         <View style={styles.imageContainer}>
           {image && (
             <Image
