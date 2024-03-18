@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView, TextInput,Text,TouchableOpacity } from "react-native"; // Import TextInput
 import { onValue, ref, getDatabase } from "firebase/database";
 import Post from "../components/Post";
-import { FIREBASE_REALTIME_DB, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { Icon } from "react-native-elements";
-
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
@@ -35,7 +33,7 @@ const LandingPage = () => {
 
   return (
     <View className = "bg-white">
-      <Text className = "font-bold text-3xl left-4 text-blue-600 tracking-wider mt-10">
+      <Text className = "font-bold text-3xl left-4 text-blue-600 tracking-wider mt-14">
        PawLink
       </Text>
       <TouchableOpacity onPress={toggleSearch} className="left-40 -top-7 ">
@@ -48,7 +46,7 @@ const LandingPage = () => {
         placeholder="Search by user name"
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
-        className = " border-2 border-gray-300 rounded-xl w-80 h-10 mb-4 text-center left-10 mt-2 bg-white -top-3 "
+        className = " border-2 border-gray-300 w-80 rounded-lg p-1 px-3 ml-8 text-center"
       />
       )}
       <ScrollView className = "mb-20">

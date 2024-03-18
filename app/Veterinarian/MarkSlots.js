@@ -6,20 +6,30 @@ import { FIREBASE_APP } from '../../FirebaseConfig'; // Adjust import as needed
 import { FIREBASE_AUTH } from '../../FirebaseConfig'; // Adjust import as needed
 
 const dbRealtime = getDatabase(FIREBASE_APP);
+const user = FIREBASE_AUTH.currentUser;
 
 const MarkSlots = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlots, setTimeSlots] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [vetUID, setVetUID] = useState('');
-  const [vetSlots, setVetSlots] = useState([]);
   const [vetName, setVetName] = useState('');
   const [selectedSlots, setSelectedSlots] = useState([]);
   const [markedSlots, setMarkedSlots] = useState([]);
 
+  // Fetch the Veterinarian data from the realtime Database
+  const fetchVeterinarianData = async (uid) => {
+    const databaseRef = dbRef(dbRealtime, `Veterinarians/${uid}`);
+    const snapshot = await get(databaseRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No data found for veterinarian with UID:", uid);
+      return null;
+    }
+  };
+  
   useEffect(() => {
-    // Fetch veterinarian's UID from Firebase Authentication
-    const user = FIREBASE_AUTH.currentUser;
     if (user) {
       setVetUID(user.uid);
       setVetName(user.displayName);
@@ -70,9 +80,9 @@ const MarkSlots = () => {
     const selectedDateTime = new Date(selectedDate);
     selectedDateTime.setHours(time.getHours());
     selectedDateTime.setMinutes(time.getMinutes());
-
+  
     const formattedTime = selectedDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
+  
     Alert.alert(
       'Confirm Availability',
       `Are you sure you want to mark ${selectedDateTime.toDateString()} at ${formattedTime} as available?`,
@@ -83,14 +93,22 @@ const MarkSlots = () => {
             try {
               const user = FIREBASE_AUTH.currentUser;
               const databaseRef = dbRef(dbRealtime, `AvailableSlots/${user.uid}`);
-              await push(databaseRef, {
-                date: selectedDateTime.toDateString(),
-                time: formattedTime,
-                VeterinarianName: vetName
-              });
-              console.log('Data saved successfully');
-              setSelectedSlots([...selectedSlots, formattedTime]); // Add selected slot to state
-              setMarkedSlots([...markedSlots, { date: selectedDateTime.toDateString(), time: formattedTime }]);
+              const Vetdata = await fetchVeterinarianData(user.uid); // Fetch veterinarian data
+              if (Vetdata) {
+                await push(databaseRef, {
+                  date: selectedDateTime.toDateString(),
+                  time: formattedTime,
+                  VeterinarianName: vetName,
+                  VeterinarianUID: vetUID,
+                  VeterinarianLocation: Vetdata.location,
+                });
+  
+                console.log('Data saved successfully');
+                setSelectedSlots([...selectedSlots, formattedTime]); // Add selected slot to state
+                setMarkedSlots([...markedSlots, { date: selectedDateTime.toDateString(), time: formattedTime }]);
+              } else {
+                console.log('Error: Veterinarian data not found');
+              }
             } catch (error) {
               console.error('Error saving data:', error);
             }
@@ -102,6 +120,7 @@ const MarkSlots = () => {
       ]
     );
   };
+  
 
   const handleDeleteSlot = async (slot) => {
     // Get a confirmation from the user before deleting the slot

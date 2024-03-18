@@ -4,7 +4,6 @@ import { onValue, ref } from "firebase/database";
 import Post from "../components/AdoptPost";
 import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
-import { Icon } from "react-native-elements";
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
@@ -44,7 +43,6 @@ const LandingPage = () => {
           className="w-1/3 h-32 mb-2 rounded-lg ml-32 mt-2"
         />
         {/* Search bar */}
-        
         <TextInput
           placeholder="Search by location"
           value={searchQuery}
@@ -72,8 +70,6 @@ const LandingPage = () => {
               <Post
                 image={{ uri: post.image }}
                 location={post.location}
-  
-                
               />
             </TouchableOpacity>
           ))}
