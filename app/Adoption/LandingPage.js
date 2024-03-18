@@ -4,6 +4,7 @@ import { onValue, ref } from "firebase/database";
 import Post from "../components/AdoptPost";
 import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
+import { Icon } from "react-native-elements";
 
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
@@ -36,21 +37,22 @@ const LandingPage = () => {
   };
 
   return (
-    <View>
+    <View className=" bg-slate-100">
       <ScrollView>
         <Image
           source={require("../../assets/images/pawlink1.png")}
           className="w-1/3 h-32 mb-2 rounded-lg ml-32 mt-2"
         />
         {/* Search bar */}
+        
         <TextInput
           placeholder="Search by location"
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
-          style={{ paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#ccc', marginBottom: 10, marginLeft: 10, marginRight: 10 }}
+          className = " border-2 border-gray-300 rounded-xl w-80 h-10 mb-4 text-center left-10 mt-2 bg-white"
         />
-
-        <View className="w-80 h-24 border-2 border-gray-100 mb-8 bg-gray-50 rounded-md justify-center items-center ml-8 mt-3">
+        
+        <View className="w-80 h-24 border-2 border-gray-100 mb-8 rounded-md justify-center items-center ml-8 mt-3">
           <Image
             source={require("../../assets/images/Component.png")}
             className="w-80 h-24 rounded-md"
@@ -60,17 +62,18 @@ const LandingPage = () => {
           onPress={() =>
             navigation.navigate("SocialMedia", { screen: "LandingPage" })
           }
-          className="w-20 bg-white h-7 rounded-md -mt-16 ml-10 flex"
-        >
-          <Text className="font-bold text-start">Check out</Text>
+          className="w-20 bg-white h-7 rounded-md -top-16 ml-10 -mt-1 " >
+          <Text className="text-start ml-2 mt-1 font-semibold text-blue-800">Check out</Text>
         </TouchableOpacity>
 
-        <View className="w-200 h-150 mt-3 ml-4 mr-4 ">
+        <View className = "w-190 h-128 rounded-lg left-3 mr-5 -mt-6 " >
         {filterPostsByLocation(searchQuery).map((post) => (
-            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)}>
+            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)} className = "w-190 h-108 rounded-lg left-3 mr-5 mb-3">
               <Post
                 image={{ uri: post.image }}
                 location={post.location}
+  
+                
               />
             </TouchableOpacity>
           ))}
