@@ -22,7 +22,7 @@ const _layout = () => {
         },
       })}
     >
-      <Tabs.Screen name='LandingPage' options={{ title: ""}}/>
+      <Tabs.Screen name='LandingPage' options={{ headerShown: false}}/>
       <Tabs.Screen name='AddPost' options={{title:"Add Post"}}/>
       <Tabs.Screen name = "AdoptionPage" options={{href:"../Adoption/LandingPage"}} />
       <Tabs.Screen name='ProfilePage' options={{title:"Profile"}}/>

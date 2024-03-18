@@ -35,7 +35,7 @@ const LandingPage = () => {
 
   return (
     <View className = "bg-white">
-      <Text className = "font-bold text-3xl left-4 text-blue-600 tracking-wider">
+      <Text className = "font-bold text-3xl left-4 text-blue-600 tracking-wider mt-10">
        PawLink
       </Text>
       <TouchableOpacity onPress={toggleSearch} className="left-40 -top-7 ">
@@ -51,7 +51,7 @@ const LandingPage = () => {
         className = " border-2 border-gray-300 rounded-xl w-80 h-10 mb-4 text-center left-10 mt-2 bg-white -top-3 "
       />
       )}
-      <ScrollView>
+      <ScrollView className = "mb-20">
         {/* Render filtered posts */}
         {filterPostsByUser(searchQuery).map((post) => (
           <Post
