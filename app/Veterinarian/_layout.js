@@ -21,7 +21,7 @@ const _layout = () => {
         },
       })}
     >
-      <Tabs.Screen name="VetCalendar" options={{title: "Calendar"}} />
+      <Tabs.Screen name="VetCalendar" options={{title: " VetCalendar"}} />
       <Tabs.Screen name="MarkSlots" options={{title: "Mark Availability"}} />
     </Tabs>
   );

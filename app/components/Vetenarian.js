@@ -117,26 +117,23 @@ const Veterinarian = () => {
   };
 
   return (
-    <View>
-      <Text>Available Slots</Text>
+    
+    <View className = " h-full bg-white ">
+      <Text className=" text-lg font-bold  text-center text-blue-800 mt-2 mb-5 ">Available Slots</Text>
       <FlatList
         data={availableSlots}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
+          className ="bg-white  rounded-lg p-2 mb-4 border-neutral-400 border shadow-md mr-3 ml-3  "
             onPress={() => handleSlotBooking(item)}
-            style={{
-              borderWidth: 1,
-              borderColor: "gray",
-              padding: 10,
-              marginBottom: 10,
-            }}
+            
           >
-            <Text>Date: {item.date}</Text>
-            <Text>Time: {item.time}</Text>
-            <Text>Veterinarian: {item.VeterinarianName}</Text>
-            <Text>Location: {item.VeterinarianLocation}</Text>
-            <Text>Contact: {item.VeterinarianContact}</Text>
+            <Text className="font-normal  shadow-lg ">Date: {item.date}</Text>
+             <Text className="font-semibold mb-2  text- mt-1 ">Veterinarian: {item.VeterinarianName}</Text>
+            <Text className="font-semibold text-blue-950 ">Time: {item.time}</Text>
+            <Text className="font-semibold">Location: {item.VeterinarianLocation}</Text>
+            <Text className="font-semibold">Contact: {item.VeterinarianContact}</Text>
           </TouchableOpacity>
         )}
       />

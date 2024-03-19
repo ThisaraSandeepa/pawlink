@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Platform, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, Platform, Alert, TouchableOpacity,Image, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getDatabase, ref as dbRef, push, query, orderByChild, equalTo, get, remove } from 'firebase/database';
 import { FIREBASE_APP } from '../../FirebaseConfig'; // Adjust import as needed
@@ -160,12 +160,14 @@ const MarkSlots = () => {
   }
   
   return (
-    <View className="flex-1 p-4 items-center justify-center">
-      <Text className="text-2xl font-bold mb-4">Select Available Meeting Times</Text>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} className="bg-blue-800 rounded-lg py-2 px-8">
-        <Text className="text-lg text-white">Select Date</Text>
+    <View className="flex-1 p-4 items-center justify-center bg-white">
+      <ScrollView>
+      <Image source={require('../../assets/images/time.jpg')} className="w-32 h-40 mb-2 rounded-lg ml-28 mt-1" />
+      <Text className="text-lg font-semibold mb-4 mt-2 shadow-lg text-center">Select Available Meeting Times</Text>
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} className="bg-blue-800 rounded-lg py-2 px-2 mr-40 ml-20 left-10 items-center ">
+        <Text className="text-md font-semibold text-white">Select Date</Text>
       </TouchableOpacity>
-      <Text className="text-lg my-4">Selected Date: {selectedDate.toDateString()}</Text>
+      <Text className="text-base my-4 font-bold mt-5 ">Selected Date: {selectedDate.toDateString()}</Text>
       {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
@@ -174,28 +176,29 @@ const MarkSlots = () => {
           onChange={handleDateChange}
         />
       )}
-      <View className="flex-row flex-wrap justify-center">
+      <View className=" flex-row flex-wrap justify-center border border-gray-300 ">
         {timeSlots.map((time, index) => (
-          <View key={index} className="m-2">
+          <View key={index} className="m-3 ml-3 mr-3  ">
             <TouchableOpacity
-              className={`p-2 rounded-md ${selectedSlots.includes(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })) ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500'}`}
+              className={`p-2 rounded-md ${selectedSlots.includes(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })) ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-800  '}`}
               onPress={() => handleSetTimeSlot(time)}
               disabled={selectedSlots.includes(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))}
             >
-              <Text className="text-lg text-white scale-90">{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+              <Text className=" text-base  text-white scale-90  font-semibold">{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
             </TouchableOpacity>
           </View>
         ))}
       </View>
-      <Text className="text-2xl font-bold mt-4">Marked Slots</Text>
+      <Text className="text-xl font-bold mt-4">Marked Slots</Text>
       {markedSlots.map((slot, index) => (
-        <View key={index} className="flex-row items-center mt-2">
+        <View key={index} className="flex-row items-center mt-4 rounded-lg py-2 px-2 bg-slate-200 mr-2 ">
           <Text>{slot.date} at {slot.time}</Text>  
           <TouchableOpacity onPress={() => handleDeleteSlot(slot)}>
-            <Text style={{ color: 'red', marginLeft: 10 }}>Delete</Text>
+            <Text className="py-1 rounded-lg px-2 bg-red-800 text-xs text-white left-24 ml-2  font-semibold">Delete</Text>
           </TouchableOpacity>
         </View>
       ))}
+      </ScrollView>
     </View>
   );
 };

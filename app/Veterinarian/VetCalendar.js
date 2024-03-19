@@ -105,34 +105,30 @@ const VetCalendar = () => {
   
   
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
       <FlatList
         data={filteredSlots}
         keyExtractor={(item) => item.time}
         renderItem={({ item, index }) => (
           <View
+           className="border border-gray-400 rounded-md p-3 mb-2 bg-white  mt-2 mr-3 ml-3  "
             key={index}
-            style={{
-              borderWidth: 1,
-              borderColor: "gray",
-              padding: 10,
-              marginBottom: 10,
-            }}
+          
           >
-            <Text>Date: {item.date}</Text>
-            <Text>Time: {item.time}</Text>
-            <Text>User: {item.user}</Text>
-            <Text>Veterinarian: {item.veterinarian}</Text>
+            <Text className = " text-md font-medium">Date: {item.date}</Text>
+            <Text className = "font-medium mb-2 ">Time: {item.time}</Text>
+            <Text className = "font-medium  ">User: {item.user}</Text>
+            <Text  className = "font-medium ">Veterinarian: {item.veterinarian}</Text>
 
             <View className="flex-row gap-6">
               {/* Delete the adoption post */}
               <TouchableOpacity onPress={() => deletePost(item.postId)}>
-                <Text className="text-blue-600"> Completed </Text>
+                <Text className="text-white font-semibold mt-2  py-2 rounded-lg px-2 bg-blue-800 text-xs"> Completed </Text>
               </TouchableOpacity>
 
               {/* Cancel the meeting */}
               <TouchableOpacity onPress={() => cancelMeeting(item)}>
-                <Text className="text-red-600"> Cancel </Text>
+                <Text className="text-white font-semibold mt-2  py-2 rounded-lg px-4 bg-red-800 text-xs"> Cancel </Text>
               </TouchableOpacity>
             </View>
           </View>
