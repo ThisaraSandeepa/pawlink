@@ -16,10 +16,10 @@ const AdoptMe = () => {
   return (
     <ScrollView>
       <View className="bg-gray-150 rounded text-white p-2 text-center">
-        <View className="flex-row item ml-20">
+        <View className="flex-row item ml-20 right-20 mb-3">
           <Image
             source={require("../../assets/images/pawlink1.png")}
-            className="w-1/4 h-24 mb-2 rounded-lg scale-75"
+            className="w-1/4 h-24 mb-2 rounded-lg scale-75 "
           />
           <Text className="font-bold text-3xl text-blue-600 tracking-wider mt-8">
             PawLink
@@ -32,7 +32,8 @@ const AdoptMe = () => {
         />
         <View className="flex flex-row flex-wrap justify-between w-full p-10 border-3 border-gray-200 shadow-lg h-96 bg-white mt-15 rounded-md">
           <View className="flex-row items-center right-4">
-            <View className="w-2/5 h-28 w border-4 border-gray-400 mb-20 mx-5 justify-center rounded-lg shadow">
+            
+            <View className="w-2/5 h-28 w border-1 border-gray-400 mb-20 mx-5 justify-center rounded-lg shadow">
               <Text className="text-blue-500 text-base font-semibold text-center -top-4">
                 {post.color}
               </Text>
@@ -40,7 +41,7 @@ const AdoptMe = () => {
                 Color
               </Text>
             </View>
-            <View className="w-2/5 h-28 border-4 border-gray-400 mb-20 mx-5 justify-center rounded-lg shadow">
+            <View className="w-2/5 h-28 border-1 border-gray-400 mb-20 mx-5 justify-center rounded-lg shadow">
               <Text className="text-blue-500 text-base font-semibold text-center -top-4 ">
                 {post.age}
               </Text>
@@ -58,7 +59,7 @@ const AdoptMe = () => {
             </View>
           </View>
           <TouchableOpacity
-            className="bg-blue-800 rounded text-white p-4  w-25   mx-20 -right-1 text-center flex  items-center"
+            className="bg-blue-800 rounded text-white p-2  w-25   mx-20 -right-1 text-center flex  items-center"
             onPress={goToDetails}
           >
             <Text className="text-white text-center text-base">Adopt Me</Text>
