@@ -6,7 +6,9 @@ import { useRoute } from "@react-navigation/native";
 // UserProfile Component
 export default function UserProfile() {
 
-  const { post } = useRoute().params;
+  const { post,slotData } = useRoute().params;
+  console.log(post);
+  console.log(slotData);
 
   return (
     <View style={styles.container}>
@@ -20,8 +22,8 @@ export default function UserProfile() {
 
       {/* User Information */}
       <View style={styles.userInfo}>
-        <Text style={styles.userName}>{post.postedUser}</Text>
-        <Text style={styles.identifierText}>Identifier</Text>
+        <Text style={styles.userName}>{slotData.veterinarian}</Text>
+        <Text style={styles.identifierText}>Veterinarian</Text>
         <Text style={styles.Contact}>Contact Information</Text>
       </View>
       <View style={styles.rectangle1}>
@@ -31,10 +33,19 @@ export default function UserProfile() {
         </Text>
       </View>
 
+      
+
       <Text style={styles.location}>Pickup Location</Text>
       <View style={styles.rectangle3}>
         <Text className="text-center mt-1 text-white"> {post.location} </Text>
       </View>
+
+      {/* <View className = "text-black">
+        <Text> {slotData.VeterinarianContact}</Text>
+        <Text> {slotData.date}</Text>
+        <Text> {slotData.time}</Text>
+        <Text> {slotData.VeterinarianLocation}</Text>
+      </View> */}
 
       <View>
         <TouchableOpacity style={styles.ctaButton}>

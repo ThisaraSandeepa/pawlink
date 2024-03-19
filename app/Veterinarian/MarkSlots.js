@@ -6,9 +6,9 @@ import { FIREBASE_APP } from '../../FirebaseConfig'; // Adjust import as needed
 import { FIREBASE_AUTH } from '../../FirebaseConfig'; // Adjust import as needed
 
 const dbRealtime = getDatabase(FIREBASE_APP);
-const user = FIREBASE_AUTH.currentUser;
 
 const MarkSlots = () => {
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeSlots, setTimeSlots] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -23,13 +23,16 @@ const MarkSlots = () => {
     const snapshot = await get(databaseRef);
     if (snapshot.exists()) {
       return snapshot.val();
+
     } else {
-      console.log("No data found for veterinarian with UID:", uid);
+      console.log("No data found for veterinarian with the unique ID:", uid);
       return null;
     }
   };
-  
+
   useEffect(() => {
+    const user = FIREBASE_AUTH.currentUser;
+
     if (user) {
       setVetUID(user.uid);
       setVetName(user.displayName);
@@ -94,6 +97,7 @@ const MarkSlots = () => {
               const user = FIREBASE_AUTH.currentUser;
               const databaseRef = dbRef(dbRealtime, `AvailableSlots/${user.uid}`);
               const Vetdata = await fetchVeterinarianData(user.uid); // Fetch veterinarian data
+              
               if (Vetdata) {
                 await push(databaseRef, {
                   date: selectedDateTime.toDateString(),
@@ -101,6 +105,7 @@ const MarkSlots = () => {
                   VeterinarianName: vetName,
                   VeterinarianUID: vetUID,
                   VeterinarianLocation: Vetdata.location,
+                  VeterinarianContact: Vetdata.phoneNumber
                 });
   
                 console.log('Data saved successfully');

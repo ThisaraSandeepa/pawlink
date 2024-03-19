@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, ScrollView, TouchableOpacity } from "react-native";
-import { Link } from "expo-router";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 export default function AdoptionDetail() {
@@ -11,6 +10,10 @@ export default function AdoptionDetail() {
 
   const goToIdentifier = () => {
     navigation.navigate("components/Identifier", { post });
+  };
+
+  const goToVeterinarian = () => {
+    navigation.navigate("components/Vetenarian", { post });
   };
 
   return (
@@ -29,12 +32,12 @@ export default function AdoptionDetail() {
             procedure?
           </Text>
 
-          <Link
-            href={"../components/Vetenarian"}
+          <TouchableOpacity
+            onPress={goToVeterinarian}
             className="bg-blue-700 py-3 rounded-lg px-10 mt-5 mb-3"
           >
             <Text style={styles.buttonText}>Yes I need</Text>
-          </Link>
+          </TouchableOpacity>
           <TouchableOpacity className="bg-red-700 py-3 rounded-lg px-10 mt-5 mb-3" onPress={goToIdentifier}>
             <Text style={styles.buttonText}>No I don't</Text>
           </TouchableOpacity>

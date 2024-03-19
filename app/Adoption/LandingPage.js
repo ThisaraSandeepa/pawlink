@@ -6,8 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
 
 const LandingPage = () => {
+
   const [posts, setPosts] = useState([]);
   const navigation = useNavigation();
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Display the stray posts from the Firebase Realtime Database
@@ -70,6 +72,9 @@ const LandingPage = () => {
               <Post
                 image={{ uri: post.image }}
                 location={post.location}
+                contactInfo={post.contactInfo}
+                user={post.postedUser}
+                id = {post.id}
               />
             </TouchableOpacity>
           ))}

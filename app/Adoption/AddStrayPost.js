@@ -427,9 +427,7 @@ import { sendPushNotification } from "../components/pushNotifications";
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
-
 const user = FIREBASE_AUTH.currentUser;
-console.log(user);
 
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
@@ -564,6 +562,7 @@ const UploadMediaFile = () => {
   
       // Save data to Realtime Database including latitude and longitude
       const databaseRef = dbRef(dbRealtime, "strayPosts");
+      
       await push(databaseRef, {
         contactInfo: contactInfo,
         location: selectedLocation, // Include latitude and longitude directly
@@ -682,6 +681,7 @@ const UploadMediaFile = () => {
             }}
             required
             keyboardType="phone-pad"
+            maxLength={10}
           />
           {attemptedSubmit && !contactInfo && <Text style={styles.errorMessage}>Contact Info is required</Text>}
           {!isValidPhone && <Text style={styles.errorMessage}>Contact Info must have 10 digits</Text>}

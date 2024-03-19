@@ -1,15 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
-import {getDatabase,ref as dbRef,onValue,off,push,remove,query,orderByChild,equalTo,get} from "firebase/database";
+import {
+  getDatabase,
+  ref as dbRef,
+  onValue,
+  off,
+  push,
+  remove,
+  query,
+  orderByChild,
+  equalTo,
+  get,
+} from "firebase/database";
 import { FIREBASE_APP } from "../../FirebaseConfig";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
+import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 
-// Firebase database instance
 const dbRealtime = getDatabase(FIREBASE_APP);
 
-// Veterinarian component
 const Veterinarian = () => {
-  // State variable to store available slots
+  const { post } = useRoute().params;
+  const navigation = useNavigation();
+
+  // Pass the post object to the AdoptMe component
+  const goToScheduledMeeting = (post,slotData) => {
+    navigation.navigate("components/ScheduledMeeting", { post,slotData });
+  };
+
   const [availableSlots, setAvailableSlots] = useState([]);
 
   // Fetch available slots from Firebase Realtime Database
@@ -32,6 +50,8 @@ const Veterinarian = () => {
 
   // Handle booking a slot
   const handleSlotBooking = async (slot) => {
+    // Generate a random 6-character key
+    const randomKey = Math.random().toString(36).substring(2, 8);
 
     Alert.alert(
       "Confirm Booking",
@@ -51,7 +71,13 @@ const Veterinarian = () => {
                 date: slot.date,
                 time: slot.time,
                 veterinarian: slot.VeterinarianName,
+                VeterinarianId: slot.VeterinarianUID,
+                VeterinarianLocation: slot.VeterinarianLocation,
                 user: user.displayName,
+                UserId: user.uid,
+                postId: post.id,
+                VeterinarianContact: slot.VeterinarianContact,
+                randomKey: randomKey,
               };
               await push(bookedSlotRef, slotData);
 
@@ -73,8 +99,9 @@ const Veterinarian = () => {
                   )
                 );
                 console.log("Slot booked successfully");
+                Alert.alert("Success", "Slot booked successfully!");
+                goToScheduledMeeting(post,slotData);
               }
-
             } catch (error) {
               console.error("Error booking slot:", error);
               Alert.alert("Error", "Failed to book slot. Please try again.");
@@ -109,6 +136,7 @@ const Veterinarian = () => {
             <Text>Time: {item.time}</Text>
             <Text>Veterinarian: {item.VeterinarianName}</Text>
             <Text>Location: {item.VeterinarianLocation}</Text>
+            <Text>Contact: {item.VeterinarianContact}</Text>
           </TouchableOpacity>
         )}
       />
