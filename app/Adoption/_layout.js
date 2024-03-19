@@ -29,7 +29,7 @@ const _layout = () => {
       <Tabs.Screen name='AddStrayPost' options={{title:"Stray Animal Info"}}/>
       <Tabs.Screen name='SocialMediaPage' options={{href:"../SocialMedia/LandingPage"}}/>
       <Tabs.Screen name='AdoptMe' options={{href:null}}/> 
-      <Tabs.Screen name='ProfilePage' options={{title:"Profile"}}/>
+      <Tabs.Screen name='ProfilePage' options={{headerShown:false}}/>
     </Tabs>
   )
 }

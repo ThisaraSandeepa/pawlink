@@ -3,6 +3,7 @@ import { Stack } from 'expo-router'
 
 // Import the components
 const StackLayout = () => {
+  
   return (
     <Stack>
       <Stack.Screen name = 'index' options={{headerShown:false}}/>

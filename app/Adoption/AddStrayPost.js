@@ -428,6 +428,7 @@ const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
 const user = FIREBASE_AUTH.currentUser;
+console.log(user);
 
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);

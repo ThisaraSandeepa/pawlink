@@ -33,8 +33,7 @@ export default function UserProfile() {
         </Text>
       </View>
 
-      
-
+    
       <Text style={styles.location}>Pickup Location</Text>
       <View style={styles.rectangle3}>
         <Text className="text-center mt-1 text-white"> {post.location} </Text>
