@@ -32,11 +32,11 @@ const LandingPage = () => {
   };
 
   return (
-    <View className = "bg-white">
-      <Text className = "font-bold text-3xl left-4 text-blue-600 tracking-wider mt-14">
+    <View className = "bg-slate-200 ">
+      <Text className = "font-bold text-3xl left-4 text-blue-600  tracking-wider mt-14">
        PawLink
       </Text>
-      <TouchableOpacity onPress={toggleSearch} className="left-40 -top-7 ">
+      <TouchableOpacity onPress={toggleSearch} className="left-40 -top-8 ">
         <Icon name="search" type="ionicon" color="black" size={30} />
       </TouchableOpacity>
 
@@ -46,10 +46,10 @@ const LandingPage = () => {
         placeholder="Search by user name"
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
-        className = " border-2 border-gray-300 w-80 rounded-lg p-1 px-3 ml-8 text-center"
+        className = " border-2  w-80 rounded-lg p-1 px-3 ml-8 text-center bg-slate-200 border-white -mt-2 mb-2"
       />
       )}
-      <ScrollView className = "mb-20">
+      <ScrollView className = " mb-32 ">
         {/* Render filtered posts */}
         {filterPostsByUser(searchQuery).map((post) => (
           <Post

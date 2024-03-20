@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Image, Text, TouchableOpacity , TextInput} from "react-native";
+import { View, ScrollView, Image, Text, TouchableOpacity , TextInput, ImageBackground} from "react-native";
 import { onValue, ref } from "firebase/database";
 import Post from "../components/AdoptPost";
 import { useNavigation } from "@react-navigation/native";
@@ -28,7 +28,7 @@ const LandingPage = () => {
   // Function to filter posts based on location
   const filterPostsByLocation = (location) => {
     return posts.filter((post) =>
-      post.location?.toLowerCase().includes(location.toLowerCase())
+      post.location ? post.location.toLowerCase().includes(location.toLowerCase()) : false
     );
   };
 
@@ -38,7 +38,8 @@ const LandingPage = () => {
   };
 
   return (
-    <View className=" bg-slate-100">
+    <View className=" h-full bg-white ">
+      <ImageBackground source={require("../../assets/images/Puppy.jpeg")}  />
       <ScrollView>
         <Image
           source={require("../../assets/images/pawlink1.png")}
@@ -66,12 +67,12 @@ const LandingPage = () => {
           <Text className="text-start ml-2 mt-1 font-semibold text-blue-800">Check out</Text>
         </TouchableOpacity>
 
-        <View className = "w-190 h-128 rounded-lg left-3 mr-5 -mt-6 " >
+        <View className = "  " >
         {filterPostsByLocation(searchQuery).map((post) => (
-            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)} className = "w-190 h-108 rounded-lg left-3 mr-5 mb-3">
+            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)} >
               <Post
                 image={{ uri: post.image }}
-                location={post.location}
+                location={post.location ? post.location.toLowerCase() : ''}
                 contactInfo={post.contactInfo}
                 user={post.postedUser}
                 id = {post.id}
@@ -83,5 +84,7 @@ const LandingPage = () => {
     </View>
   );
 };
+
+
 
 export default LandingPage;

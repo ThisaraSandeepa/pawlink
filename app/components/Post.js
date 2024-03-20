@@ -78,30 +78,33 @@ const Post = (props) => {
 
   const isCurrentUser = currentUser && props.user === currentUser.displayName;
   const deleteButton = isCurrentUser ? (
-    <TouchableOpacity>
+    <TouchableOpacity className = "mt-3">
       <Icon name="delete" size={20} onPress={DeletePost} />
     </TouchableOpacity>
   ) : null;
 
   return (
-    <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
-      <View className="flex-row justify-between">
-        <View className="flex-row">
+    <View className="bg-white rounded-lg  p-3 mb-2 border border-gray-300 shadow-xl ">
+      <View className="flex-row justify-between ">
+        <View className="flex-row ">
           <Image
             source={{ uri: props.userProfilePicture }}
-            style={{ width: 50, height: 50, borderRadius: 25 }}
+          // style={{ width: 50, height: 50, borderRadius: 25 }}
+           className = "w-12 h-12 rounded-full "
           />
           <View>
-            <Text className="font-bold text-lg ml-3 mt-3">{props.user}</Text>
-            <Text>  </Text>
+            <Text className="font-bold text-lg ml-3 mt-3 mb-4">{props.user}</Text>
+           
           </View>
         </View>
         <View>{deleteButton}</View>
       </View>
 
-      <Text className="my-4 ml-3">{props.description}</Text>
-      <Image className="w-11/12 h-72 ml-3" source={{ uri: props.image }} />
-      <View className="flex-row justify-start mb-8 gap-2.5">
+      <Text className="my-3 ml-2 font-normal text-sm mt-1">{props.description}</Text>
+      <Image className="w-82 h-72 ml rounded-lg  border-b-1" source={{ uri: props.image }} />
+      <Text className="text-center mt-1  text-gray-500   "> ─────────────────────────────────── </Text>
+      {/* <Hr></Hr> */}
+      <View className="flex-row -top-2 left-1 mb-2 gap-2.5">
         {/* Like Button */}
         <TouchableOpacity className="flex-row gap-0 pt-3" onPress={handleLike}>
           <Icon

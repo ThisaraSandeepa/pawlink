@@ -15,7 +15,7 @@ export default function UserProfile() {
       {/* Profile Content */}
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: post.postedUserPhoto }}
+          source={{ uri: slotData.VeterinarianPhoto }}
           style={styles.profilePicture}
         ></Image>
       </View>
