@@ -30,18 +30,18 @@ export default function AdoptionDetail() {
         className="flex-1 w-[307px] h-[273px] rounded-lg " />
 
         <View className="flex-col items-center w-full p-10 border-gray-600  shadow-black h-[386px] bg-white mt-14 rounded-lg shadow-md">
-          <Text className="text-base text-black text-center mb-10 font-bold mt-20">
+          <Text className="text-base text-black text-center mb-10 font-bold mt-2">
             Do you want to have veterinarian assistance before adopting
             procedure?
           </Text>
 
           <TouchableOpacity
             onPress={goToVeterinarian}
-            className="bg-blue-700 py-3 rounded-lg px-10 mt-5 mb-3"
+            className="bg-indigo-900 py-3 rounded-xl px-10 mt-10 mb-3"
           >
             <Text className="text-white text-center text-base font-bold ">Yes I need</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-red-700 py-3 rounded-lg px-10 mt-5 mb-3" onPress={goToIdentifier}>
+          <TouchableOpacity className="bg-red-700 py-3 rounded-xl px-10 mt-5 mb-3" onPress={goToIdentifier}>
             <Text className="text-white text-center text-base font-bold ">No I don't</Text>
           </TouchableOpacity>
         </View>
