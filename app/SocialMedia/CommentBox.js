@@ -71,7 +71,7 @@ function CommentBox() {
   }, [postId]);
 
   return (
-    <View className= "flex-1">
+    <View className= "flex-1 bg-white">
       <ScrollView className= "flex-1">
         <View className="items-start justify-start mx-3 mt-8">
           {comments.map((comment) => (
@@ -90,7 +90,7 @@ function CommentBox() {
                     onPress={() => deleteComment(comment.id, comment.user)}
                     className="absolute top-2 right-2"
                   >
-                    <Icon name="delete" size={20} color={"red"} />
+                    <Icon name="delete" size={20} color={"black"} />
                   </TouchableOpacity>
                 )}
               </View>

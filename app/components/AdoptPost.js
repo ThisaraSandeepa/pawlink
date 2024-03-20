@@ -30,16 +30,19 @@ const Post = (props) => {
 
   const isCurrentUser = currentUser && props.user === currentUser.displayName;
   const deleteButton = isCurrentUser ? (
-    <TouchableOpacity className = "items-end">
+    <TouchableOpacity className = "items-end top-56 mr-2  ">
       <Icon name="delete" size={20} onPress={DeletePost} />
     </TouchableOpacity>
   ) : null;
 
   return (
-    <View className="bg-white rounded-lg shadow-lg p-4 mb-4">
+    <View className="bg-slate-200 rounded-lg shadow-lg p- mb-12  mr-6 ml-3 -mt-3 w-80 h-61 left-5    ">
       {deleteButton} 
-      <Image className="w-11/12 h-72" source={props.image} />
-      <Text className="text-lg font-bold mb-2">{props.location}</Text>
+      <Image className="w-80 h-52 rounded-lg -mt-5 " source={props.image} />
+      <View className="flex-row top-2 mt-2 gap-1.5 ">
+        <Icon name="map-marker" size={22} className=" "  color="#203bd6"/>
+      <Text className="text-base font-semibold mb-4  ml-2 ">{props.location}</Text>
+      </View>
     </View>
   );
 };

@@ -17,12 +17,12 @@ export default function AdoptionDetail() {
   };
 
   return (
-    <ScrollView>
-      <View className="flex-1 items-center justify-center ">
+    // <ScrollView>
+      <View className="flex-1 items-center justify-center  ">
         <Image
           source={require("../../assets/images/pawlink1.png")}
           resizeMode= "contain"
-          className="w-116 h-[96px] top-0 mb-10"
+          className="w-116 h-[90px] top-0 "
         />
 
         <Image source={{ uri: post.image }} 
@@ -37,7 +37,7 @@ export default function AdoptionDetail() {
 
           <TouchableOpacity
             onPress={goToVeterinarian}
-            className="bg-indigo-900 py-3 rounded-xl px-10 mt-10 mb-3"
+            className="bg-blue-700 py-3 rounded-xl px-10 mt-3 mb-3"
           >
             <Text className="text-white text-center text-base font-bold ">Yes I need</Text>
           </TouchableOpacity>
@@ -46,7 +46,7 @@ export default function AdoptionDetail() {
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    // </ScrollView>
   );
 };
 
