@@ -14,6 +14,7 @@ const MarkSlots = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [vetUID, setVetUID] = useState('');
   const [vetName, setVetName] = useState('');
+  const [vetPhoto, setVetPhoto] = useState('');
   const [selectedSlots, setSelectedSlots] = useState([]);
   const [markedSlots, setMarkedSlots] = useState([]);
 
@@ -36,6 +37,7 @@ const MarkSlots = () => {
     if (user) {
       setVetUID(user.uid);
       setVetName(user.displayName);
+      setVetPhoto(user.photoURL);
       fetchMarkedSlots(user.uid);
     }
   }, []);
@@ -104,6 +106,7 @@ const MarkSlots = () => {
                   time: formattedTime,
                   VeterinarianName: vetName,
                   VeterinarianUID: vetUID,
+                  VeterinarianProfilePicture: vetPhoto,
                   VeterinarianLocation: Vetdata.location,
                   VeterinarianContact: Vetdata.phoneNumber
                 });

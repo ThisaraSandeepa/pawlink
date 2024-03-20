@@ -72,6 +72,7 @@ const Veterinarian = () => {
                 time: slot.time,
                 veterinarian: slot.VeterinarianName,
                 VeterinarianId: slot.VeterinarianUID,
+                VeterinarianPhoto: slot.VeterinarianProfilePicture,
                 VeterinarianLocation: slot.VeterinarianLocation,
                 user: user.displayName,
                 UserId: user.uid,
