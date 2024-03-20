@@ -1,35 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { update, ref, remove, onValue } from "firebase/database";
+import { update, ref, remove, onValue, set } from "firebase/database";
 import { FIREBASE_REALTIME_DB, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { Link } from "expo-router";
 
 const Post = (props) => {
-  const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(parseInt(props.likes));
   const [currentUser, setCurrentUser] = useState(null);
   const [commentsCount, setCommentsCount] = useState(props.comments);
+  const [userLiked, setUserLiked] = useState(false);
   const postId = props.id;
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
     if (user) {
       setCurrentUser(user);
+      const likesRef = ref(FIREBASE_REALTIME_DB, `likes/${user.uid}/${props.id}`);
+      onValue(likesRef, (snapshot) => {
+        setUserLiked(snapshot.exists());
+      });
     }
   }, []);
 
   const handleLike = () => {
-    setLiked(!liked);
-    const newLikes = liked ? likes - 1 : likes + 1;
-    setLikes(newLikes);
+    let newLikes = likes;
+    if (userLiked) {
 
+      // User has already liked the post, remove the like
+      setUserLiked(false);
+      newLikes--;
+      remove(ref(FIREBASE_REALTIME_DB, `likes/${currentUser.uid}/${props.id}`));
+    } else {
+
+      // User has not liked the post, add the like
+      setUserLiked(true);
+      newLikes++;
+      set(ref(FIREBASE_REALTIME_DB, `likes/${currentUser.uid}/${props.id}`), true);
+    }
+  
+    setLikes(newLikes);
+  
     // Update the Realtime Database with the new likes count
     update(ref(FIREBASE_REALTIME_DB, `socialMediaPosts/${props.id}`), {
       likes: newLikes.toString(),
     });
   };
-
+  
+  
   // Get the comments count from the Realtime Database
   useEffect(() => {
     const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);
@@ -45,6 +63,10 @@ const Post = (props) => {
     const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
+        const likesRef = ref(FIREBASE_REALTIME_DB, `likes/${user.uid}/${props.id}`);
+        onValue(likesRef, (snapshot) => {
+          setUserLiked(snapshot.exists());
+        });
       }
     });
 
@@ -105,8 +127,8 @@ const Post = (props) => {
         {/* Like Button */}
         <TouchableOpacity className="flex-row gap-0 pt-3" onPress={handleLike}>
           <Icon
-            color="red"
-            name={liked ? "heart" : "heart-outline"}
+            color={userLiked ? "red" : "black"}
+            name={userLiked ? "heart" : "heart-outline"}
             size={20}
           />
           <Text className="text-gray-700"> {likes} </Text>
