@@ -42,6 +42,9 @@ const SignIn = () => {
         case "auth/weak-password":
           alert("Atleast 6 characters required for password!");
           break;
+        case "auth/network-request-failed":
+          alert("Network error! Please check your internet connection.");
+          break;  
         default:
           alert(error.message);
       }

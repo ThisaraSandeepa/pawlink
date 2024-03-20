@@ -427,8 +427,6 @@ import { sendPushNotification } from "../components/pushNotifications";
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
-const user = FIREBASE_AUTH.currentUser;
-console.log(user);
 
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
@@ -550,6 +548,8 @@ const UploadMediaFile = () => {
             longitude: location.longitude,
           }
         : null;
+
+      const user = FIREBASE_AUTH.currentUser;
   
       // Save data to Firestore
       const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
@@ -565,6 +565,7 @@ const UploadMediaFile = () => {
       const databaseRef = dbRef(dbRealtime, "strayPosts");
       
       await push(databaseRef, {
+
         contactInfo: contactInfo,
         location: selectedLocation, // Include latitude and longitude directly
         age: age,
