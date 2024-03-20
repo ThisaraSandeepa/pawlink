@@ -428,7 +428,11 @@ const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
 const user = FIREBASE_AUTH.currentUser;
-console.log(user);
+//console.log(user);
+const userName = user ? user.displayName : "Unknown User";
+const userPhotoURL = user ? user.photoURL : null;
+
+console.log("User Name:", userName);
 
 const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
@@ -524,7 +528,7 @@ const UploadMediaFile = () => {
     router.replace("./LandingPage");
   };
 
-  const UploadMedia = async () => {
+  /*const UploadMedia = async () => {
     if (!contactInfo || !age || !color || !description || !image) {
       setAttemptedSubmit(true); // Set attempted submit to true when the form is submitted without all required fields
       Alert.alert("All fields are required");
@@ -592,7 +596,84 @@ const UploadMediaFile = () => {
       setUploading(false);
       Alert.alert("An error occurred while uploading the photo");
     }
-  };
+  };*/
+  const UploadMedia = async () => {
+    if (!contactInfo || !age || !color || !description || !image) {
+      setAttemptedSubmit(true);
+      Alert.alert("All fields are required");
+      return;
+    }
+    setUploading(true);
+  
+    try {
+      // Upload image to Firebase Storage
+      const { uri } = await FileSystem.getInfoAsync(image);
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const filename = image.substring(image.lastIndexOf("/") + 1);
+      const storageRef = ref(dbStorage, "Adoption/" + filename);
+      await uploadBytes(storageRef, blob);
+      const url = await getDownloadURL(storageRef);
+    
+      // Determine location key
+      const locationKey = location ? `${location.latitude}_${location.longitude}` : ""; // Generate a unique key using latitude and longitude
+ 
+
+      const selectedLocation = manualLocation
+        ? manualLocation
+        : location
+        ? {
+            latitude: location.latitude,
+            longitude: location.longitude,
+          }
+        : null;
+        
+      // Save data to Firestore
+      const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
+        contactInfo: contactInfo,
+        location: selectedLocation,
+        locationKey: locationKey, // Include location key
+        age: age,
+        color: color,
+        description: description,
+        image: url,
+        postedUser: user.displayName,
+        postedUserPhoto: user.photoURL
+      });
+  
+      // Save data to Realtime Database including latitude and longitude
+      const databaseRef = dbRef(dbRealtime, "strayPosts");
+      await push(databaseRef, {
+        contactInfo: contactInfo,
+        location: selectedLocation,
+        locationKey: locationKey, // Include location key
+        age: age,
+        color: color,
+        description: description,
+        image: url,
+        postedUser: user.displayName,
+        postedUserPhoto: user.photoURL
+      });
+  
+      console.log("Photo uploaded successfully!");
+  
+      // Send a push notification
+      sendPushNotification("New Post", "The post has successfully added!");
+  
+      // reset the state
+      setUploading(false);
+      setImage(null);
+  
+      // Navigate to landing page
+      router.replace("./LandingPage");
+      
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+      Alert.alert("An error occurred while uploading the photo");
+    }
+};
+
   
   
   return (
