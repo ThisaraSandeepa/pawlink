@@ -18,7 +18,7 @@ export default function AdoptionDetail() {
 
   return (
     // <ScrollView>
-      <View className="flex-1 items-center justify-center  ">
+      <View className="flex-1 items-center justify-center bg-slate-300  ">
         <Image
           source={require("../../assets/images/pawlink1.png")}
           resizeMode= "contain"

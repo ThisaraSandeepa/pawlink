@@ -26,17 +26,17 @@ export default function UserProfile() {
         <Text style={styles.identifierText}>Veterinarian</Text>
         <Text style={styles.Contact}>Contact Information</Text>
       </View>
-      <View style={styles.rectangle1}>
-        <Text className="text-center mt-1 text-white">
+      <View className="rounded-lg border-2 -top-96 w-64 h-9 border-blue-700  ">
+        <Text className="text-center mt-1 text-black font-semibold ">
           {" "}
           {post.contactInfo}{" "}
         </Text>
       </View>
 
     
-      <Text style={styles.location}>Pickup Location</Text>
-      <View style={styles.rectangle3}>
-        <Text className="text-center mt-1 text-white"> {post.location} </Text>
+      <Text className="font-semibold -top-96 mt-4 text-gray-600">Pickup Location</Text>
+      <View className="rounded-lg border-2 -top-96 w-64 h-9 border-blue-700 mt-4 ">
+        <Text className="text-center mt-1 text-black font-semibold"> {post.location} </Text>
       </View>
 
       {/* <View className = "text-black">
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     left: 20,
+    
   },
   userName: {
     fontWeight: "bold",
@@ -133,15 +134,17 @@ const styles = StyleSheet.create({
     color: "#A4A4B2",
     top: -472,
     left: 120,
+    marginBottom:10,
   },
   Contact: {
     fontWeight: "bold",
     fontSize: 14,
-    color: "#1D1D28",
-    top: -400,
+    color: "gray",
+    top: -450,
     left: 110,
     margin: 10,
     alignItems: "center",
+    
   },
 
   ctaButton: {

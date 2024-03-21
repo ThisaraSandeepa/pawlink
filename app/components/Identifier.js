@@ -372,32 +372,32 @@ export default function UserProfile() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View className = "flex-1 items-center justify-center bg-white">
       {/* Profile Content */}
       <View style={styles.profileContainer}>
         <Image
           source={{ uri: post.postedUserPhoto }}
-          style={styles.profilePicture}
+          className="rounded-lg  w-28 h-28  bg-gray-300 mt-4 right-24 "
         />
       </View>
 
       {/* User Information */}
       <View style={styles.userInfo}>
-        <Text style={styles.userName}>{post.postedUser}</Text>
-        <Text style={styles.identifierText}>Identifier</Text>
-        <Text style={styles.Contact}>Contact Information</Text>
+        <Text className="font-semibold text-lg ml-36 -top-24 text-blue-950   ">{post.postedUser} </Text>
+        <Text className=" -top-24 ml-36 mt-1 font-normal text-gray-500">Identifier</Text>
+        <Text className="-mt-10 text-center text-black font-semibold">Contact Information</Text>
       </View>
-      <View style={styles.rectangle1}>
-        <Text className="text-center mt-1 text-white">{post.contactInfo}</Text>
+      <View className="rounded-lg border-2 border-blue-600 w-64 bg-white  ">
+        <Text className="text-center  text-black  mb-2 mt-2 font-bold">{post.contactInfo}</Text>
       </View>
 
-      <Text style={styles.location}>Pickup Location</Text>
-      <TouchableOpacity style={styles.rectangle3}>
-        <Text className="text-center mt-1 text-white"> {post.location}</Text>
+      <Text className = "font-semibold mt-5 mb-4">Pickup Location</Text>
+      <TouchableOpacity className="rounded-lg border-2 w-64 h-9 mb-2  border-blue-600  bg-white" >
+        <Text className="text-center mt-1 text-black font-bold"> {post.location}</Text>
       </TouchableOpacity>
 
       <MapView
-        style={styles.map}
+        className = "w-64 h-56  mt-4 mb-5 "
         initialRegion={{
           latitude: latitude,
           longitude: longitude,
