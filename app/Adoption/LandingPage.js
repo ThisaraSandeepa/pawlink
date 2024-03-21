@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Image, Text, TouchableOpacity , TextInput, ImageBackground} from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ImageBackground,
+} from "react-native";
 import { onValue, ref } from "firebase/database";
 import Post from "../components/AdoptPost";
 import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_REALTIME_DB } from "../../FirebaseConfig";
 
 const LandingPage = () => {
-
   const [posts, setPosts] = useState([]);
   const navigation = useNavigation();
 
@@ -28,7 +35,9 @@ const LandingPage = () => {
   // Function to filter posts based on location
   const filterPostsByLocation = (location) => {
     return posts.filter((post) =>
-      post.location ? post.location.toLowerCase().includes(location.toLowerCase()) : false
+      post.location
+        ? post.location.toLowerCase().includes(location.toLowerCase())
+        : false
     );
   };
 
@@ -39,7 +48,7 @@ const LandingPage = () => {
 
   return (
     <View className=" h-full bg-white ">
-      <ImageBackground source={require("../../assets/images/Puppy.jpeg")}  />
+      <ImageBackground source={require("../../assets/images/Puppy.jpeg")} />
       <ScrollView>
         <Image
           source={require("../../assets/images/pawlink1.png")}
@@ -50,9 +59,9 @@ const LandingPage = () => {
           placeholder="Search by location"
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
-          className = " border-2 border-gray-300 rounded-xl w-80 h-10 mb-4 text-center left-10 mt-2 bg-white"
+          className=" border-2 border-gray-300 rounded-xl w-80 h-10 mb-4 text-center left-10 mt-2 bg-white"
         />
-        
+
         <View className="w-80 h-24 border-2 border-gray-100 mb-8 rounded-md justify-center items-center ml-8 mt-3">
           <Image
             source={require("../../assets/images/Component.png")}
@@ -63,19 +72,22 @@ const LandingPage = () => {
           onPress={() =>
             navigation.navigate("SocialMedia", { screen: "LandingPage" })
           }
-          className="w-20 bg-white h-7 rounded-md -top-16 ml-10 -mt-1 " >
-          <Text className="text-start ml-2 mt-1 font-semibold text-blue-800">Check out</Text>
+          className="w-20 bg-white h-7 rounded-md -top-16 ml-10 -mt-1 "
+        >
+          <Text className="text-start ml-2 mt-1 font-semibold text-blue-800">
+            Check out
+          </Text>
         </TouchableOpacity>
 
-        <View className = "  " >
-        {filterPostsByLocation(searchQuery).map((post) => (
-            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)} >
+        <View className="  ">
+          {filterPostsByLocation(searchQuery).map((post) => (
+            <TouchableOpacity key={post.id} onPress={() => goToAdoptMe(post)}>
               <Post
                 image={{ uri: post.image }}
-                location={post.location ? post.location.toLowerCase() : ''}
+                location={post.location ? post.location.toLowerCase() : ""}
                 contactInfo={post.contactInfo}
                 user={post.postedUser}
-                id = {post.id}
+                id={post.id}
               />
             </TouchableOpacity>
           ))}
@@ -84,7 +96,5 @@ const LandingPage = () => {
     </View>
   );
 };
-
-
 
 export default LandingPage;
