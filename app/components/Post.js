@@ -16,7 +16,10 @@ const Post = (props) => {
     const user = FIREBASE_AUTH.currentUser;
     if (user) {
       setCurrentUser(user);
-      const likesRef = ref(FIREBASE_REALTIME_DB, `likes/${user.uid}/${props.id}`);
+      const likesRef = ref(
+        FIREBASE_REALTIME_DB,
+        `likes/${user.uid}/${props.id}`
+      );
       onValue(likesRef, (snapshot) => {
         setUserLiked(snapshot.exists());
       });
@@ -26,28 +29,28 @@ const Post = (props) => {
   const handleLike = () => {
     let newLikes = likes;
     if (userLiked) {
-
       // User has already liked the post, remove the like
       setUserLiked(false);
       newLikes--;
       remove(ref(FIREBASE_REALTIME_DB, `likes/${currentUser.uid}/${props.id}`));
     } else {
-
       // User has not liked the post, add the like
       setUserLiked(true);
       newLikes++;
-      set(ref(FIREBASE_REALTIME_DB, `likes/${currentUser.uid}/${props.id}`), true);
+      set(
+        ref(FIREBASE_REALTIME_DB, `likes/${currentUser.uid}/${props.id}`),
+        true
+      );
     }
-  
+
     setLikes(newLikes);
-  
+
     // Update the Realtime Database with the new likes count
     update(ref(FIREBASE_REALTIME_DB, `socialMediaPosts/${props.id}`), {
       likes: newLikes.toString(),
     });
   };
-  
-  
+
   // Get the comments count from the Realtime Database
   useEffect(() => {
     const commentsRef = ref(FIREBASE_REALTIME_DB, `comments/${postId}`);
@@ -63,7 +66,10 @@ const Post = (props) => {
     const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
-        const likesRef = ref(FIREBASE_REALTIME_DB, `likes/${user.uid}/${props.id}`);
+        const likesRef = ref(
+          FIREBASE_REALTIME_DB,
+          `likes/${user.uid}/${props.id}`
+        );
         onValue(likesRef, (snapshot) => {
           setUserLiked(snapshot.exists());
         });
@@ -100,7 +106,7 @@ const Post = (props) => {
 
   const isCurrentUser = currentUser && props.user === currentUser.displayName;
   const deleteButton = isCurrentUser ? (
-    <TouchableOpacity className = "mt-3">
+    <TouchableOpacity className="mt-3">
       <Icon name="delete" size={20} onPress={DeletePost} />
     </TouchableOpacity>
   ) : null;
@@ -111,20 +117,29 @@ const Post = (props) => {
         <View className="flex-row ">
           <Image
             source={{ uri: props.userProfilePicture }}
-          // style={{ width: 50, height: 50, borderRadius: 25 }}
-           className = "w-12 h-12 rounded-full "
+            // style={{ width: 50, height: 50, borderRadius: 25 }}
+            className="w-12 h-12 rounded-full "
           />
           <View>
-            <Text className="font-bold text-lg ml-3 mt-3 mb-4">{props.user}</Text>
-           
+            <Text className="font-bold text-lg ml-3 mt-3 mb-4">
+              {props.user}
+            </Text>
           </View>
         </View>
         <View>{deleteButton}</View>
       </View>
 
-      <Text className="my-3 ml-2 font-normal text-sm mt-1">{props.description}</Text>
-      <Image className="w-82 h-72 ml rounded-lg  border-b-1" source={{ uri: props.image }} />
-      <Text className="text-center mt-1  text-gray-500   "> ─────────────────────────────────── </Text>
+      <Text className="my-3 ml-2 font-normal text-sm mt-1">
+        {props.description}
+      </Text>
+      <Image
+        className="w-82 h-72 ml rounded-lg  border-b-1"
+        source={{ uri: props.image }}
+      />
+      <Text className="text-center mt-1  text-gray-500   ">
+        {" "}
+        ───────────────────────────────────{" "}
+      </Text>
       {/* <Hr></Hr> */}
       <View className="flex-row -top-2 left-1 mb-2 gap-2.5">
         {/* Like Button */}
