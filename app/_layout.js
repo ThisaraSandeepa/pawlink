@@ -12,6 +12,10 @@ const StackLayout = () => {
       <Stack.Screen name = 'User/SignUp' options={{headerShown:false}}/>
       <Stack.Screen name = 'User/SignIn' options={{headerShown:false}}/>
       <Stack.Screen name = 'Veterinarian' options={{headerShown:false}}/>
+      <Stack.Screen name = 'components/Details' options={{headerShown:false}}/>
+      <Stack.Screen name = 'components/Vetenarian' options={{headerShown:false}}/>
+      <Stack.Screen name = 'components/ScheduledMeeting' options={{headerShown:false}}/>
+      <Stack.Screen name = 'components/Identifier' options={{headerShown:false}}/>
     </Stack>
   )
 }
