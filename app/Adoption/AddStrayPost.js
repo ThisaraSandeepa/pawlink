@@ -12,12 +12,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { getDatabase, ref as dbRef, push } from "firebase/database";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
@@ -44,6 +39,7 @@ const UploadMediaFile = () => {
   const [description, setDescription] = useState("");
   const [isValidPhone, setIsValidPhone] = useState(true);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false); // Track if the form has been submitted
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -113,6 +109,31 @@ const UploadMediaFile = () => {
     getCurrentLocation();
   };
 
+  const onMapPress = (event) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setLocation({
+      latitude,
+      longitude,
+    });
+    fetchLocationNameFromCoordinates(latitude, longitude);
+  };
+
+  const handleSearch = async () => {
+    try {
+      const address = await Location.geocodeAsync(searchQuery);
+      if (address.length > 0) {
+        const { latitude, longitude } = address[0];
+        setLocation({ latitude, longitude });
+        fetchLocationNameFromCoordinates(latitude, longitude);
+      } else {
+        Alert.alert("Location not found");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error searching location");
+    }
+  };
+
   const onCancel = () => {
     setContactInfo("");
     setLocation(null);
@@ -124,6 +145,7 @@ const UploadMediaFile = () => {
     setImage(null);
     router.replace("./LandingPage");
   };
+
   const UploadMedia = async () => {
     if (!contactInfo || !age || !color || !description || !image) {
       setAttemptedSubmit(true);
@@ -131,7 +153,7 @@ const UploadMediaFile = () => {
       return;
     }
     setUploading(true);
-  
+
     try {
       // Upload image to Firebase Storage
       const { uri } = await FileSystem.getInfoAsync(image);
@@ -141,10 +163,11 @@ const UploadMediaFile = () => {
       const storageRef = ref(dbStorage, "Adoption/" + filename);
       await uploadBytes(storageRef, blob);
       const url = await getDownloadURL(storageRef);
-    
+
       // Determine location key
-      const locationKey = location ? `${location.latitude}_${location.longitude}` : ""; // Generate a unique key using latitude and longitude
- 
+      const locationKey = location
+        ? `${location.latitude}_${location.longitude}`
+        : ""; // Generate a unique key using latitude and longitude
 
       const selectedLocation = manualLocation
         ? manualLocation
@@ -154,8 +177,8 @@ const UploadMediaFile = () => {
             longitude: location.longitude,
           }
         : null;
-        const user = FIREBASE_AUTH.currentUser;
-        
+      const user = FIREBASE_AUTH.currentUser;
+
       // Save data to Firestore
       const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
         contactInfo: contactInfo,
@@ -166,9 +189,9 @@ const UploadMediaFile = () => {
         description: description,
         image: url,
         postedUser: user.displayName,
-        postedUserPhoto: user.photoURL
+        postedUserPhoto: user.photoURL,
       });
-  
+
       // Save data to Realtime Database including latitude and longitude
       const databaseRef = dbRef(dbRealtime, "strayPosts");
       await push(databaseRef, {
@@ -180,30 +203,27 @@ const UploadMediaFile = () => {
         description: description,
         image: url,
         postedUser: user.displayName,
-        postedUserPhoto: user.photoURL
+        postedUserPhoto: user.photoURL,
       });
-  
+
       console.log("Photo uploaded successfully!");
-  
+
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
-  
+
       // reset the state
       setUploading(false);
       setImage(null);
-  
+
       // Navigate to landing page
       router.replace("./LandingPage");
-      
     } catch (error) {
       console.error(error);
       setUploading(false);
       Alert.alert("An error occurred while uploading the photo");
     }
-};
+  };
 
-  
-  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -213,12 +233,24 @@ const UploadMediaFile = () => {
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}> Found Location</Text>
           <View style={styles.locationContainer}>
-            <TextInput
-              style={styles.locationInput}
-              placeholder="Enter location manually"
-              value={manualLocation}
-              onChangeText={(text) => setManualLocation(text)}
-            />
+          <TextInput
+            style={[
+              styles.input,
+              styles.locationInput,
+              attemptedSubmit && !searchQuery && styles.invalidInput,
+            ]}
+            
+            value={searchQuery}
+            onChangeText={(text) => setSearchQuery(text)}
+            placeholder="Search location"
+            
+            
+    
+          />
+          <TouchableOpacity onPress={handleSearch}>
+            <Text style={{ color: "blue", marginTop: 5 }}>Search</Text>
+          </TouchableOpacity> 
+            
             <TouchableOpacity
               style={styles.locationIcon}
               onPress={onLocationIconPress}
@@ -228,63 +260,81 @@ const UploadMediaFile = () => {
           </View>
           {showMap && location && (
             <MapView
-            style={styles.mapContainer}
-            region={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.02,
-            }}
-          >
-            <Marker
-              coordinate={{
+              style={styles.mapContainer}
+              onPress={onMapPress}
+              region={{
                 latitude: location.latitude,
                 longitude: location.longitude,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02,
               }}
-              title="Found Location"
-              onPress={() => console.log(`Clicked location: ${location.latitude}, ${location.longitude}`)}
-            />
-          </MapView>
-        )}
-
-        </View>
-
-        <View style={styles.labelContainer}>
+            >
+              <Marker
+                coordinate={{
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                }}
+                title="Found Location"
+                draggable
+                onDragEnd={onMapPress}
+              />
+            </MapView>
+          )}
+          </View>
+          <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Color</Text>
           <TextInput
-            style={[styles.input, attemptedSubmit && !color && styles.invalidInput]}
+            style={[
+              styles.input,
+              attemptedSubmit && !color && styles.invalidInput,
+            ]}
             onChangeText={(text) => setColor(text)}
             required
           />
-          {attemptedSubmit && !color && <Text style={styles.errorMessage}>Color is required</Text>}
+          {attemptedSubmit && !color && (
+            <Text style={styles.errorMessage}>Color is required</Text>
+          )}
         </View>
 
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Age</Text>
           <TextInput
-            style={[styles.input, attemptedSubmit && !age && styles.invalidInput]}
+            style={[
+              styles.input,
+              attemptedSubmit && !age && styles.invalidInput,
+            ]}
             onChangeText={(text) => setAge(text)}
             required
           />
-          {attemptedSubmit && !age && <Text style={styles.errorMessage}>Age is required</Text>}
+          {attemptedSubmit && !age && (
+            <Text style={styles.errorMessage}>Age is required</Text>
+          )}
         </View>
 
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Description</Text>
           <TextInput
-            style={[styles.descriptioninput, attemptedSubmit && !description && styles.invalidInput]}
+            style={[
+              styles.descriptioninput,
+              attemptedSubmit && !description && styles.invalidInput,
+            ]}
             multiline={true}
             numberOfLines={4}
             onChangeText={(text) => setDescription(text)}
             required
           />
-          {attemptedSubmit && !description && <Text style={styles.errorMessage}>Description is required</Text>}
+          {attemptedSubmit && !description && (
+            <Text style={styles.errorMessage}>Description is required</Text>
+          )}
         </View>
 
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Contact Info</Text>
           <TextInput
-            style={[styles.input, attemptedSubmit && !contactInfo && styles.invalidInput]}
+            style={[
+              styles.input,
+              attemptedSubmit && !contactInfo && styles.invalidInput,
+            ]}
             onChangeText={(text) => {
               setContactInfo(text);
               handlePhoneNumberChange(text);
@@ -293,17 +343,22 @@ const UploadMediaFile = () => {
             keyboardType="phone-pad"
             maxLength={10}
           />
-          {attemptedSubmit && !contactInfo && <Text style={styles.errorMessage}>Contact Info is required</Text>}
-          {!isValidPhone && <Text style={styles.errorMessage}>Contact Info must have 10 digits</Text>}
+          {attemptedSubmit && !contactInfo && (
+            <Text style={styles.errorMessage}>Contact Info is required</Text>
+          )}
+          {!isValidPhone && (
+            <Text style={styles.errorMessage}>
+              Contact Info must have 10 digits
+            </Text>
+          )}
         </View>
-      
-        
+
         <TouchableOpacity onPress={pickImage}>
-            <View className="flex-row gap-1 bg-blue-400 rounded p-2">
-              <Icon name="add-a-photo" size={24} color="black" />
-              <Text> Select a picture </Text>
-            </View>
-          </TouchableOpacity>
+          <View className="flex-row gap-1 bg-blue-400 rounded p-2">
+            <Icon name="add-a-photo" size={24} color="black" />
+            <Text> Select a picture </Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.imageContainer}>
           {image && (
             <Image
@@ -316,11 +371,15 @@ const UploadMediaFile = () => {
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.uploadButton} onPress={UploadMedia}>
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={UploadMedia}
+            >
               <Text style={styles.buttonText}> Post </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> 
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -409,6 +468,7 @@ const styles = StyleSheet.create({
   locationContainer: {
     flexDirection: "row",
     alignItems: "center",
+    width:300,
   },
   locationInput: {
     flex: 1,
@@ -441,7 +501,3 @@ const styles = StyleSheet.create({
 });
 
 export default UploadMediaFile;
-
-
-
-
