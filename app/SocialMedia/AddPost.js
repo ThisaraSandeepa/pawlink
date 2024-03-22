@@ -54,10 +54,9 @@ const UploadMediaFile = () => {
 
   
   const UploadMedia = async () => {
+    
     // Upload the media
     setUploading(true);
-
-    // Check if the image is empty
 
     try {
       const { uri } = await FileSystem.getInfoAsync(image); // Get the image info
