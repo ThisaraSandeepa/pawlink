@@ -1,15 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-  Image,
-  ScrollView,
-  TextInput,
-} from "react-native";
+import {View,Text,StyleSheet,TouchableOpacity,SafeAreaView,Alert,Image,ScrollView,TextInput,} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
@@ -62,6 +52,7 @@ const UploadMediaFile = () => {
     ]);
   };
 
+  
   const UploadMedia = async () => {
     // Upload the media
     setUploading(true);

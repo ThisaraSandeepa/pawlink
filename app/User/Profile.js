@@ -39,6 +39,7 @@ const ProfileScreen = () => {
     }
   };
 
+  // Upload the image to Firebase Storage
   const UploadMedia = async () => {
     try {
       if (!image) {
@@ -54,6 +55,7 @@ const ProfileScreen = () => {
       const storageRef = ref(dbStorage, "ProfilePictures/" + filename); // Create a storage reference
       await uploadBytes(storageRef, blob);
 
+      // Get the download URL of the image
       const url = await getDownloadURL(storageRef);
 
       // Update the user's photoURL in Firebase Authentication
@@ -172,7 +174,7 @@ const ProfileScreen = () => {
         <View style={styles.userTypeContainer}>
           <View style={styles.userTypeBox}>
             <Text style={styles.userType}>
-              {" "}
+              {" "}{/* Display the user type */}
               {userData?.UserType ? userData.UserType : "Veterinarian"}{" "}
             </Text>
           </View>
