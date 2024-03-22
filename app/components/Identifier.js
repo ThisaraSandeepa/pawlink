@@ -32,7 +32,7 @@ export default function UserProfile() {
 
       {/* User Information */}
       <View className="mb-20">
-        <Text className="font-extralight text-lg ml-36 -top-24 text-blue-700   ">{post.postedUser} </Text>
+        <Text className="font-extrabold text-lg ml-36 -top-24 text-blue-700   ">{post.postedUser} </Text>
         <Text className=" -top-24 ml-36 mt-1 font-extraboldbold text-gray-500">Identifier</Text>
         <Text className="-mt-6 text-center text-lg text-blue-400 font-extrabold">Contact Information</Text>
       </View>
@@ -40,7 +40,7 @@ export default function UserProfile() {
         <Text className="text-center  text-black text-lg  mb-2 mt-2 font-bold">{post.contactInfo}</Text>
       </View>
 
-      <Text className = "font-semibold mt-5 mb-4 text-lg text-blue-400" >Pickup Location</Text>
+      <Text className = "font-extrabold mt-5 mb-4 text-lg text-blue-400" >Pickup Location</Text>
       <TouchableOpacity className="rounded-lg  w-[350px] h-[50px] mb-1  bg-slate-300 flex-row justify-center" >
         <Icon name="location" type="evilicon" color="red" size={30} className="mt-2"/>
         <Text className="text-center text-lg mt-3 text-black font-extrabold"> {post.location}</Text>
