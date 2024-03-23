@@ -43,6 +43,10 @@ const UploadMediaFile = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [selectedAge, setSelectedAge] = useState("below 6 months");
   const [wounded, setWounded] = useState(false);
+  const [male, setMale] = useState(true);
+  const [female, setFemale] = useState(false);
+
+  const gender = male ? "Male" : female ? "Female" : "";
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -113,6 +117,11 @@ const UploadMediaFile = () => {
     getCurrentLocation();
   };
 
+  const onSearchIconPress = async () => {
+    setShowMap(true);
+    await handleSearch();
+  };
+
   const onMapPress = (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     setLocation({
@@ -133,8 +142,8 @@ const UploadMediaFile = () => {
         Alert.alert("Location not found");
       }
     } catch (error) {
-      console.error(error);
-      Alert.alert("", "Input a location!");
+      console.log("Error fetching location:", error);
+      Alert.alert("Error", "Invalid location name!");
     }
   };
 
@@ -177,7 +186,8 @@ const UploadMediaFile = () => {
       !color ||
       !description ||
       !image ||
-      !selectedAge
+      !selectedAge ||
+      !gender
     ) {
       Alert.alert("", "All the field are required!");
       return;
@@ -226,6 +236,7 @@ const UploadMediaFile = () => {
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
         wounded: wounded,
+        gender: gender,
       });
 
       // Save data to Realtime Database including latitude and longitude
@@ -241,6 +252,7 @@ const UploadMediaFile = () => {
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
         wounded: wounded,
+        gender: gender,
       });
 
       console.log("Photo uploaded successfully!");
@@ -265,7 +277,7 @@ const UploadMediaFile = () => {
     <ScrollView>
       <View className="flex items-center justify-center">
         {/* Location Fetching */}
-        <View className="mt-6">
+        <View className="mt-6 w-80">
           <Text className="justify-start font-bold mb-2"> Found Location </Text>
           <View className="flex-row border rounded-lg">
             <View className="justify-center ml-1">
@@ -278,18 +290,18 @@ const UploadMediaFile = () => {
               />
             </View>
             <TextInput
-              className="w-72 p-1 ml-1"
+              className="w-64 p-1 ml-1"
               placeholder="Search Location"
               value={searchQuery}
               onChangeText={(text) => setSearchQuery(text)}
             />
-            <View className="justify-center mr-1">
+            <View className="justify-center">
               <Icon
                 name="search"
                 type="ionicon"
                 color="black"
                 size={25}
-                onPress={handleSearch}
+                onPress={onSearchIconPress}
               />
             </View>
           </View>
@@ -362,17 +374,44 @@ const UploadMediaFile = () => {
             />
           </View>
 
-          {/* Wonunded or not */}
-          <View className="mt-3 flex-row items-center justify-center">
-            <Text className="font-bold">Any Physical Wounds?</Text>
-            <View className="flex-row left-7">
+          {/* Male or Female */}
+          <View className="mt-3 flex-row items-center justify-between">
+            <Text className="font-bold">Gender</Text>
+            <View className="flex-row left-14">
               <CheckBox
+                checked={male}
+                onPress={() => {
+                  setMale(!male);
+                  setFemale(false);
+                }}
+              />
+              <Text className="mt-4 -left-3">Male</Text>
+            </View>
+            <View className="flex-row ml-4">
+              <CheckBox
+                checkedColor="pink"
+                checked={female}
+                onPress={() => {
+                  setFemale(!female);
+                  setMale(false);
+                }}
+              />
+              <Text className="mt-4 -left-3">Female</Text>
+            </View>
+          </View>
+
+          {/* Wonunded or not */}
+          <View className="mt-3 flex-row items-center justify-between">
+            <Text className="font-bold ml-1">Any Physical Wounds?</Text>
+            <View className="flex-row left-3">
+              <CheckBox
+                checkedColor="red"
                 checked={wounded}
                 onPress={() => setWounded(!wounded)}
               />
               <Text className="mt-4 -left-3">Yes</Text>
             </View>
-            <View className="flex-row ml-4">
+            <View className="flex-row">
               <CheckBox
                 checked={!wounded}
                 onPress={() => setWounded(!wounded)}

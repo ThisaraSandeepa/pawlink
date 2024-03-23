@@ -20,7 +20,7 @@ export default function UserProfile() {
   }, []);
 
   return (
-    <View className="flex-1 items-center justify-center mt- bg-white">
+    <View className="flex-1 items-center justify-center bg-white">
       {/* Profile Content */}
       <View
         className=" shadow"
@@ -28,7 +28,7 @@ export default function UserProfile() {
       >
         <Image
           source={{ uri: post.postedUserPhoto }}
-          className="rounded-full  w-[100px] h-[100px]  bg-gray-300 mt-20 right-24 "
+          className="rounded-full  w-[100px] h-[100px]  bg-gray-300 right-24 "
         />
       </View>
 
@@ -40,7 +40,7 @@ export default function UserProfile() {
         <Text className=" -top-24 ml-36 mt-1 font-extraboldbold text-gray-500">
           Identifier
         </Text>
-        <Text className="-mt-6 text-center text-lg text-blue-400 font-extrabold">
+        <Text className="-mt-6 text-center text-lg text-blue-700 font-extrabold">
           Contact Information
         </Text>
       </View>
@@ -50,7 +50,7 @@ export default function UserProfile() {
         </Text>
       </View>
 
-      <Text className="font-extrabold mt-5 mb-4 text-lg text-blue-400">
+      <Text className="font-extrabold mt-5 mb-4 text-lg text-blue-700">
         Pickup Location
       </Text>
       <TouchableOpacity className="rounded-lg  w-[350px] h-[50px] mb-1  bg-slate-300 flex-row justify-center">
@@ -84,7 +84,7 @@ export default function UserProfile() {
       </MapView>
 
       <View>
-        <TouchableOpacity className="w-[350px] h-[50px] bg-blue-500 rounded-3xl px-20 mb-20">
+        <TouchableOpacity className="bg-blue-700 px-5 mt-4 rounded-lg">
           <Link href={"../Adoption/LandingPage"}>
             <Text className="text-lg font-extrabold text-white justify-center leading-10 ">
               Return To Main Menu
