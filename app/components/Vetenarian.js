@@ -53,6 +53,7 @@ const Veterinarian = () => {
     // Generate a random 6-character key
     const randomKey = Math.random().toString(36).substring(2, 8);
 
+    // Confirm booking slot
     Alert.alert(
       "Confirm Booking",
       `Do you want to book the slot with ${slot.VeterinarianName} on ${slot.date} at ${slot.time}?`,
@@ -67,6 +68,7 @@ const Veterinarian = () => {
                 dbRealtime,
                 `BookedSlots/${vetUID}/${user.uid}`
               );
+              // Create a new slot object
               const slotData = {
                 date: slot.date,
                 time: slot.time,
@@ -80,6 +82,7 @@ const Veterinarian = () => {
                 VeterinarianContact: slot.VeterinarianContact,
                 randomKey: randomKey,
               };
+              // Save the booked slot to the database
               await push(bookedSlotRef, slotData);
 
               const slotsRef = dbRef(dbRealtime, `AvailableSlots/${vetUID}`);
