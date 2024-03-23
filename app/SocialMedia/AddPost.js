@@ -119,16 +119,17 @@ const UploadMediaFile = () => {
 
   return (
     <SafeAreaView  className="flex-1 bg-white items-center justify-center">
-      <View>
-      <Image
-          source={require("../../assets/images/Dogpaw.png")}
-          className="w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
-        />
-      </View>
+      
       <ScrollView
         contentContainerclassName="item-center justify-center pb-20"
         showsVerticalScrollIndicator={false}
       >
+        <View>
+      <Image
+          source={require("../../assets/images/Dogpaw.png")}
+          className="justify-center w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
+        />
+      </View>
         <View className="mt-30 mb-50 items-center">
           {image ? (
             <Image source={{ uri: image }} className="w-[300px] h-[300px] rounded-md mb-20" />
