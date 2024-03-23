@@ -118,31 +118,44 @@ const UploadMediaFile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView  className="flex-1 bg-white items-center justify-center">
+      <View>
+      <Image
+          source={require("../../assets/images/Dogpaw.png")}
+          className="w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
+        />
+      </View>
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerclassName="item-center justify-center pb-20"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.imageContainer}>
+        <View className="mt-30 mb-50 items-center">
           {image ? (
-            <Image source={{ uri: image }} style={styles.selectedImage} /> // Show the image
+            <Image source={{ uri: image }} className="w-[300px] h-[300px] rounded-md mb-20" />
+            // Show the image
           ) : (
-            <View style={styles.placeholderImage} />
+            <TouchableOpacity onPress={pickImage}>
+              <View className="w-[300px] h-[300px] bg-slate-200 rounded-3xl mb-2 justify-center items-center">
+                <View className="flex-row gap-1 shadow-2xl rounded-2xl p-2">
+                  <Icon name="add-a-photo" size={24} color="black" />
+                  <Text> Select a picture </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
+        </View>
+
+          
+
           <TextInput
             // Description input
-            className="border-2 border-gray-300 rounded-md w-72 h-24 mb-6 text-center"
+            className="border-2 border-gray-300 rounded-3xl w-72 h-24 mb-5 text-center ml-2"
             placeholder="Description"
             multiline={true}
             value={description}
             onChangeText={(text) => setDescription(text)}
           />
-          <TouchableOpacity onPress={pickImage}>
-            <View className="flex-row gap-1 bg-blue-400 rounded p-2">
-              <Icon name="add-a-photo" size={24} color="black" />
-              <Text> Select a picture </Text>
-            </View>
-          </TouchableOpacity>
+          
           <View className="flex-row justify-between gap-6 pt-8">
             <TouchableOpacity
               className="items-center bg-blue-700 rounded-xl px-10 py-2"
@@ -162,78 +175,12 @@ const UploadMediaFile = () => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+      
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-// Styles need for above components made.
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 20,
-  },
-  selectButton: {
-    borderRadius: 10,
-    width: 300,
-    height: 40,
-    backgroundColor: "#6391db",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-
-  uploadButton: {
-    borderRadius: 10,
-    width: 140,
-    height: 50,
-    backgroundColor: "#2557a8",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imageContainer: {
-    marginTop: 30,
-    marginBottom: 50,
-    alignItems: "center",
-  },
-  selectedImage: {
-    width: 300,
-    height: 300,
-    resizeMode: "cover",
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  placeholderImage: {
-    width: 300,
-    height: 300,
-    backgroundColor: "#ccc", // Placeholder color
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  descriptionInput: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    width: "100%",
-    height: 100,
-    padding: 20,
-    marginBottom: 20,
-  },
-});
 
 export default UploadMediaFile;
 

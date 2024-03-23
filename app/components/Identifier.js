@@ -65,7 +65,7 @@ export default function UserProfile() {
       <View>
         <TouchableOpacity className="w-[350px] h-[50px] bg-blue-500 rounded-3xl px-20 mb-20">
           <Link href={"../Adoption/LandingPage"}>
-            <Text className="text-lg font-extrabold text-white justify-center leading-10 ">Return To Main Menu</Text>
+            <Text className="text-lg font-extrabold text-white justify-center leading-10">Return To Main Menu</Text>
           </Link>
         </TouchableOpacity>
       </View>
