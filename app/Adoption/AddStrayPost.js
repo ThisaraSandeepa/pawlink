@@ -257,6 +257,9 @@ const UploadMediaFile = () => {
 
       console.log("Photo uploaded successfully!");
 
+      // Show an alert
+      Alert.alert("Success", "The post has been added successfully!");
+
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
 
@@ -375,7 +378,7 @@ const UploadMediaFile = () => {
           </View>
 
           {/* Male or Female */}
-          <View className="mt-3 flex-row items-center justify-between">
+          <View className="mt-3 flex-row items-center ml-1 justify-between">
             <Text className="font-bold">Gender</Text>
             <View className="flex-row left-14">
               <CheckBox
@@ -401,7 +404,7 @@ const UploadMediaFile = () => {
           </View>
 
           {/* Wonunded or not */}
-          <View className="mt-3 flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between">
             <Text className="font-bold ml-1">Any Physical Wounds?</Text>
             <View className="flex-row left-3">
               <CheckBox
@@ -420,14 +423,14 @@ const UploadMediaFile = () => {
             </View>
           </View>
 
-          {/* Any othere info */}
+          {/* Any other info */}
           <View className="mt-5 items-center">
             <Text className="font-bold mb-3 text-center">
               {" "}
               Any other Information{" "}
             </Text>
             <TextInput
-              className="border w-80 p-1 rounded-lg pl-4 items-center text-center"
+              className="border w-80 p-4 rounded-lg items-center text-center"
               placeholder="Enter the description"
               multiline
               numberOfLines={4}

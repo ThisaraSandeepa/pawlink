@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import {View,Text,StyleSheet,TouchableOpacity,SafeAreaView,Alert,Image,ScrollView,TextInput,} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
@@ -52,9 +62,7 @@ const UploadMediaFile = () => {
     ]);
   };
 
-  
   const UploadMedia = async () => {
-    
     // Upload the media
     setUploading(true);
 
@@ -71,7 +79,7 @@ const UploadMediaFile = () => {
 
       // Get the current user
       const user = FIREBASE_AUTH.currentUser;
-      
+
       // Save data to Firestore
       const postRef = await addDoc(
         collection(dbFirestore, "socialMediaPosts"), // Get the collection database extension
@@ -105,6 +113,9 @@ const UploadMediaFile = () => {
       setImage(null);
       setDescription("");
 
+      // Show an alert
+      Alert.alert("Success", "The post has been added successfully!");
+
       // Send a push notification
       sendPushNotification("New Post", "The post has successfully added!");
 
@@ -118,23 +129,31 @@ const UploadMediaFile = () => {
   };
 
   return (
-    <SafeAreaView  className="flex-1 bg-white items-center justify-center">
-      
+    <SafeAreaView className="flex-1 bg-white items-center justify-center">
+      <View>
+        <Image
+          source={require("../../assets/images/Dogpaw.png")}
+          className="w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
+        />
+      </View>
       <ScrollView
         contentContainerclassName="item-center justify-center pb-20"
         showsVerticalScrollIndicator={false}
       >
         <View>
-      <Image
-          source={require("../../assets/images/Dogpaw.png")}
-          className="justify-center w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
-        />
-      </View>
+          <Image
+            source={require("../../assets/images/Dogpaw.png")}
+            className="justify-center w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
+          />
+        </View>
         <View className="mt-30 mb-50 items-center">
           {image ? (
-            <Image source={{ uri: image }} className="w-[300px] h-[300px] rounded-md mb-20" />
-            // Show the image
+            <Image
+              source={{ uri: image }}
+              className="w-[300px] h-[300px] rounded-md mb-20"
+            />
           ) : (
+            // Show the image
             <TouchableOpacity onPress={pickImage}>
               <View className="w-[300px] h-[300px] bg-slate-200 rounded-3xl mb-2 justify-center items-center">
                 <View className="flex-row gap-1 shadow-2xl rounded-2xl p-2">
@@ -146,42 +165,38 @@ const UploadMediaFile = () => {
           )}
         </View>
 
-          
+        <TextInput
+          // Description input
+          className="border-2 border-gray-300 rounded-3xl w-72 h-24 mb-5 text-center ml-2"
+          placeholder="Description"
+          multiline={true}
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
 
-          <TextInput
-            // Description input
-            className="border-2 border-gray-300 rounded-3xl w-72 h-24 mb-5 text-center ml-2"
-            placeholder="Description"
-            multiline={true}
-            value={description}
-            onChangeText={(text) => setDescription(text)}
-          />
-          
-          <View className="flex-row justify-between gap-6 pt-8">
-            <TouchableOpacity
-              className="items-center bg-blue-700 rounded-xl px-10 py-2"
-              onPress={UploadMedia}
-            >
-              <Text className="text-center font-bold text-white text-base">
-                Post
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="items-center bg-red-600 rounded-xl px-6 py-2"
-              onPress={onCancel}
-            >
-              <Text className="text-center font-bold text-base text-white">
-                {" "}
-                Cancel{" "}
-              </Text>
-            </TouchableOpacity>
-          </View>
-      
+        <View className="flex-row justify-between gap-6 pt-8">
+          <TouchableOpacity
+            className="items-center bg-blue-700 rounded-xl px-10 py-2"
+            onPress={UploadMedia}
+          >
+            <Text className="text-center font-bold text-white text-base">
+              Post
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="items-center bg-red-600 rounded-xl px-6 py-2"
+            onPress={onCancel}
+          >
+            <Text className="text-center font-bold text-base text-white">
+              {" "}
+              Cancel{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
 
 export default UploadMediaFile;
 

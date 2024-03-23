@@ -24,6 +24,11 @@ const dbFirestore = getFirestore(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
 
 const SignUpVet = () => {
+  Alert.alert(
+    "\b\b\b\b\b\b\b\b\bWelcome to PawLink!",
+    "We are excited to have you on board.\n\nNote: You need a secret code to sign up as a Veterinarian.\n\nInstruction to obtain the secret code:\n\n1. Contact the Us through this Email and \b\b\bVerify yourself as a Veterenaian. \n\n\t\t\t• Email - contact@pawlink.blog \n\t\t\t• Phone - 0710939389 \n\n2. You will be then provided with an Key \b\b\b\bto Register as a Veterenaian.\n\n3. If you have done the above Instruction \b\b\bthen proceed to Sign up and complete \b\b\bthe form\n\n 04. Be ready to enter the Key when \b\b\basked for!\n\n\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bThank you!"
+  );
+
   // Define state variables
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -86,7 +91,7 @@ const SignUpVet = () => {
         displayName: `${firstName} ${lastName}`,
         photoURL: profilePicture,
       });
-      
+
       // Save user data to Firestore
       await setDoc(doc(dbFirestore, "Veterinarians", user.uid), {
         firstName: firstName,
