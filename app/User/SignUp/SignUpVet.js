@@ -69,6 +69,7 @@ const SignUpVet = () => {
       return;
     }
 
+    // Check if the password is at least 6 characters long
     try {
       const profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/pawlink-9dcc9.appspot.com/o/9193824.png?alt=media&token=70cbfbea-976d-4bd0-950c-4839095f13b9";
@@ -143,6 +144,7 @@ const SignUpVet = () => {
     setModalVisible(true);
   };
 
+  // Function to handle modal submit
   const handleModalSubmit = () => {
     if (code === "pawlinkVet") {
       handleSignup();
