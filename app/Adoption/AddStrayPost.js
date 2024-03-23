@@ -17,10 +17,11 @@ import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { getDatabase, ref as dbRef, push } from "firebase/database";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { router } from "expo-router";
-import { Icon } from "react-native-elements";
+import { CheckBox, Icon } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { sendPushNotification } from "../components/pushNotifications";
+import { Picker } from "@react-native-picker/picker";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbFirestore = getFirestore(FIREBASE_APP);
@@ -40,6 +41,8 @@ const UploadMediaFile = () => {
   const [isValidPhone, setIsValidPhone] = useState(true);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false); // Track if the form has been submitted
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [selectedAge, setSelectedAge] = useState("below 6 months");
+  const [wounded, setWounded] = useState(false);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,6 +58,7 @@ const UploadMediaFile = () => {
 
   const handlePhoneNumberChange = (text) => {
     setContactInfo(text);
+
     // Regular expression to validate a phone number
     const phoneRegex = /^[0-9]{10}$/;
     setIsValidPhone(phoneRegex.test(text));
@@ -130,29 +134,43 @@ const UploadMediaFile = () => {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert("Error searching location");
+      Alert.alert("", "Input a location!");
     }
   };
 
   const onCancel = () => {
+    // Reset the states
     setContactInfo("");
     setLocation(null);
     setManualLocation("");
     setAge("");
     setColor("");
     setDescription("");
-    //setAttemptedSubmit(false);
     setImage(null);
+
+    // Navigate to landing page
     router.replace("./LandingPage");
   };
 
   const UploadMedia = async () => {
-    if (!contactInfo || !age || !color || !description || !image) {
-      setAttemptedSubmit(true);
-      Alert.alert("All fields are required");
+    // Check if all the data is entered
+    if (
+      !contactInfo ||
+      !location ||
+      !color ||
+      !description ||
+      !image ||
+      !selectedAge
+    ) {
+      Alert.alert("", "All the field are required!");
       return;
     }
-    setUploading(true);
+
+    // Check if the phone number is valid
+    if (!isValidPhone) {
+      Alert.alert("", "Invalid phone number!");
+      return;
+    }
 
     try {
       // Upload image to Firebase Storage
@@ -167,7 +185,7 @@ const UploadMediaFile = () => {
       // Determine location key
       const locationKey = location
         ? `${location.latitude}_${location.longitude}`
-        : ""; // Generate a unique key using latitude and longitude
+        : "";
 
       const selectedLocation = manualLocation
         ? manualLocation
@@ -184,12 +202,13 @@ const UploadMediaFile = () => {
         contactInfo: contactInfo,
         location: selectedLocation,
         locationKey: locationKey, // Include location key
-        age: age,
+        age: selectedAge,
         color: color,
         description: description,
         image: url,
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
+        wounded: wounded,
       });
 
       // Save data to Realtime Database including latitude and longitude
@@ -198,12 +217,13 @@ const UploadMediaFile = () => {
         contactInfo: contactInfo,
         location: selectedLocation,
         locationKey: locationKey, // Include location key
-        age: age,
+        age: selectedAge,
         color: color,
         description: description,
         image: url,
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
+        wounded: wounded,
       });
 
       console.log("Photo uploaded successfully!");
@@ -225,279 +245,179 @@ const UploadMediaFile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}> Found Location</Text>
-          <View style={styles.locationContainer}>
-          <TextInput
-            style={[
-              styles.input,
-              styles.locationInput,
-              attemptedSubmit && !searchQuery && styles.invalidInput,
-            ]}
-            
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
-            placeholder="Search location"
-            
-            
-    
-          />
-          <TouchableOpacity onPress={handleSearch}>
-            <Text style={{ color: "blue", marginTop: 5 }}>Search</Text>
-          </TouchableOpacity> 
-            
-            <TouchableOpacity
-              style={styles.locationIcon}
-              onPress={onLocationIconPress}
-            >
-              <Text>📍</Text>
-            </TouchableOpacity>
+    <ScrollView>
+      <View className="flex items-center justify-center">
+        {/* Location Fetching */}
+        <View className="mt-6">
+          <Text className="justify-start font-bold mb-2"> Found Location </Text>
+          <View className="flex-row border rounded-lg">
+            <View className="justify-center ml-1">
+              <Icon
+                name="location"
+                type="ionicon"
+                color="red"
+                size={25}
+                onPress={onLocationIconPress}
+              />
+            </View>
+            <TextInput
+              className="w-72 p-1 ml-1"
+              placeholder="Search Location"
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text)}
+            />
+            <View className="justify-center mr-1">
+              <Icon
+                name="search"
+                type="ionicon"
+                color="black"
+                size={25}
+                onPress={handleSearch}
+              />
+            </View>
           </View>
-          {showMap && location && (
-            <MapView
-              style={styles.mapContainer}
-              onPress={onMapPress}
-              region={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
-              }}
-            >
-              <Marker
-                coordinate={{
+          <View className="flex-1 items-center">
+            {showMap && location && (
+              <MapView
+                className="flex w-80 h-52 mt-3 items-center"
+                onPress={onMapPress}
+                region={{
                   latitude: location.latitude,
                   longitude: location.longitude,
+                  latitudeDelta: 0.02,
+                  longitudeDelta: 0.02,
                 }}
-                title="Found Location"
-                draggable
-                onDragEnd={onMapPress}
-              />
-            </MapView>
-          )}
+              >
+                <Marker
+                  coordinate={{
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                  }}
+                  title="Found Location"
+                  draggable
+                  onDragEnd={onMapPress}
+                />
+              </MapView>
+            )}
           </View>
-          <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Color</Text>
-          <TextInput
-            style={[
-              styles.input,
-              attemptedSubmit && !color && styles.invalidInput,
-            ]}
-            onChangeText={(text) => setColor(text)}
-            required
-          />
-          {attemptedSubmit && !color && (
-            <Text style={styles.errorMessage}>Color is required</Text>
-          )}
-        </View>
 
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Age</Text>
-          <TextInput
-            style={[
-              styles.input,
-              attemptedSubmit && !age && styles.invalidInput,
-            ]}
-            onChangeText={(text) => setAge(text)}
-            required
-          />
-          {attemptedSubmit && !age && (
-            <Text style={styles.errorMessage}>Age is required</Text>
-          )}
-        </View>
-
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Description</Text>
-          <TextInput
-            style={[
-              styles.descriptioninput,
-              attemptedSubmit && !description && styles.invalidInput,
-            ]}
-            multiline={true}
-            numberOfLines={4}
-            onChangeText={(text) => setDescription(text)}
-            required
-          />
-          {attemptedSubmit && !description && (
-            <Text style={styles.errorMessage}>Description is required</Text>
-          )}
-        </View>
-
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Contact Info</Text>
-          <TextInput
-            style={[
-              styles.input,
-              attemptedSubmit && !contactInfo && styles.invalidInput,
-            ]}
-            onChangeText={(text) => {
-              setContactInfo(text);
-              handlePhoneNumberChange(text);
-            }}
-            required
-            keyboardType="phone-pad"
-            maxLength={10}
-          />
-          {attemptedSubmit && !contactInfo && (
-            <Text style={styles.errorMessage}>Contact Info is required</Text>
-          )}
-          {!isValidPhone && (
-            <Text style={styles.errorMessage}>
-              Contact Info must have 10 digits
-            </Text>
-          )}
-        </View>
-
-        <TouchableOpacity onPress={pickImage}>
-          <View className="flex-row gap-1 bg-blue-400 rounded p-2">
-            <Icon name="add-a-photo" size={24} color="black" />
-            <Text> Select a picture </Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.imageContainer}>
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 300, height: 300 }}
+          {/* Color */}
+          <View className="mt-4">
+            <Text className="items-start font-bold mb-2"> Color </Text>
+            <TextInput
+              className="border w-88 p-1 rounded-lg pl-4 items-center"
+              placeholder="Enter the colour"
+              onChangeText={(text) => setColor(text)}
             />
-          )}
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
+          </View>
 
-            <TouchableOpacity
-              style={styles.uploadButton}
-              onPress={UploadMedia}
+          {/* Age */}
+          <Text className="font-bold mt-4 mb-2"> Age </Text>
+          <View className="border rounded-lg">
+            <Picker
+              selectedValue={selectedAge}
+              onValueChange={(itemValue) => setSelectedAge(itemValue)}
             >
-              <Text style={styles.buttonText}> Post </Text>
+              <Picker.Item label="Below 6 months" value="Below 6 months" />
+              <Picker.Item
+                label="6 months - 1 year"
+                value="6 months - 1 year"
+              />
+              <Picker.Item
+                label=" More than 1 year"
+                value=" More than 1 year"
+              />
+            </Picker>
+          </View>
+
+          {/* Contact Info */}
+          <View className="mt-5">
+            <Text className="font-bold mb-3"> Contact Infomation </Text>
+            <TextInput
+              className="border w-88 p-1 rounded-lg pl-4 items-center"
+              placeholder="Phone Number"
+              maxLength={10}
+              keyboardType="phone-pad"
+              onChangeText={(text) => {
+                setContactInfo(text);
+                handlePhoneNumberChange(text);
+              }}
+            />
+          </View>
+
+          {/* Wonunded or not */}
+          <View className="mt-3 flex-row items-center justify-center">
+            <Text className="font-bold">Any Physical Wounds?</Text>
+            <View className="flex-row left-7">
+              <CheckBox
+                checked={wounded}
+                onPress={() => setWounded(!wounded)}
+              />
+              <Text className="mt-4 -left-3">Yes</Text>
+            </View>
+            <View className="flex-row ml-4">
+              <CheckBox
+                checked={!wounded}
+                onPress={() => setWounded(!wounded)}
+              />
+              <Text className="mt-4 -left-3">No</Text>
+            </View>
+          </View>
+
+          {/* Any othere info */}
+          <View className="mt-5">
+            <Text className="font-bold mb-3 text-center">
+              {" "}
+              Any other Information{" "}
+            </Text>
+            <TextInput
+              className="border w-88 p-1 rounded-lg pl-4 items-center text-center"
+              placeholder="Enter the description"
+              multiline
+              numberOfLines={4}
+              onChangeText={(text) => setDescription(text)}
+            />
+          </View>
+
+          {/* Upload Image */}
+          <View className="items-center">
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                className="w-[300px] h-[300px] rounded-md my-5"
+              />
+            ) : (
+              // Show the image
+              <TouchableOpacity onPress={pickImage}>
+                <View className="w-[300px] h-[300px] bg-slate-200 rounded-3xl mb-2 justify-center items-center my-5 ">
+                  <View className="flex-row gap-1 shadow-2xl rounded-2xl p-2">
+                    <Icon name="add-a-photo" size={24} color="black" />
+                    <Text> Select a picture </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Discard and Post Buttons */}
+          <View className="flex-row justify-center gap-10 mb-10">
+            <TouchableOpacity
+              onPress={UploadMedia}
+              className="bg-blue-700 pt-3  text-center rounded-lg px-6 py-2"
+            >
+              <Text className="text-white"> Post </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onCancel}
+              className="bg-red-700 pt-3  text-center rounded-lg px-6 py-2"
+            >
+              <Text className="text-white"> Discard </Text>
             </TouchableOpacity>
           </View>
-        </View> 
-
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 20,
-  },
-  input: {
-    height: 40,
-    width: 300,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
-    borderRadius: 5,
-  },
-  selectButton: {
-    borderRadius: 10,
-    width: 300,
-    height: 40,
-    backgroundColor: "#6391db",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-  },
-  labelContainer: {
-    marginBottom: 15,
-  },
-  descriptioninput: {
-    height: 100,
-    width: 300,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
-    borderRadius: 5,
-  },
-  labelText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: 300,
-    marginTop: 20,
-  },
-  cancelButton: {
-    borderRadius: 10,
-    width: 140,
-    height: 50,
-    backgroundColor: "#c5cfde",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  uploadButton: {
-    borderRadius: 10,
-    width: 140,
-    height: 50,
-    backgroundColor: "#2557a8",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imageContainer: {
-    marginTop: 30,
-    marginBottom: 50,
-    alignItems: "center",
-  },
-  locationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width:300,
-  },
-  locationInput: {
-    flex: 1,
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 10,
-    marginRight: 10,
-  },
-  locationIcon: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#c5cfde",
-  },
-  mapContainer: {
-    height: 200,
-    width: 300,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  errorMessage: {
-    color: "red",
-    fontSize: 12,
-    marginLeft: 10,
-  },
-  invalidInput: {
-    borderColor: "red",
-  },
-});
 
 export default UploadMediaFile;

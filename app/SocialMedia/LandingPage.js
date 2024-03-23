@@ -14,7 +14,7 @@ import { Icon } from "react-native-elements";
 const LandingPage = () => {
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State to store search query
-  const [showSearch, setShowSearch] = useState(false);  // State to show/hide search bar
+  const [showSearch, setShowSearch] = useState(false); // State to show/hide search bar
   const [refreshing, setRefreshing] = useState(false); // State to indicate refresh state
 
   // Fetch all the social media posts from the Realtime Database
@@ -24,9 +24,9 @@ const LandingPage = () => {
 
   // Function to fetch posts from Realtime Database
   const fetchPosts = () => {
-    const postsRef = ref(getDatabase(), "socialMediaPosts");                   // Reference to socialMediaPosts node in the database
+    const postsRef = ref(getDatabase(), "socialMediaPosts"); // Reference to socialMediaPosts node in the database
     onValue(postsRef, (snapshot) => {
-      const postsData = snapshot.val() ? Object.entries(snapshot.val()) : [];  // Convert posts data to an array
+      const postsData = snapshot.val() ? Object.entries(snapshot.val()) : []; // Convert posts data to an array
       const formattedPosts = postsData.map(([id, data]) => ({
         id,
         ...data,
