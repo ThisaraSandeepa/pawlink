@@ -50,6 +50,7 @@ const LandingPage = () => {
     );
   };
 
+  // Function to toggle search bar
   const toggleSearch = () => {
     setShowSearch(!showSearch);
   };
