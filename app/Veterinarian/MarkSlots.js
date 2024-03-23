@@ -45,7 +45,8 @@ const MarkSlots = () => {
       return null;
     }
   };
-
+  
+  // Fetch the Veterinarian data from the realtime Database
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
 
@@ -62,6 +63,7 @@ const MarkSlots = () => {
     setSelectedSlots([]); // Reset selected slots when date changes
   }, [selectedDate]);
 
+  // Fetch marked slots from the Realtime Database
   const fetchMarkedSlots = async (uid) => {
     const databaseRef = dbRef(dbRealtime, `AvailableSlots/${uid}`);
     const snapshot = await get(databaseRef);
@@ -81,6 +83,7 @@ const MarkSlots = () => {
     }
   };
 
+  // Generate time slots for the selected date
   const generateTimeSlots = (date) => {
     const hourSlots = [];
     const startHour = 9; // Start from 9 AM
@@ -96,6 +99,7 @@ const MarkSlots = () => {
     setTimeSlots(hourSlots);
   };
 
+  // Function to set the time slot
   const handleSetTimeSlot = async (time) => {
     const selectedDateTime = new Date(selectedDate);
     selectedDateTime.setHours(time.getHours());
