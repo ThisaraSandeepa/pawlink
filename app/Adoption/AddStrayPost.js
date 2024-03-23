@@ -139,17 +139,34 @@ const UploadMediaFile = () => {
   };
 
   const onCancel = () => {
-    // Reset the states
-    setContactInfo("");
-    setLocation(null);
-    setManualLocation("");
-    setAge("");
-    setColor("");
-    setDescription("");
-    setImage(null);
+    // Aler the user if they want to discard the post
 
-    // Navigate to landing page
-    router.replace("./LandingPage");
+    Alert.alert(
+      "Discard Post",
+      "Are you sure you want to discard the post?",
+      [
+        {
+          text: "Discard",
+          onPress: () => {
+            // Reset the states
+            setContactInfo("");
+            setLocation(null);
+            setManualLocation("");
+            setSelectedAge("");
+            setColor("");
+            setDescription("");
+            setImage(null);
+
+            // Navigate to landing page
+            router.replace("./LandingPage");
+          },
+        },
+        {
+          text: "Cancel",
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const UploadMedia = async () => {
@@ -365,13 +382,13 @@ const UploadMediaFile = () => {
           </View>
 
           {/* Any othere info */}
-          <View className="mt-5">
+          <View className="mt-5 items-center">
             <Text className="font-bold mb-3 text-center">
               {" "}
               Any other Information{" "}
             </Text>
             <TextInput
-              className="border w-88 p-1 rounded-lg pl-4 items-center text-center"
+              className="border w-80 p-1 rounded-lg pl-4 items-center text-center"
               placeholder="Enter the description"
               multiline
               numberOfLines={4}
