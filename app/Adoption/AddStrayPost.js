@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   Alert,
   Image,
   TextInput,
@@ -224,7 +222,7 @@ const UploadMediaFile = () => {
         : null;
       const user = FIREBASE_AUTH.currentUser;
 
-      // Save data to Firestore
+      // Save data to Firestore  realtimedatabase
       const postRef = await addDoc(collection(dbFirestore, "strayPosts"), {
         contactInfo: contactInfo,
         location: selectedLocation,
