@@ -34,10 +34,10 @@ export default function UserProfile() {
 
       {/* User Information */}
       <View className="mb-20">
-        <Text className="font-extrabold text-lg ml-36 -top-24 text-blue-700   ">
+        <Text className="font-extrabold text-lg ml-36 -top-20 text-blue-700   ">
           {post.postedUser}{" "}
         </Text>
-        <Text className=" -top-24 ml-36 mt-1 font-extraboldbold text-gray-500">
+        <Text className=" -top-20 ml-36 mt-1 font-extraboldbold text-gray-500">
           Identifier
         </Text>
         <Text className="-mt-6 text-center text-lg text-blue-700 font-extrabold">

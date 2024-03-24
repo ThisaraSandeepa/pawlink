@@ -3,11 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   Image,
   Linking,
-  ScrollView,
 } from "react-native";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import { getDatabase, ref as dbRef, get } from "firebase/database";
@@ -21,7 +19,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
-const user = FIREBASE_AUTH.currentUser;
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState(null);
@@ -246,7 +243,7 @@ const ProfileScreen = () => {
           className="w-50 p-1 mt-3 rounded-lg items-center pl-3 flex-row"
           onPress={handlePress}
         >
-          <Icon name="paw" size={20} color="black"/>
+          <Icon name="paw" size={20} color="black" />
           <Text className="ml-1 mr-2 text-slate-700">
             {" "}
             Click Here to Visit Our Website!{" "}
