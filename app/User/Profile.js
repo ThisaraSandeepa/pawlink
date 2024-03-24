@@ -176,7 +176,7 @@ const ProfileScreen = () => {
           </TouchableOpacity>
 
           <View className="flex items-center justify-center mt-4 w-4/6">
-            <Text className="font-medium text-2xl"> Rochana Godigamuwa </Text>
+            <Text className="font-medium text-2xl"> {user.displayName} </Text>
             <Text className="font-light text-base">
               {userData?.UserType ? userData.UserType : "Veterinarian"}{" "}
             </Text>
@@ -199,7 +199,7 @@ const ProfileScreen = () => {
       </View>
 
       {/* Second View */}
-      <View className="w-screen h-3/5 flex items-center mt-5">
+      <View className="w-screen h-3/5 flex items-center">
         {/* Email */}
         <View className="border border-gray-600 w-80 p-1 rounded-lg items-center pl-3 flex-row">
           <Icon name="email" size={25} color="orange" />
@@ -214,7 +214,7 @@ const ProfileScreen = () => {
         </View>
         <View>
           <TouchableOpacity
-            className="bg-red-600 p-1 px-5 rounded-lg mx-7"
+            className="bg-red-600 p-1 px-5 rounded-lg items-center mt-10"
             onPress={handleLogout}
           >
             <Text className="text-center text-white text-lg">Log out</Text>
@@ -222,7 +222,7 @@ const ProfileScreen = () => {
         </View>
 
         {/* Horizontal Line */}
-        <View className="flex-row items-center mt-12">
+        <View className="flex-row items-center mt-16">
           <View className="flex-1 h-px bg-slate-500" />
           <View className="flex-row">
             <Text className="w-20 text-center text-gray-500">About Us</Text>
