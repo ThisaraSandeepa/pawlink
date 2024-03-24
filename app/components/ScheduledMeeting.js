@@ -15,20 +15,20 @@ import { Icon } from "react-native-elements";
 
 // UserProfile Component
 export default function UserProfile() {
-  const { post, slotData } = useRoute().params;
-  const [latitude, setLatitude] = useState(0);
+  const { post, slotData } = useRoute().params;// Extracting 'post' and 'slotData' parameters from the route params
+  const [latitude, setLatitude] = useState(0); // State variable to store latitude
   const [longitude, setLongitude] = useState(0);
 
-  console.log(post);
-  console.log(slotData);
+  console.log(post);// Logging the 'post' object
+  console.log(slotData);// Logging the 'slotData' object
 
   useEffect(() => {
-    const locationParts = post.locationKey.split("_");
-    const latitude = parseFloat(locationParts[0]);
-    const longitude = parseFloat(locationParts[1]);
-    setLatitude(latitude);
-    setLongitude(longitude);
-  }, []);
+    const locationParts = post.locationKey.split("_"); // Splitting location key to extract latitude and longitude
+    const latitude = parseFloat(locationParts[0]);// Parsing latitude to float
+    const longitude = parseFloat(locationParts[1]);// Parsing longitude to float
+    setLatitude(latitude);// Updating latitude state variable
+    setLongitude(longitude); // Updating longitude state variable
+  }, []);// Running the effect only once on component mount
 
   return (
   
