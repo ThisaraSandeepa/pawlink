@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Alert,Image } from "react-native";
 import {
   getDatabase,
   ref as dbRef,
@@ -121,16 +121,24 @@ const Veterinarian = () => {
   };
 
   return (
-    <View className=" flex-1 bg-white pt-10 ">
+    <View className=" flex-1 bg-gray-200 pt-10  ">
       <Text className=" text-lg font-bold  text-center text-blue-800 mt-2 mb-5 ">
         Available Slots
       </Text>
+      <View className="flex items-center ">
+          <Image
+            source={require("../../assets/images/vet1.jpg")}
+            className="justify-center w-40 h-40 rounded-lg mt-1"
+          />
+        </View>
+
+      
       <FlatList
         data={availableSlots}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            className="bg-white  rounded-lg p-2 mb-4 border-neutral-400 border shadow-md mr-3 ml-3  "
+            className="bg-white  rounded-lg p-2 mb-4 border-blue-400 border shadow-md mr-3 ml-3  "
             onPress={() => handleSlotBooking(item)}
           >
             <Text className="font-normal  shadow-lg ">Date: {item.date}</Text>
