@@ -203,7 +203,7 @@ const ProfileScreen = () => {
         {/* Email */}
         <View className="border border-gray-600 w-80 p-1 rounded-lg items-center pl-3 flex-row">
           <Icon name="email" size={25} color="orange" />
-          <Text className="ml-1"> Email Address : {user.email} </Text>
+          <Text className="ml-1"> Email : {user.email} </Text>
         </View>
         <View className="border border-gray-600 w-80 p-1 mt-4 mb-8 rounded-lg items-center pl-3 flex-row">
           <Icon name="account" size={25} color="orange" />
