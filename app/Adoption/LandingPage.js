@@ -47,7 +47,7 @@ const LandingPage = () => {
   };
 
   return (
-    <View className=" h-full bg-white ">
+    <View className=" h-full flex justify-center items-center bg-white ">
       <ImageBackground source={require("../../assets/images/Puppy.jpeg")} />
       <ScrollView>
         <Image
