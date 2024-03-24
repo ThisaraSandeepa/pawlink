@@ -32,13 +32,13 @@ export default function UserProfile() {
 
   return (
   
-      <View className="flex-1 items-center mt-12 ">
+      <View className="flex-1 items-center mt-12  ">
         {/* Profile Content */}
 
         
         <View className="flex items-center h-screen w-full  bg-white shadow-black shadow-md ">
         <ScrollView>
-          <View className="bg-white border border-blue-300 mt-12 w-[350px] h-[300px] flex items-center rounded-3xl">
+          <View className="bg-white border border-blue-800 mt-12 w-[350px] h-[300px] flex items-center rounded-3xl">
             <Image
               source={{ uri: slotData.VeterinarianPhoto }}
               className="rounded-lg  w-[100px] h-[100px] -top-4 -mt-1"
@@ -59,8 +59,8 @@ export default function UserProfile() {
               </View>
               <Text className="font-bold text-base items-center mt-2 -mb-1"> Vet Location</Text>
               <View className="flex flex-col items-center">
-                <View className=" rounded-lg border-2  w-64 h-9 border-blue-400 mt-2">
-                  <Text className="text-center mt-1 text-black font-semibold ">
+                <View className=" rounded-lg border-2  w-64 h-9 border-blue-400 mt-2 ">
+                  <Text className="text-center mt-1 text-black font-semibold  ">
                     {" "}
                     {slotData.VeterinarianLocation}{" "}
                   </Text>
@@ -69,7 +69,7 @@ export default function UserProfile() {
             </View>
           </View>
 
-          <View className="bg-white border border-blue-300 mt-4 w-[350px] h-[600px] flex items-center rounded-3xl">
+          <View className="bg-white border border-blue-800 mt-4 w-[350px] h-[600px] flex items-center rounded-3xl mb-6 ">
             <View className="mt-4 flex flex-col items-center justify center ">
 
               <Text className="font-bold text-base items-center "> Identifier Contact Information</Text>
@@ -122,8 +122,8 @@ export default function UserProfile() {
               />
             </MapView>
 
-            <View className="mt-4 flex justify-center items-center">
-              <TouchableOpacity className="flex justify-center items-center w-[200px] h-[40px] bg-blue-700 rounded-md">
+            <View className="mt-4 flex justify-center items-center ">
+              <TouchableOpacity className="flex justify-center items-center w-[200px] h-[40px] bg-blue-700 rounded-md mb-12">
                 <Link href={"../Adoption/LandingPage"}>
                   <Text className="text-base font-extrabold text-white text-center leading-loose ">Return To Main Menu</Text>
                 </Link>
