@@ -160,7 +160,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View className="mt-7 bg-white">
+    <View className="pt-7 bg-white">
       <View className="flex items-center justify-center h-2/5 mb-10">
         <View className="items-center w-full">
           <TouchableOpacity
@@ -203,7 +203,7 @@ const ProfileScreen = () => {
         {/* Email */}
         <View className="border border-gray-600 w-80 p-1 rounded-lg items-center pl-3 flex-row">
           <Icon name="email" size={25} color="orange" />
-          <Text className="ml-1"> Email Address : {user.email} </Text>
+          <Text className="ml-1"> Email : {user.email} </Text>
         </View>
         <View className="border border-gray-600 w-80 p-1 mt-4 mb-8 rounded-lg items-center pl-3 flex-row">
           <Icon name="account" size={25} color="orange" />
