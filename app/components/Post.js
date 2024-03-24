@@ -116,6 +116,26 @@ const Post = (props) => {
   
   const handleDownload = async () => {
     try {
+      const confirmed = await new Promise((resolve) => {
+        Alert.alert(
+          'Confirm Download',
+          'Are you sure you want to download this image?',
+          [
+            {
+              text: 'No',
+              onPress: () => resolve(false),
+              style: 'cancel',
+            },
+            { text: 'Yes', onPress: () => resolve(true) },
+          ]
+        );
+      });
+  
+      if (!confirmed) {
+        // User canceled the download
+        return;
+      }
+  
       const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status === 'granted') {
         const downloadResumable = FileSystem.createDownloadResumable(
@@ -125,9 +145,8 @@ const Post = (props) => {
         const { uri } = await downloadResumable.downloadAsync();
         await MediaLibrary.saveToLibraryAsync(uri);
         console.log('Downloaded and saved to', uri);
-        Alert.alert("Image Downloaded", "(Image has been saved to your gallery)");
-       
-      } else { 
+        Alert.alert('Image Downloaded!', '(Image has been saved to your gallery)');
+      } else {
         console.error('Permission to access media library was denied');
         // Handle permission denied scenario, e.g., show an error message to the user
       }
@@ -136,8 +155,6 @@ const Post = (props) => {
       
     }
   };
-
-
 
 
   return (
