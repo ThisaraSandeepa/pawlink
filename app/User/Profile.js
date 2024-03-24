@@ -161,8 +161,8 @@ const ProfileScreen = () => {
 
   return (
     <View className="mt-7 bg-white">
-      <View className="flex items-center justify-center h-2/5">
-        <View className="items-center w-full ">
+      <View className="flex items-center justify-center h-2/5 mb-10">
+        <View className="items-center w-full">
           <TouchableOpacity
             onPress={pickImage}
             className="flex items-center w-1/6"
@@ -176,7 +176,7 @@ const ProfileScreen = () => {
           </TouchableOpacity>
 
           <View className="flex items-center justify-center mt-4 w-4/6">
-            <Text className="font-medium text-2xl"> Rochana Godigamuwa </Text>
+            <Text className="font-medium text-2xl"> {user.displayName} </Text>
             <Text className="font-light text-base">
               {userData?.UserType ? userData.UserType : "Veterinarian"}{" "}
             </Text>
@@ -187,7 +187,7 @@ const ProfileScreen = () => {
         {VetBookings}
 
         {/* Horizontal Line */}
-        <View className="flex-row items-center top-7">
+        <View className="flex-row items-center top-12">
           <View className="flex-1 h-px bg-slate-500" />
           <View className="flex-row">
             <Text className="w-36 text-center text-gray-500">
@@ -199,7 +199,7 @@ const ProfileScreen = () => {
       </View>
 
       {/* Second View */}
-      <View className="w-screen h-3/5 flex items-center mt-5">
+      <View className="w-screen h-3/5 flex items-center">
         {/* Email */}
         <View className="border border-gray-600 w-80 p-1 rounded-lg items-center pl-3 flex-row">
           <Icon name="email" size={25} color="orange" />
@@ -214,7 +214,7 @@ const ProfileScreen = () => {
         </View>
         <View>
           <TouchableOpacity
-            className="bg-red-600 p-1 px-5 rounded-lg mb-7"
+            className="bg-red-600 p-1 px-5 rounded-lg items-center mt-10"
             onPress={handleLogout}
           >
             <Text className="text-center text-white text-lg">Log out</Text>
@@ -222,7 +222,7 @@ const ProfileScreen = () => {
         </View>
 
         {/* Horizontal Line */}
-        <View className="flex-row items-center">
+        <View className="flex-row items-center mt-16">
           <View className="flex-1 h-px bg-slate-500" />
           <View className="flex-row">
             <Text className="w-20 text-center text-gray-500">About Us</Text>
@@ -231,16 +231,9 @@ const ProfileScreen = () => {
         </View>
 
         {/* About Us */}
-        <Text className="text-center font-semibold text-lg mt-3"> Pawlink</Text>
-        {/* <Text className="px-6 text-center font-light">
-          where the love for dogs knows no bounds! Whether you’re a seasoned pet
-          owner or a passionate advocate for animal welfare, you’ve come to the
-          right place. Join us in our mission to celebrate, protect, and care
-          for our furry companions.
-        </Text> */}
-
+        <Text className="text-center font-semibold text-lg mt-5"> Pawlink</Text>
         <TouchableOpacity
-          className="w-50 p-1 mt-3 rounded-lg items-center pl-3 flex-row"
+          className="w-50 p-1 rounded-lg items-center pl-3 flex-row"
           onPress={handlePress}
         >
           <Icon name="paw" size={20} color="black" />
