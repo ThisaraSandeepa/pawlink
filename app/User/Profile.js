@@ -160,7 +160,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View className="mt-7 bg-white">
+    <View className="pt-7 bg-white">
       <View className="flex items-center justify-center h-2/5 mb-10">
         <View className="items-center w-full">
           <TouchableOpacity
