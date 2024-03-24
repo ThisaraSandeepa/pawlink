@@ -52,7 +52,7 @@ const AdoptMe = () => {
 
             </View>
           </View>
-          <View className =" border-2 rounded-2xl h-12 w-56 bg- border-blue-800 items-center left-12 mb-6 -mt-14   ">
+          <View className =" border-2 rounded-2xl h-12 w-56 bg- border-blue-800 items-center left-12 mb-6 -mt-10  ">
           <Text className="  text-slate-500  font-semibold fixed text-base text-center  top-2 mb-5 items-center mr-2  ">
             Age : <Text className="text-blue-500">{post.age}</Text>
           </Text>
