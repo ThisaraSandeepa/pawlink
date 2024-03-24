@@ -87,7 +87,7 @@ const SignupScreen = () => {
       });
 
       Alert.alert("", "successfully signed up!");
-      router.replace("./SignIn");
+      router.replace("../SignIn");
 
     } catch (error) {
       // Check for specific errors

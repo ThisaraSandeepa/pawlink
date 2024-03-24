@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Alert,
   Image,
+  Linking,
+  ScrollView,
 } from "react-native";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import { getDatabase, ref as dbRef, get } from "firebase/database";
@@ -15,9 +17,11 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system"; // Import FileSystem]
 import { update } from "firebase/database";
 import { updateProfile } from "firebase/auth";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const dbStorage = getStorage(FIREBASE_APP);
 const dbRealtime = getDatabase(FIREBASE_APP);
+const user = FIREBASE_AUTH.currentUser;
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState(null);
@@ -37,6 +41,12 @@ const ProfileScreen = () => {
     if (!result.cancelled) {
       setImage(result.assets[0].uri);
     }
+
+    // Upload the image to Firebase Storage
+    Alert.alert("Upload Image", "Do you want to upload the image?", [
+      { text: "Yes", onPress: () => UploadMedia() },
+      { text: "Cancel", style: "cancel" },
+    ]);
   };
 
   // Upload the image to Firebase Storage
@@ -116,6 +126,19 @@ const ProfileScreen = () => {
     fetchVetData();
   }, []);
 
+  // Open the PawLink website
+  const webpage = "https://pawlink.blog";
+  const handlePress = () => {
+    Alert.alert(
+      "Opening PawLink Website",
+      "Are you sure you want to open the website?",
+      [
+        { text: "Yes", onPress: () => Linking.openURL(webpage) },
+        { text: "Cancel", style: "cancel" },
+      ]
+    );
+  };
+
   // Log out the user
   const handleLogout = () => {
     Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
@@ -128,7 +151,7 @@ const ProfileScreen = () => {
   const VetBookings = userData?.UserType === "Veterinarian" && (
     <TouchableOpacity
       onPress={() => router.navigate("../../Veterinarian")}
-      className="bg-green-500 px-4 py-2 rounded-xl"
+      className="bg-green-500 px-4 py-2 top-3 rounded-xl"
     >
       <Text className="text-white text-center">Vet Bookings</Text>
     </TouchableOpacity>
@@ -140,130 +163,99 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* If the user has a profile picture, show it */}
-      <TouchableOpacity onPress={pickImage}>
-        {user?.photoURL && (
-          <Image source={{ uri: user.photoURL }} style={styles.selectedImage} />
-        )}
+    <View className="mt-7 bg-white">
+      <View className="flex items-center justify-center h-2/5">
+        <View className="items-center w-full ">
+          <TouchableOpacity
+            onPress={pickImage}
+            className="flex items-center w-1/6"
+          >
+            {user?.photoURL && (
+              <Image
+                source={{ uri: user.photoURL }}
+                className="w-32 h-32 first-letter:rounded-full"
+              />
+            )}
+          </TouchableOpacity>
 
-        {/* If the user does not have a profile picture, show the placeholder */}
-        {!user?.photoURL && <View style={styles.placeholderImage} />}
-      </TouchableOpacity>
-
-      {/* If the user has a profile picture, show the "Update Profile Picture" button */}
-      <View className="gap-3 mb-8">
-        <TouchableOpacity
-          onPress={UploadMedia}
-          className="items-center bg-blue-600 rounded-xl px-4 py-2"
-        >
-          <Text className="text-white"> Update Profile Picture </Text>
-        </TouchableOpacity>
-
-        {/* Display the Vet Booking button */}
-        {VetBookings}
-      </View>
-
-      <View style={styles.profileBox}>
-        <Text style={styles.label}>Your Account Name:</Text>
-        <Text style={styles.userData}>{user.displayName}</Text>
-
-        <Text style={styles.label}>Your Email:</Text>
-        <Text style={styles.userData}>{user.email}</Text>
-
-        <View style={styles.userTypeContainer}>
-          <View style={styles.userTypeBox}>
-            <Text style={styles.userType}>
-              {" "}{/* Display the user type */}
+          <View className="flex items-center justify-center mt-4 w-4/6">
+            <Text className="font-medium text-2xl"> Rochana Godigamuwa </Text>
+            <Text className="font-light text-base">
               {userData?.UserType ? userData.UserType : "Veterinarian"}{" "}
             </Text>
           </View>
         </View>
+
+        {/* Display the Vet Booking button */}
+        {VetBookings}
+
+        {/* Horizontal Line */}
+        <View className="flex-row items-center top-7">
+          <View className="flex-1 h-px bg-slate-500" />
+          <View className="flex-row">
+            <Text className="w-36 text-center text-gray-500">
+              Profile Information
+            </Text>
+          </View>
+          <View className="flex-1 h-px bg-slate-500" />
+        </View>
       </View>
 
-      <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-        <Text style={styles.logoutButtonText}>Log Out</Text>
-      </TouchableOpacity>
+      {/* Second View */}
+      <View className="w-screen h-3/5 flex items-center mt-5">
+        {/* Email */}
+        <View className="border border-gray-600 w-80 p-1 rounded-lg items-center pl-3 flex-row">
+          <Icon name="email" size={25} color="orange" />
+          <Text className="ml-1"> Email Address : {user.email} </Text>
+        </View>
+        <View className="border border-gray-600 w-80 p-1 mt-4 mb-8 rounded-lg items-center pl-3 flex-row">
+          <Icon name="account" size={25} color="orange" />
+          <Text className="ml-2">
+            User Type :{" "}
+            {userData?.UserType ? userData.UserType : "Veterinarian"}
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            className="bg-red-600 p-1 px-5 rounded-lg mb-7"
+            onPress={handleLogout}
+          >
+            <Text className="text-center text-white text-lg">Log out</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Horizontal Line */}
+        <View className="flex-row items-center">
+          <View className="flex-1 h-px bg-slate-500" />
+          <View className="flex-row">
+            <Text className="w-20 text-center text-gray-500">About Us</Text>
+          </View>
+          <View className="flex-1 h-px bg-slate-500" />
+        </View>
+
+        {/* About Us */}
+        <Text className="text-center font-semibold text-lg mt-3"> Pawlink</Text>
+        {/* <Text className="px-6 text-center font-light">
+          where the love for dogs knows no bounds! Whether you’re a seasoned pet
+          owner or a passionate advocate for animal welfare, you’ve come to the
+          right place. Join us in our mission to celebrate, protect, and care
+          for our furry companions.
+        </Text> */}
+
+        <TouchableOpacity
+          className="w-50 p-1 mt-3 rounded-lg items-center pl-3 flex-row"
+          onPress={handlePress}
+        >
+          <Icon name="paw" size={20} color="black"/>
+          <Text className="ml-1 mr-2 text-slate-700">
+            {" "}
+            Click Here to Visit Our Website!{" "}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  selectedImage: {
-    top: -40,
-    width: 150,
-    height: 150,
-    resizeMode: "cover",
-    borderRadius: 100,
-  },
-  placeholderImage: {
-    top: -70,
-    width: 150,
-    height: 150,
-    backgroundColor: "#ccc", // Placeholder color
-    borderRadius: 100,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  profileBox: {
-    backgroundColor: "#FFFFFF",
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 10,
-    color: "#333", // Dark gray text color
-  },
-  userData: {
-    fontSize: 16,
-    marginTop: 5,
-    color: "#666", // Medium gray text color
-  },
-  userTypeContainer: {
-    marginTop: 20,
-  },
-  userTypeBox: {
-    backgroundColor: "#FFD700", // Gold color
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 5,
-  },
-  userType: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333", // Dark gray text color
-  },
-  logoutButton: {
-    backgroundColor: "#FF6347",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    position: "absolute",
-    bottom: 20,
-  },
-  logoutButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
-});
 
 export default ProfileScreen;
 

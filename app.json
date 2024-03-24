@@ -24,7 +24,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.wagoose.PawLink"
+      "package": "com.wagoose.PawLink",
+      "config": {
+        "googleMaps": { "apiKey": "AIzaSyDFXyYU_ZYpaST4RKdh1BE1-LSY1F4eseA" }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -130,20 +130,14 @@ const UploadMediaFile = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white items-center justify-center">
-      <View>
-        <Image
-          source={require("../../assets/images/Dogpaw.png")}
-          className="w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
-        />
-      </View>
       <ScrollView
         contentContainerclassName="item-center justify-center pb-20"
         showsVerticalScrollIndicator={false}
       >
-        <View>
+        <View className="flex items-center">
           <Image
             source={require("../../assets/images/Dogpaw.png")}
-            className="justify-center w-40 h-40 mb-2 rounded-lg ml-1 mt-1"
+            className="justify-center w-40 h-40 rounded-lg mt-1"
           />
         </View>
         <View className="mt-30 mb-50 items-center">
@@ -167,7 +161,7 @@ const UploadMediaFile = () => {
 
         <TextInput
           // Description input
-          className="border-2 border-gray-300 rounded-3xl w-72 h-24 mb-5 text-center ml-2"
+          className="border-2 border-gray-300 rounded-3xl w-72 h-24 mt-4 mb-5 text-center ml-2"
           placeholder="Description"
           multiline={true}
           value={description}
@@ -176,7 +170,7 @@ const UploadMediaFile = () => {
 
         <View className="flex-row justify-between gap-6 pt-8">
           <TouchableOpacity
-            className="items-center bg-blue-700 rounded-xl px-10 py-2"
+            className="items-center bg-blue-700 rounded-xl px-10 py-2 mb-5"
             onPress={UploadMedia}
           >
             <Text className="text-center font-bold text-white text-base">
@@ -184,7 +178,7 @@ const UploadMediaFile = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="items-center bg-red-600 rounded-xl px-6 py-2"
+            className="items-center bg-red-600 rounded-xl px-6 py-2 mb-5"
             onPress={onCancel}
           >
             <Text className="text-center font-bold text-base text-white">
