@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert, Modal,Linking } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { update, ref, remove, onValue, set } from "firebase/database";
 import { FIREBASE_REALTIME_DB, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { Link } from "expo-router";
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 
 const Post = (props) => {
   const [likes, setLikes] = useState(parseInt(props.likes));
@@ -11,6 +13,7 @@ const Post = (props) => {
   const [commentsCount, setCommentsCount] = useState(props.comments);
   const [userLiked, setUserLiked] = useState(false);
   const postId = props.id;
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -110,33 +113,56 @@ const Post = (props) => {
       <Icon name="delete" size={20} onPress={DeletePost} />
     </TouchableOpacity>
   ) : null;
+  
+  const handleDownload = async () => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status === 'granted') {
+        const downloadResumable = FileSystem.createDownloadResumable(
+          props.image,
+          FileSystem.documentDirectory + 'image.jpg'
+        );
+        const { uri } = await downloadResumable.downloadAsync();
+        await MediaLibrary.saveToLibraryAsync(uri);
+        console.log('Downloaded and saved to', uri);
+        Alert.alert("Image Downloaded", "(Image has been saved to your gallery)");
+       
+      } else { 
+        console.error('Permission to access media library was denied');
+        // Handle permission denied scenario, e.g., show an error message to the user
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      
+    }
+  };
+
+
+
 
   return (
-    <View className="bg-white rounded-lg  p-3 mb-2 border border-gray-300 shadow-xl ">
-      <View className="flex-row justify-between ">
-        <View className="flex-row ">
+    <View className="bg-white rounded-lg p-3 mb-2 border border-gray-300 shadow-xl">
+      <View className="flex-row justify-between">
+        <View className="flex-row">
           <Image
             source={{ uri: props.userProfilePicture }}
-            // style={{ width: 50, height: 50, borderRadius: 25 }}
-            className="w-12 h-12 rounded-full "
+            className="w-12 h-12 rounded-full"
           />
           <View>
-            <Text className="font-bold text-lg ml-3 mt-3 mb-4">
-              {props.user}
-            </Text>
+            <Text className="font-bold text-lg ml-3 mt-3 mb-4">{props.user}</Text>
           </View>
         </View>
         <View>{deleteButton}</View>
       </View>
-
-      <Text className="my-3 ml-2 font-normal text-sm mt-1">
-        {props.description}
-      </Text>
-      <Image
-        className="w-82 h-72 ml rounded-lg  border-b-1"
-        source={{ uri: props.image }}
-      />
-      <Text className="text-center mt-1  text-gray-500   ">
+  
+      <Text className="my-3 ml-2 font-normal text-sm mt-1">{props.description}</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Image
+          className="w-82 h-72 ml rounded-lg border-b-1"
+          source={{ uri: props.image }}
+        />
+      </TouchableOpacity>
+      <Text className="text-center mt-1 text-gray-500">
         {" "}
         ───────────────────────────────────{" "}
       </Text>
@@ -151,7 +177,7 @@ const Post = (props) => {
           />
           <Text className="text-gray-700"> {likes} </Text>
         </TouchableOpacity>
-
+  
         {/* Comment Button */}
         <Link
           href={{
@@ -164,8 +190,33 @@ const Post = (props) => {
           <Text className="text-gray-700"> {commentsCount} </Text>
         </Link>
       </View>
+  
+      {/* Modal for displaying the image */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View className="flex flex-1 justify-center items-center bg-black bg-opacity-70">
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <Image
+              className="w-96 h-80 object-contain rounded-lg"
+              source={{ uri: props.image }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleDownload}
+            className="mt-5 left-36 bg-blue-500 p-2 rounded-full  "
+           >
+            <Icon name="download" size={24} color="white"    />
+          </TouchableOpacity>
+        </View>
+       
+        
+      </Modal>
     </View>
-  );
-};
+  );};
+  
 
 export default Post;
