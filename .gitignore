@@ -34,3 +34,5 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 *.rar
+*.len
+android/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i

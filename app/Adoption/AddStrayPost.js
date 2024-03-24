@@ -45,6 +45,8 @@ const UploadMediaFile = () => {
   const [female, setFemale] = useState(false);
 
   const gender = male ? "Male" : female ? "Female" : "";
+  const injuries = wounded ? "Yes" : "No";
+  
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -233,7 +235,7 @@ const UploadMediaFile = () => {
         image: url,
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
-        wounded: wounded,
+        wounded: injuries,
         gender: gender,
       });
 
@@ -249,7 +251,7 @@ const UploadMediaFile = () => {
         image: url,
         postedUser: user.displayName,
         postedUserPhoto: user.photoURL,
-        wounded: wounded,
+        wounded: injuries,
         gender: gender,
       });
 
@@ -276,7 +278,7 @@ const UploadMediaFile = () => {
 
   return (
     <ScrollView>
-      <View className="flex items-center justify-center">
+      <View className="flex items-center justify-center bg-white">
         {/* Location Fetching */}
         <View className="mt-6 w-80">
           <Text className="justify-start font-bold mb-2"> Found Location </Text>

@@ -34,7 +34,7 @@ export default function UserProfile() {
 
       {/* User Information */}
       <View className="mb-20">
-        <Text className="font-extrabold text-lg ml-36 -top-20 text-blue-700   ">
+        <Text className="font-extrabold text-lg ml-32 -top-20 text-blue-700   ">
           {post.postedUser}{" "}
         </Text>
         <Text className=" -top-20 ml-36 mt-1 font-extraboldbold text-gray-500">
@@ -44,7 +44,7 @@ export default function UserProfile() {
           Contact Information
         </Text>
       </View>
-      <View className="rounded-lg  bg-slate-300 w-[350px] h-[50px]   -mt-16 ">
+      <View className="rounded-lg  bg-white w-[350px] h-[50px] border-2 border-blue-800  -mt-16 ">
         <Text className="text-center  text-black text-lg  mb-2 mt-2 font-bold">
           {post.contactInfo}
         </Text>
@@ -53,7 +53,7 @@ export default function UserProfile() {
       <Text className="font-extrabold mt-5 mb-4 text-lg text-blue-700">
         Pickup Location
       </Text>
-      <TouchableOpacity className="rounded-lg  w-[350px] h-[50px] mb-1  bg-slate-300 flex-row justify-center">
+      <TouchableOpacity className="rounded-lg  w-[350px] h-[50px] mb-1  bg-white flex-row justify-center border-2 border-blue-800">
         <Icon
           name="location"
           type="evilicon"
