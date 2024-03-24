@@ -124,7 +124,7 @@ const SignupScreen = () => {
       </View>
 
       <Text className="font-thin text-2xl mt-3 mb-6">
-        Pet Owners Are Welcome!
+        Pet Lovers Are Welcome!
       </Text>
 
       <TextInput
