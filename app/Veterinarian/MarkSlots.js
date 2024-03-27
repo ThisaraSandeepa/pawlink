@@ -21,8 +21,18 @@ import {
 } from "firebase/database";
 import { FIREBASE_APP } from "../../FirebaseConfig"; // Adjust import as needed
 import { FIREBASE_AUTH } from "../../FirebaseConfig"; // Adjust import as needed
+import * as Notifications from 'expo-notifications';
+
 
 const dbRealtime = getDatabase(FIREBASE_APP);
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const MarkSlots = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -145,6 +155,7 @@ const MarkSlots = () => {
                     time: formattedTime,
                   },
                 ]);
+                sendPushNotification(selectedDateTime,formattedTime);
               } else {
                 console.log("Error: Veterinarian data not found");
               }
@@ -159,6 +170,7 @@ const MarkSlots = () => {
       ]
     );
   };
+  
 
   const handleDeleteSlot = async (slot) => {
     // Get a confirmation from the user before deleting the slot
@@ -203,6 +215,17 @@ const MarkSlots = () => {
         },
       ]
     );
+  };
+  // Function to send Expo push notification
+  const sendPushNotification = (date, time) => {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Slot Booked Successfully!',
+        body: `Your slot for ${date.toDateString()} at ${time} has been booked successfully.`,
+      },
+      trigger: null,
+    });
+    console.log("Push notification sent successfully");
   };
 
   return (

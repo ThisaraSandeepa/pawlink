@@ -16,8 +16,17 @@ import { FIREBASE_APP } from "../../FirebaseConfig";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
+import * as Notifications from 'expo-notifications';
 
 const dbRealtime = getDatabase(FIREBASE_APP);
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const Veterinarian = () => {
   const { post } = useRoute().params;
@@ -105,6 +114,9 @@ const Veterinarian = () => {
                 console.log("Slot booked successfully");
                 Alert.alert("Success", "Slot booked successfully!");
                 goToScheduledMeeting(post, slotData);
+
+                 // Send push notification
+                 sendPushNotification(slot.VeterinarianName);
               }
             } catch (error) {
               console.error("Error booking slot:", error);
@@ -118,6 +130,18 @@ const Veterinarian = () => {
       ],
       { cancelable: false }
     );
+  };
+
+  // Function to send Expo push notification
+  const sendPushNotification = (vetName) => {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Slot Booked Successfully!',
+        body: `Your slot with ${vetName} has been booked successfully.`,
+      },
+      trigger: null,
+    });
+    console.log("Push notification sent successfully");
   };
 
   return (
