@@ -28,7 +28,8 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const Veterinarian = () => {
+
+const Veterinarian = () => {// Defining the Veterinarian functional component
   const { post } = useRoute().params;
   const navigation = useNavigation();
 
@@ -41,19 +42,19 @@ const Veterinarian = () => {
 
   // Fetch available slots from Firebase Realtime Database
   useEffect(() => {
-    const slotsRef = dbRef(dbRealtime, "AvailableSlots");
-    const slotsListener = onValue(slotsRef, (snapshot) => {
-      const slotsData = snapshot.val();
+    const slotsRef = dbRef(dbRealtime, "AvailableSlots");// Creating a reference to the "AvailableSlots" node
+    const slotsListener = onValue(slotsRef, (snapshot) => {// Listening for changes in the database
+      const slotsData = snapshot.val(); // Extracting data from the snapshot
       if (slotsData) {
         const slotsArray = Object.values(slotsData).flatMap(Object.values);
-        setAvailableSlots(slotsArray);
+        setAvailableSlots(slotsArray);// Updating state with available slots
       } else {
-        setAvailableSlots([]);
+        setAvailableSlots([]);// If no slots available, setting state to empty array
       }
     });
 
     return () => {
-      off(slotsRef, "value", slotsListener);
+      off(slotsRef, "value", slotsListener);// Cleanup function to remove the listener
     };
   }, []);
 
@@ -71,9 +72,9 @@ const Veterinarian = () => {
           text: "Confirm",
           onPress: async () => {
             try {
-              const user = FIREBASE_AUTH.currentUser;
-              const vetUID = slot.VeterinarianUID;
-              const bookedSlotRef = dbRef(
+              const user = FIREBASE_AUTH.currentUser;// Getting current user
+              const vetUID = slot.VeterinarianUID;// Extracting veterinarian UID
+              const bookedSlotRef = dbRef(// Creating a reference to booked slots
                 dbRealtime,
                 `BookedSlots/${vetUID}/${user.uid}`
               );
@@ -93,7 +94,7 @@ const Veterinarian = () => {
               };
               // Save the booked slot to the database
               await push(bookedSlotRef, slotData);
-
+              // Removing the booked slot from available slots
               const slotsRef = dbRef(dbRealtime, `AvailableSlots/${vetUID}`);
               const slotRef = query(
                 slotsRef,
@@ -158,6 +159,7 @@ const Veterinarian = () => {
 
       
       <FlatList
+      
         data={availableSlots}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
@@ -179,6 +181,8 @@ const Veterinarian = () => {
               Contact: {item.VeterinarianContact}
             </Text>
           </TouchableOpacity>
+
+          
         )}
       />
     </View>

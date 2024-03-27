@@ -6,10 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 
 const AdoptMe = () => {
   const route = useRoute();
-  const { post } = route.params;
+  const { post } = route.params;// Destructuring the post parameter from route params
 
   const navigation = useNavigation();
-  const goToDetails = () => {
+  const goToDetails = () => {   // Function to navigate to the Details screen
     navigation.navigate("components/Details", { post });
   };
 
@@ -17,7 +17,7 @@ const AdoptMe = () => {
     <ScrollView>
       <View className="text-center rounded-lg">
         <Image
-          source={{ uri: post.image }}
+          source={{ uri: post.image }}  // Setting the source of the image to the post image
           resizeMode="cover"
           className="flex-1  h-[350px] justify-center "
         />
