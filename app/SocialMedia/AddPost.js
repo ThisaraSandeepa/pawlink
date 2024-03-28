@@ -29,6 +29,7 @@ const UploadMediaFile = () => {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   // Pick an image from the gallery
   const pickImage = async () => {
@@ -63,8 +64,19 @@ const UploadMediaFile = () => {
   };
 
   const UploadMedia = async () => {
+    if (!description.trim() || !image) {
+      Alert.alert(
+        "Missing Contents!",
+        "Please Insert Both the Image and the Description"
+      );
+      return;
+    }
+
     // Upload the media
     setUploading(true);
+
+    // Make the button unclickable
+    setIsButtonDisabled(true);
 
     try {
       const { uri } = await FileSystem.getInfoAsync(image); // Get the image info
@@ -170,7 +182,10 @@ const UploadMediaFile = () => {
 
         <View className="flex-row justify-between gap-6 pt-8">
           <TouchableOpacity
-            className="items-center bg-blue-700 rounded-xl px-10 py-2 mb-5"
+            className={`items-center px-10 py-2 mb-5 rounded-xl ${
+              isButtonDisabled ? "bg-gray-400" : "bg-blue-700"
+            }`}
+            disabled={isButtonDisabled}
             onPress={UploadMedia}
           >
             <Text className="text-center font-bold text-white text-base">

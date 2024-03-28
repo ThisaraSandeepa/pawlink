@@ -41,12 +41,12 @@ const UploadMediaFile = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [selectedAge, setSelectedAge] = useState("below 6 months");
   const [wounded, setWounded] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [male, setMale] = useState(true);
   const [female, setFemale] = useState(false);
 
   const gender = male ? "Male" : female ? "Female" : "";
   const injuries = wounded ? "Yes" : "No";
-  
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -198,6 +198,9 @@ const UploadMediaFile = () => {
       Alert.alert("", "Invalid phone number!");
       return;
     }
+
+    // Make the button unclickable
+    setIsButtonDisabled(true);
 
     try {
       // Upload image to Firebase Storage
@@ -462,7 +465,10 @@ const UploadMediaFile = () => {
           <View className="flex-row justify-center gap-10 mb-10">
             <TouchableOpacity
               onPress={UploadMedia}
-              className="bg-blue-700 pt-3  text-center rounded-lg px-6 py-2"
+              disabled={isButtonDisabled}
+              className={`pt-3 text-center rounded-lg px-6 py-2 ${
+                isButtonDisabled ? "bg-gray-400" : "bg-blue-700"
+              }`}
             >
               <Text className="text-white"> Post </Text>
             </TouchableOpacity>

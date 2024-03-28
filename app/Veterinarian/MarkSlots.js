@@ -19,10 +19,9 @@ import {
   get,
   remove,
 } from "firebase/database";
-import { FIREBASE_APP } from "../../FirebaseConfig"; // Adjust import as needed
-import { FIREBASE_AUTH } from "../../FirebaseConfig"; // Adjust import as needed
+import { FIREBASE_APP } from "../../FirebaseConfig"; 
+import { FIREBASE_AUTH } from "../../FirebaseConfig"; 
 import * as Notifications from 'expo-notifications';
-
 
 const dbRealtime = getDatabase(FIREBASE_APP);
 
@@ -89,15 +88,15 @@ const MarkSlots = () => {
     }
 
     if (Platform.OS === "android") {
-      setShowDatePicker(false); // Hide the date picker after a date is selected on Android
+      setShowDatePicker(false); 
     }
   };
 
   // Generate time slots for the selected date
   const generateTimeSlots = (date) => {
     const hourSlots = [];
-    const startHour = 9; // Start from 9 AM
-    const endHour = 17; // End at 5 PM
+    const startHour = 9; 
+    const endHour = 17; 
 
     for (let hour = startHour; hour <= endHour; hour++) {
       const timeSlot = new Date(date);
@@ -133,7 +132,7 @@ const MarkSlots = () => {
                 dbRealtime,
                 `AvailableSlots/${user.uid}`
               );
-              const Vetdata = await fetchVeterinarianData(user.uid); // Fetch veterinarian data
+              const Vetdata = await fetchVeterinarianData(user.uid); 
 
               if (Vetdata) {
                 await push(databaseRef, {
@@ -147,7 +146,7 @@ const MarkSlots = () => {
                 });
 
                 console.log("Data saved successfully");
-                setSelectedSlots([...selectedSlots, formattedTime]); // Add selected slot to state
+                setSelectedSlots([...selectedSlots, formattedTime]); 
                 setMarkedSlots([
                   ...markedSlots,
                   {
